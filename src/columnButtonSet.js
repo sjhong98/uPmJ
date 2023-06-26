@@ -18,16 +18,32 @@ export default function ColumnButtonSet(props) {
       }}
     >
       <ButtonGroup variant="outlined" aria-label="outlined button group">
+
+
         <Button startIcon={<AddIcon />} onClick={()=> {
-            let temp = props.columnNum+1; 
-            if(props.columnNum != 5)
-                props.setColumnNum(temp);
+            props.setColumnChanged(true);
+            
+            if(props.columnNum < 5) {
+                let temp = props.columnNum;
+                props.setColumnNum(temp+1);
+                props.setAdded(true);
+            }
+            console.log("added : ", props.columnNum);
         }}></Button>
+
+
         <Button startIcon={<RemoveIcon />} onClick={()=> {
-            let temp = props.columnNum-1; 
-            if(props.columnNum != 1)
-                props.setColumnNum(temp);
+            props.setColumnChanged(true);
+            
+            if(props.columnNum > 2) {
+                let temp = props.columnNum;
+                props.setColumnNum(temp-1);
+                props.setAdded(false);
+            }
+            console.log("subtracted : ", props.columnNum);
         }}></Button>
+
+
       </ButtonGroup>
     </Box>
   );

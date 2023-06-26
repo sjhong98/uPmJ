@@ -13,7 +13,7 @@ export default function SelectSido(props) {
   };
 
   return (
-    <Box sx={{ width: 120 }}>
+    <Box sx={{ width: 120, marginRight: 2 }}>
       <FormControl fullWidth>
         <InputLabel id="sido">시도</InputLabel>
         <Select

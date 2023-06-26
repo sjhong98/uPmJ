@@ -10,11 +10,11 @@ import { useNavigate } from 'react-router-dom';
 
 export default function CardBox(props) {
   return (
-    <Card sx={{ width: 190, maxHeight: 150, margin: 2, paddingBottom:3 }} onClick={()=>{
+    <Card sx={{ width: 180, maxHeight: 150, margin: 2, paddingBottom:3, borderRadius:0, backgroundColor:'#569AF5', color:'white' }} onClick={()=>{
       props.setKeyword(props.title);
     }}>
         <CardContent>
-            <p style={{marginLeft:'160px', marginTop:'-10px', cursor:'pointer'}} onClick={()=>{
+            <p style={{marginLeft:'140px', marginTop:'-10px', cursor:'pointer'}} onClick={()=>{
               props.setDelCol(props.column);
               props.setDelId(props.contentId);
               console.log(props.column, props.contentId);

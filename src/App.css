@@ -36,3 +36,23 @@
     transform: rotate(360deg);
   }
 }
+
+@keyframes add {
+  0% { right: 0; }
+  50% { right: 100px;}
+  100% { right: 200px; }
+}
+
+@keyframes sub {
+  0% { left: 0; }
+  50% { left: 100px;}
+  100% { left: 200px; }
+}
+
+.addColumn {
+  animation: add 0.3s
+}
+
+.subColumn {
+  animation: sub 0.3s
+}
