@@ -464,13 +464,30 @@ function SearchBox(props) {
 
   return(
     <div>
-      <div style={{backgroundColor:'lightGray', width:'400px', height:'900px', marginTop:'60px', padding:'10px', borderRadius:'5%'}}>
+      <div>
         <img src={imageURL} />
         <p>{addr}</p>
         <p>{website}</p>
       </div>
     </div>
   );
+}
+
+function MapBox(props) {
+  useEffect(() => {
+    const container = document.getElementById('map'); 
+    const options = {
+      center: new window.kakao.maps.LatLng(33.450701, 126.570667), 
+      level: 9 
+    };
+    const map = new window.kakao.maps.Map(container, options); 
+
+    return () => {
+      map.destroy();
+    };
+  }, []);
+
+  return <div id="map" style={{ width: '400px', height: '900px' }}></div>;
 }
 
 
@@ -484,7 +501,10 @@ export default function List() {
         </div>
         <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
           <ScrollBox setKeyword={setKeyword} keyword={keyword} />
-          <SearchBox setKeyword={setKeyword} keyword={keyword} />
+          <div style={{backgroundColor:'lightGray', width:'400px', height:'900px', marginTop:'61px', padding:'0px'}} >
+            <MapBox />
+            {/* <SearchBox setKeyword={setKeyword} keyword={keyword} /> */}
+          </div>
         </div>
       </div>
   );
