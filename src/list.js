@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Button } from '@mui/material';
+import './index.css';
 import axios from 'axios';
 import CardBox from './card.js';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
@@ -23,7 +24,7 @@ import Chungnam from './field/sigungu/chungnam.js';
 import Gangwon from './field/sigungu/gangwon.js';
 import Default from './field/sigungu/default.js';
 import BoxBar from './field/boxbar.js';
-import { useSpring, animated } from '@react-spring/web'
+import { useSpring, animated } from '@react-spring/web';
 
 
 function ScrollBox(props) {
@@ -42,6 +43,7 @@ function ScrollBox(props) {
   const [w3, setW3] = useState(210);
   const [w4, setW4] = useState(210);
   const [w5, setW5] = useState(210);
+  const [c4, setC4] = useState(false);
   const [columnNum, setColumnNum] = useState(4);
   const [columnDisplay, setColumnDisplay] = useState([]);
   const [sigungu, setSigungu] = useState("1");
@@ -51,7 +53,8 @@ function ScrollBox(props) {
   const [ani4, setAni4] = useState("");
   const [ani5, setAni5] = useState("");
   const [added, setAdded] = useState(true);
-  const [columnChanged, setColumnChanged] = useState(false);
+  const [columnAdded, setColumnAdded] = useState(false);
+  const [columnSubed, setColumnSubed] = useState(false);
   
 
   
@@ -244,31 +247,41 @@ function ScrollBox(props) {
 
   useEffect(() => {
     setTimeout(() => {
-      console.log("column : ", columnChanged);
+      console.log("columnNum : ", columnNum);
       switch (columnNum) {
         case 2:
           setColumnDisplay([column, column2]);
+          setColumnAdded(false);
+          setColumnSubed(false);
           break;
   
         case 3:
           setColumnDisplay([column, column2, column3]);
+          setColumnAdded(false);
+          setColumnSubed(false);
           break;
   
         case 4:
           setColumnDisplay([column, column2, column3, column4]);
+          setColumnAdded(false);
+          setColumnSubed(false);
+          setC4(false);
           break;
   
         case 5:
           setColumnDisplay([column, column2, column3, column4, column5]);
+          setColumnAdded(false);
+          setColumnSubed(false);
           break;
   
         default:
           setColumnDisplay([]);
           break;
       }
-      setColumnChanged(false);
-    }, 300)
+
+    }, 0);
   }, [columnNum, data2, data, data3, data4, data5]); // data2 -> 처음에 day1 카드들어갈 때 업데이트 / data -> axios할 때 업데이트 / data3-5 -> 제거시 리랜더링
+
 
 
   const column = (
@@ -355,7 +368,9 @@ function ScrollBox(props) {
   );
 
   const column4 = (
-          <Box className={columnChanged ? "addColumn" : ""} display="flex" sx={{ backgroundColor: 'white', border:'solid', borderWidth:'10px', borderLeftWidth:'0px', borderColor:'#569AF5', height:'900px', overflow:'auto', width:w4}}>
+    
+    <div className={columnAdded ? (columnNum===4) ? "add" : "" : c4 ? "sub" : ""}>
+          <Box display="flex" sx={{ backgroundColor: 'white', border:'solid', borderWidth:'10px', borderLeftWidth:'0px', borderColor:'#569AF5', height:'900px', overflow:'auto', width:w4}}>
             <Droppable droppableId="drop4">
             {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
@@ -380,34 +395,37 @@ function ScrollBox(props) {
             )}
             </Droppable>
         </Box>
+      </div>
   );
 
   const column5 = (
-    <Box className={columnChanged ? "addColumn" : ""} display="flex" sx={{ backgroundColor: 'gray', backgroundColor: 'white', border:'solid', borderWidth:'10px', borderLeftWidth:'0px', borderColor:'#569AF5', height:'900px', overflow:'auto', width:w5}}>
-        <Droppable droppableId="drop5">
-        {(provided) => (
-            <div ref={provided.innerRef} {...provided.droppableProps}>
-            {data5.map((item, index) => (
-                <Draggable key={item.contentId} draggableId={item.contentId} index={index}>
-                {(provided) => (
-                    <div
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                    >
-                        <CardBox
-                        index={index} column={"drop5"} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
-                    />
-                        
-                    </div>
-                )}
-                </Draggable>
-            ))}
-            {provided.placeholder}
-            </div>
-        )}
-        </Droppable>
-    </Box>
+    <div >
+      <Box display="flex" sx={{ backgroundColor: 'gray', backgroundColor: 'white', border:'solid', borderWidth:'10px', borderLeftWidth:'0px', borderColor:'#569AF5', height:'900px', overflow:'auto', width:w5}}>
+          <Droppable droppableId="drop5">
+          {(provided) => (
+              <div ref={provided.innerRef} {...provided.droppableProps}>
+              {data5.map((item, index) => (
+                  <Draggable key={item.contentId} draggableId={item.contentId} index={index}>
+                  {(provided) => (
+                      <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      >
+                          <CardBox
+                          index={index} column={"drop5"} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
+                      />
+                          
+                      </div>
+                  )}
+                  </Draggable>
+              ))}
+              {provided.placeholder}
+              </div>
+          )}
+          </Droppable>
+      </Box>
+    </div>
 );
 
   return (
@@ -417,7 +435,7 @@ function ScrollBox(props) {
           <SelectSido setDoAxios={setDoAxios} setSido={setSido} />
           {selectSigungu}
         </div>
-        <ColumnSet setColumnNum={setColumnNum} columnNum={columnNum} setAdded={setAdded} setColumnChanged={setColumnChanged}/>
+        <ColumnSet setColumnNum={setColumnNum} columnNum={columnNum} setAdded={setAdded} setColumnAdded={setColumnAdded} setColumnSubed={setColumnSubed} setC4={setC4} />
       </div>
       <div className="column" style={{ display: 'flex', flexDirection: 'row'}}>
         <DragDropContext onDragEnd={(result) => handleDragEnd(result)}>
@@ -434,7 +452,7 @@ function ColumnSet(props) {
   const columnNum = props.columnNum;
 
   return(
-    <ColumnButtonSet setColumnNum={setColumnNum} columnNum={columnNum} setAdded={props.setAdded} setColumnChanged={props.setColumnChanged} />
+    <ColumnButtonSet setColumnNum={setColumnNum} columnNum={columnNum} setAdded={props.setAdded} setColumnAdded={props.setColumnAdded} setColumnSubed={props.setColumnSubed} setC4={props.setC4} />
   )
 }
 
@@ -517,9 +535,12 @@ export default function List() {
 
 
   return (
+    <div>
+
       <div className="root">
         <div className="upperBar">
           <h1>넌 P해 난 J할게</h1>
+          
         </div>
         <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
           <ScrollBox setKeyword={setKeyword} keyword={keyword} />
@@ -528,6 +549,7 @@ export default function List() {
             {boxBar ? <MapBox boxBar={boxBar}/> : <SearchBox setKeyword={setKeyword} keyword={keyword} /> }
           </div>
         </div>
+      </div>
       </div>
   );
 }

@@ -50,9 +50,9 @@
 }
 
 .addColumn {
-  animation: add 0.3s
+  animation: add 0.3s;
 }
 
 .subColumn {
-  animation: sub 0.3s
+  animation: sub 0.3s;
 }

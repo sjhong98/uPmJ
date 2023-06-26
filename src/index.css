@@ -30,24 +30,37 @@ code {
   justify-items: center;
 }
 
-@keyframes add {
-  0% { right: 0; }
-  50% { right: 100px;}
-  100% { right: 200px; }
+
+.add {
+  position: relative;
+  animation: add-column 1s ease-in-out;
 }
 
-@keyframes sub {
-  0% { left: 0; }
-  50% { left: 100px;}
-  100% { left: 200px; }
+.sub {
+  position: relative;
+  animation: sub-column 1s ease-in-out;
 }
 
-.addColumn {
-  animation: add 0.3s;
+
+@keyframes add-column {
+  from{
+    left: -200px;
+  }
+  to{
+    left: 0px;
+  }
 }
 
-.subColumn {
-  animation: sub 0.3s;
+@keyframes sub-column {
+  from{
+    left: 0px;
+  }
+  to{
+    left: -200px;
+  }
 }
+
+
+
 
 

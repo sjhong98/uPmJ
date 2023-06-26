@@ -21,7 +21,7 @@ export default function ColumnButtonSet(props) {
 
 
         <Button startIcon={<AddIcon />} onClick={()=> {
-            props.setColumnChanged(true);
+            props.setColumnAdded(true);
             
             if(props.columnNum < 5) {
                 let temp = props.columnNum;
@@ -33,7 +33,7 @@ export default function ColumnButtonSet(props) {
 
 
         <Button startIcon={<RemoveIcon />} onClick={()=> {
-            props.setColumnChanged(true);
+            props.setColumnSubed(true);
             
             if(props.columnNum > 2) {
                 let temp = props.columnNum;
