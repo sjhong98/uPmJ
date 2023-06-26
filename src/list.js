@@ -22,6 +22,8 @@ import Chungbuk from './field/sigungu/chungbuk.js';
 import Chungnam from './field/sigungu/chungnam.js';
 import Gangwon from './field/sigungu/gangwon.js';
 import Default from './field/sigungu/default.js';
+import BoxBar from './field/boxbar.js';
+import { useSpring, animated } from '@react-spring/web'
 
 
 function ScrollBox(props) {
@@ -35,17 +37,24 @@ function ScrollBox(props) {
   const [sido, setSido] = useState("1");
   const [delCol, setDelCol] = useState("");
   const [delId, setDelId] = useState("");
-  const [w1, setW1] = useState(250);
-  const [w2, setW2] = useState(230);
-  const [w3, setW3] = useState(230);
-  const [w4, setW4] = useState(230);
-  const [w5, setW5] = useState(230);
+  const [w1, setW1] = useState(210);
+  const [w2, setW2] = useState(210);
+  const [w3, setW3] = useState(210);
+  const [w4, setW4] = useState(210);
+  const [w5, setW5] = useState(210);
   const [columnNum, setColumnNum] = useState(4);
   const [columnDisplay, setColumnDisplay] = useState([]);
   const [sigungu, setSigungu] = useState("1");
   const [selectSigungu, setSelectSigungu] = useState([<Default />]);
   const [searchTitle, setSearchTitle] = useState("");
+  const [ani3, setAni3] = useState("");
+  const [ani4, setAni4] = useState("");
+  const [ani5, setAni5] = useState("");
+  const [added, setAdded] = useState(true);
+  const [columnChanged, setColumnChanged] = useState(false);
+  
 
+  
 
   useEffect(() => {
     let count = 0;
@@ -234,28 +243,36 @@ function ScrollBox(props) {
   
 
   useEffect(() => {
-    switch (columnNum) {
-      case 2:
-        setColumnDisplay([column, column2]);
-        break;
+    setTimeout(() => {
+      console.log("column : ", columnChanged);
+      switch (columnNum) {
+        case 2:
+          setColumnDisplay([column, column2]);
+          break;
   
-      case 3:
-        setColumnDisplay([column, column2, column3]);
-        break;
+        case 3:
+          setColumnDisplay([column, column2, column3]);
+          break;
   
-      case 4:
-        setColumnDisplay([column, column2, column3, column4]);
-        break;
+        case 4:
+          setColumnDisplay([column, column2, column3, column4]);
+          break;
   
-      case 5:
-        setColumnDisplay([column, column2, column3, column4, column5]);
-        break;
-    }
+        case 5:
+          setColumnDisplay([column, column2, column3, column4, column5]);
+          break;
+  
+        default:
+          setColumnDisplay([]);
+          break;
+      }
+      setColumnChanged(false);
+    }, 300)
   }, [columnNum, data2, data, data3, data4, data5]); // data2 -> 처음에 day1 카드들어갈 때 업데이트 / data -> axios할 때 업데이트 / data3-5 -> 제거시 리랜더링
-  
+
 
   const column = (
-        <Box display="flex" sx={{ backgroundColor: 'gray', height:'900px', overflow:'auto', width: w1}}>
+        <Box display="flex" sx={{ backgroundColor: 'white', border:'solid', borderWidth:'10px', borderRightWidth:'0px', borderColor:'#569AF5', height:'900px', overflow:'auto', width: w1}}>
             <Droppable droppableId="drop1">
             {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
@@ -282,7 +299,7 @@ function ScrollBox(props) {
   );
 
   const column2 = (
-        <Box display="flex" sx={{ backgroundColor: 'lightGray', height:'900px', overflow:'auto', width:w2}}>
+        <Box display="flex" sx={{ backgroundColor: 'lightGray',backgroundColor: 'white', border:'solid', borderWidth:'10px', borderColor:'#569AF5', height:'900px', overflow:'auto', width:w2}}>
             <Droppable droppableId="drop2">
             {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
@@ -310,7 +327,7 @@ function ScrollBox(props) {
   );
 
   const column3 = (
-        <Box display="flex" sx={{ backgroundColor: 'gray', height:'900px', overflow:'auto', width:w3}}>
+        <Box display="flex" sx={{ backgroundColor: 'gray', backgroundColor: 'white', border:'solid', borderWidth:'10px', borderLeftWidth:'0px', borderColor:'#569AF5', height:'900px', overflow:'auto', width:w3}}>
             <Droppable droppableId="drop3">
             {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
@@ -338,7 +355,7 @@ function ScrollBox(props) {
   );
 
   const column4 = (
-        <Box display="flex" sx={{ backgroundColor: 'lightGray', height:'900px', overflow:'auto', width:w4}}>
+          <Box className={columnChanged ? "addColumn" : ""} display="flex" sx={{ backgroundColor: 'white', border:'solid', borderWidth:'10px', borderLeftWidth:'0px', borderColor:'#569AF5', height:'900px', overflow:'auto', width:w4}}>
             <Droppable droppableId="drop4">
             {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
@@ -366,7 +383,7 @@ function ScrollBox(props) {
   );
 
   const column5 = (
-    <Box display="flex" sx={{ backgroundColor: 'gray', height:'900px', overflow:'auto', width:w5}}>
+    <Box className={columnChanged ? "addColumn" : ""} display="flex" sx={{ backgroundColor: 'gray', backgroundColor: 'white', border:'solid', borderWidth:'10px', borderLeftWidth:'0px', borderColor:'#569AF5', height:'900px', overflow:'auto', width:w5}}>
         <Droppable droppableId="drop5">
         {(provided) => (
             <div ref={provided.innerRef} {...provided.droppableProps}>
@@ -400,13 +417,12 @@ function ScrollBox(props) {
           <SelectSido setDoAxios={setDoAxios} setSido={setSido} />
           {selectSigungu}
         </div>
-        <ColumnSet setColumnNum={setColumnNum} columnNum={columnNum} />
+        <ColumnSet setColumnNum={setColumnNum} columnNum={columnNum} setAdded={setAdded} setColumnChanged={setColumnChanged}/>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'row'}}>
+      <div className="column" style={{ display: 'flex', flexDirection: 'row'}}>
         <DragDropContext onDragEnd={(result) => handleDragEnd(result)}>
             {columnDisplay}
         </DragDropContext>
-        
       </div>
     </div>
   );
@@ -418,7 +434,7 @@ function ColumnSet(props) {
   const columnNum = props.columnNum;
 
   return(
-    <ColumnButtonSet setColumnNum={setColumnNum} columnNum={columnNum}/>
+    <ColumnButtonSet setColumnNum={setColumnNum} columnNum={columnNum} setAdded={props.setAdded} setColumnChanged={props.setColumnChanged} />
   )
 }
 
@@ -483,16 +499,22 @@ function MapBox(props) {
     const map = new window.kakao.maps.Map(container, options); 
 
     return () => {
-      map.destroy();
+      // map.destroy();
     };
-  }, []);
+  }, [props.boxBar]);
 
-  return <div id="map" style={{ width: '400px', height: '900px' }}></div>;
+  return (
+    <div>
+      <div id="map" style={{ width: '400px', height: '800px' }} />
+    </div>
+    );
 }
 
 
 export default function List() {
   const [keyword, setKeyword] = useState("");
+  const [boxBar, setBoxBar] = useState(true);
+
 
   return (
       <div className="root">
@@ -501,9 +523,9 @@ export default function List() {
         </div>
         <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
           <ScrollBox setKeyword={setKeyword} keyword={keyword} />
-          <div style={{backgroundColor:'lightGray', width:'400px', height:'900px', marginTop:'61px', padding:'0px'}} >
-            <MapBox />
-            {/* <SearchBox setKeyword={setKeyword} keyword={keyword} /> */}
+          <div style={{backgroundColor:'lightGray', width:'400px', height:'900px', marginTop:'5px', padding:'0px'}} >
+            <BoxBar setBoxBar={setBoxBar} />
+            {boxBar ? <MapBox boxBar={boxBar}/> : <SearchBox setKeyword={setKeyword} keyword={keyword} /> }
           </div>
         </div>
       </div>
