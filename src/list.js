@@ -44,7 +44,7 @@ function ScrollBox(props) {
   const [w4, setW4] = useState(210);
   const [w5, setW5] = useState(210);
   const [c4, setC4] = useState(false);
-  const [columnNum, setColumnNum] = useState(4);
+  const [columnNum, setColumnNum] = useState(2);
   const [columnDisplay, setColumnDisplay] = useState([]);
   const [sigungu, setSigungu] = useState("1");
   const [selectSigungu, setSelectSigungu] = useState([<Default />]);
@@ -250,29 +250,53 @@ function ScrollBox(props) {
       console.log("columnNum : ", columnNum);
       switch (columnNum) {
         case 2:
-          setColumnDisplay([column, column2]);
-          setColumnAdded(false);
-          setColumnSubed(false);
-          break;
+          if(!columnSubed) {
+            setColumnDisplay([column, column2]);
+            setColumnAdded(false);
+            setColumnSubed(false);
+            break;
+          }
+          else {
+            setColumnDisplay([column, column2, column3]);
+            setColumnAdded(false);
+            setColumnSubed(false);
+            break;
+          }
   
         case 3:
-          setColumnDisplay([column, column2, column3]);
-          setColumnAdded(false);
-          setColumnSubed(false);
-          break;
+          if(!columnSubed) {
+            setColumnDisplay([column, column2, column3]);
+            setColumnAdded(false);
+            setColumnSubed(false);
+            break;
+          }
+          else {
+            setColumnDisplay([column, column2, column3, column4]);
+            setColumnAdded(false);
+            setColumnSubed(false);
+            break;
+          }
   
         case 4:
-          setColumnDisplay([column, column2, column3, column4]);
-          setColumnAdded(false);
-          setColumnSubed(false);
-          setC4(false);
-          break;
+          if(!columnSubed) {
+            setColumnDisplay([column, column2, column3, column4]);
+            setColumnAdded(false);
+            setColumnSubed(false);
+            break;
+          }
+          else {
+            setColumnDisplay([column, column2, column3, column4, column5]);
+            setColumnAdded(false);
+            setColumnSubed(false);
+            break;
+          }
   
         case 5:
-          setColumnDisplay([column, column2, column3, column4, column5]);
-          setColumnAdded(false);
-          setColumnSubed(false);
-          break;
+            setColumnDisplay([column, column2, column3, column4, column5]);
+            setColumnAdded(false);
+            setColumnSubed(false);
+            break;
+
   
         default:
           setColumnDisplay([]);
@@ -285,7 +309,7 @@ function ScrollBox(props) {
 
 
   const column = (
-        <Box display="flex" sx={{ backgroundColor: 'white', border:'solid', borderWidth:'10px', borderRightWidth:'0px', borderColor:'#569AF5', height:'900px', overflow:'auto', width: w1}}>
+        <Box display="flex" sx={{ zIndex:10, backgroundColor: 'white', border:'solid', borderWidth:'10px', borderRightWidth:'0px', borderColor:'#569AF5', height:'900px', overflow:'auto', width: w1}}>
             <Droppable droppableId="drop1">
             {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
@@ -312,7 +336,7 @@ function ScrollBox(props) {
   );
 
   const column2 = (
-        <Box display="flex" sx={{ backgroundColor: 'lightGray',backgroundColor: 'white', border:'solid', borderWidth:'10px', borderColor:'#569AF5', height:'900px', overflow:'auto', width:w2}}>
+        <Box display="flex" sx={{ zIndex:4, backgroundColor: 'lightGray',backgroundColor: 'white', border:'solid', borderWidth:'10px', borderColor:'#569AF5', height:'900px', overflow:'auto', width:w2}}>
             <Droppable droppableId="drop2">
             {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
@@ -340,6 +364,7 @@ function ScrollBox(props) {
   );
 
   const column3 = (
+    <div className={columnAdded ? "add" : columnSubed ? columnNum===2 ? "sub" : "" : ""} style={{zIndex:3}}>
         <Box display="flex" sx={{ backgroundColor: 'gray', backgroundColor: 'white', border:'solid', borderWidth:'10px', borderLeftWidth:'0px', borderColor:'#569AF5', height:'900px', overflow:'auto', width:w3}}>
             <Droppable droppableId="drop3">
             {(provided) => (
@@ -365,11 +390,11 @@ function ScrollBox(props) {
             )}
             </Droppable>
         </Box>
+      </div>
   );
 
   const column4 = (
-    
-    <div className={columnAdded ? (columnNum===4) ? "add" : "" : c4 ? "sub" : ""}>
+    <div className={columnAdded ? "add" : columnSubed ? columnNum===3 ? "sub" : "" : ""} style={{zIndex:2}}>
           <Box display="flex" sx={{ backgroundColor: 'white', border:'solid', borderWidth:'10px', borderLeftWidth:'0px', borderColor:'#569AF5', height:'900px', overflow:'auto', width:w4}}>
             <Droppable droppableId="drop4">
             {(provided) => (
@@ -399,7 +424,7 @@ function ScrollBox(props) {
   );
 
   const column5 = (
-    <div >
+    <div className={columnAdded ? "add" : columnSubed ? columnNum===4 ? "sub" : "" : ""} style={{zIndex:1}}>
       <Box display="flex" sx={{ backgroundColor: 'gray', backgroundColor: 'white', border:'solid', borderWidth:'10px', borderLeftWidth:'0px', borderColor:'#569AF5', height:'900px', overflow:'auto', width:w5}}>
           <Droppable droppableId="drop5">
           {(provided) => (
@@ -434,8 +459,10 @@ function ScrollBox(props) {
         <div style={{display:'flex', flexDirection:'row'}}>
           <SelectSido setDoAxios={setDoAxios} setSido={setSido} />
           {selectSigungu}
+          <div style={{marginLeft:'730px'}}>
+            <ColumnSet setColumnNum={setColumnNum} columnNum={columnNum} setAdded={setAdded} setColumnAdded={setColumnAdded} setColumnSubed={setColumnSubed} setC4={setC4} />
+          </div>
         </div>
-        <ColumnSet setColumnNum={setColumnNum} columnNum={columnNum} setAdded={setAdded} setColumnAdded={setColumnAdded} setColumnSubed={setColumnSubed} setC4={setC4} />
       </div>
       <div className="column" style={{ display: 'flex', flexDirection: 'row'}}>
         <DragDropContext onDragEnd={(result) => handleDragEnd(result)}>

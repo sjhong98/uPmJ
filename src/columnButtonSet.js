@@ -26,7 +26,6 @@ export default function ColumnButtonSet(props) {
             if(props.columnNum < 5) {
                 let temp = props.columnNum;
                 props.setColumnNum(temp+1);
-                props.setAdded(true);
             }
             console.log("added : ", props.columnNum);
         }}></Button>
@@ -38,7 +37,6 @@ export default function ColumnButtonSet(props) {
             if(props.columnNum > 2) {
                 let temp = props.columnNum;
                 props.setColumnNum(temp-1);
-                props.setAdded(false);
             }
             console.log("subtracted : ", props.columnNum);
         }}></Button>

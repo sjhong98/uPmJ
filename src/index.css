@@ -39,12 +39,13 @@ code {
 .sub {
   position: relative;
   animation: sub-column 1s ease-in-out;
+  animation-fill-mode: forwards;
 }
 
 
 @keyframes add-column {
   from{
-    left: -200px;
+    left: -220px;
   }
   to{
     left: 0px;
@@ -56,7 +57,7 @@ code {
     left: 0px;
   }
   to{
-    left: -200px;
+    left: -220px;
   }
 }
 
