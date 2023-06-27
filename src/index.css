@@ -12,6 +12,23 @@ code {
     monospace;
 }
 
+@font-face {
+	font-family: "baemin";
+	src: url(./assets/fonts/BMHANNA_11yrs_ttf.ttf);
+}
+
+@font-face {
+	font-family: "naver_bold";
+	src: url(./assets/fonts/naver_bold.ttf);
+}
+
+@font-face {
+	font-family: "naver_light";
+	src: url(./assets/fonts/naver_light.ttf);
+}
+
+
+
 .root {
   margin : 50px;
 }

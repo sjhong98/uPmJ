@@ -25,7 +25,13 @@ import Gangwon from './field/sigungu/gangwon.js';
 import Default from './field/sigungu/default.js';
 import BoxBar from './field/boxbar.js';
 import { useSpring, animated } from '@react-spring/web';
+import SearchBox from './searchBox.js';
+import MapBox from './mapBox.js';
 
+
+
+
+// #569AF5
 
 function ScrollBox(props) {
   const [data, setData] = useState([]);
@@ -309,7 +315,7 @@ function ScrollBox(props) {
 
 
   const column = (
-        <Box display="flex" sx={{ zIndex:10, backgroundColor: 'white', border:'solid', borderWidth:'10px', borderRightWidth:'0px', borderColor:'#569AF5', height:'900px', overflow:'auto', width: w1}}>
+        <Box display="flex" sx={{ zIndex:10, backgroundColor: 'white', border:'solid', borderWidth:'10px', borderColor:'#569AF5', height:'900px', overflow:'auto', width: w1, marginRight:'30px'}}>
             <Droppable droppableId="drop1">
             {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
@@ -483,100 +489,33 @@ function ColumnSet(props) {
   )
 }
 
-function SearchBox(props) {
-  const [searchData, setSearchData] = useState("Search Box");
-  const [doSearch, setDoSearch] = useState(false);
-  const [addr, setAddr] = useState("");
-  const [imageURL, setImageURL] = useState("");
-  const [placeId, setPlaceId] = useState("");
-  const [searchError, setSearchError] = useState(false);
-  const [website, setWebsite] = useState("");
-
-  // AIzaSyB9QQva3lfFKOO5zBXfOO66Q2LKJ3E0IzI
-
-  useEffect(()=> {
-    axios.get(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=${props.keyword}&key=AIzaSyB9QQva3lfFKOO5zBXfOO66Q2LKJ3E0IzI`)
-            .then(function(response) {
-              console.log("검색결과 : ", response.data.results[0]);
-              setAddr(response.data.results[0].formatted_address);
-              setPlaceId(response.data.results[0].place_id);
-              console.log(placeId);
-            })
-            .catch(function(error){
-              console.log(error);
-            })
-  }, [props.keyword]);
-
-  useEffect(()=> {
-    axios.get(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/details/json?placeid=${placeId}&key=AIzaSyB9QQva3lfFKOO5zBXfOO66Q2LKJ3E0IzI`)
-            .then(function(response) {
-              console.log("세부정보 : ", response.data.result);
-              setWebsite(!response.data.result.website);
-
-              let YOUR_PHOTO_REFERENCE = response.data.result.photos[0].photo_reference;
-              setImageURL(`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${YOUR_PHOTO_REFERENCE}&key=AIzaSyB9QQva3lfFKOO5zBXfOO66Q2LKJ3E0IzI`);
-
-            })
-            .catch(function(error) {
-              console.log(error);
-            });
-  }, [placeId]);
-
-
-  return(
-    <div>
-      <div>
-        <img src={imageURL} />
-        <p>{addr}</p>
-        <p>{website}</p>
-      </div>
-    </div>
-  );
-}
-
-function MapBox(props) {
-  useEffect(() => {
-    const container = document.getElementById('map'); 
-    const options = {
-      center: new window.kakao.maps.LatLng(33.450701, 126.570667), 
-      level: 9 
-    };
-    const map = new window.kakao.maps.Map(container, options); 
-
-    return () => {
-      // map.destroy();
-    };
-  }, [props.boxBar]);
-
-  return (
-    <div>
-      <div id="map" style={{ width: '400px', height: '800px' }} />
-    </div>
-    );
-}
 
 
 export default function List() {
   const [keyword, setKeyword] = useState("");
   const [boxBar, setBoxBar] = useState(true);
 
+  useEffect(()=> {
+  }, [keyword]);
+
 
   return (
-    <div>
-
+    <div style={{backgroundColor:"#ffffff", marginTop:'-30px'}}>
       <div className="root">
         <div className="upperBar">
-          <h1>넌 P해 난 J할게</h1>
+          <h1 style={{fontFamily:"naver_bold", color:"#569AF5", fontSize:"50px"}}>넌 P해 난 J할게</h1>
           
         </div>
-        <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
+        <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between', fontFamily:"naver_light"}}>
           <ScrollBox setKeyword={setKeyword} keyword={keyword} />
           <div style={{backgroundColor:'lightGray', width:'400px', height:'900px', marginTop:'5px', padding:'0px'}} >
-            <BoxBar setBoxBar={setBoxBar} />
+            <div style={{ boxShadow: '0px 10px 5px rgba(0, 0, 0, 0.2)' }}>
+              <BoxBar setBoxBar={setBoxBar} />
+            </div>
             {boxBar ? <MapBox boxBar={boxBar}/> : <SearchBox setKeyword={setKeyword} keyword={keyword} /> }
           </div>
         </div>
       </div>
-      </div>
+    </div>
   );
 }
