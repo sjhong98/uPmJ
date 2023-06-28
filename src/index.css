@@ -38,7 +38,8 @@ code {
   flex-direction: column;
   align-items: center;
   padding: 0px;
-  margin-bottom:0px
+  margin-bottom:0px;
+  background-color: #ffffff;
 }
 
 .content {
@@ -63,18 +64,22 @@ code {
 @keyframes add-column {
   from{
     left: -220px;
+    opacity: 0;
   }
   to{
     left: 0px;
+    opacity: 1;
   }
 }
 
 @keyframes sub-column {
   from{
     left: 0px;
+    opacity: 1;
   }
   to{
     left: -220px;
+    opacity: 0;
   }
 }
 

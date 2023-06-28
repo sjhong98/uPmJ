@@ -35,10 +35,6 @@ import MapBox from './mapBox.js';
 
 function ScrollBox(props) {
   const [data, setData] = useState([]);
-  const [data2, setData2] = useState([]);
-  const [data3, setData3] = useState([]);
-  const [data4, setData4] = useState([]);
-  const [data5, setData5] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [doAxios, setDoAxios] = useState(false);
   const [sido, setSido] = useState("1");
@@ -54,14 +50,28 @@ function ScrollBox(props) {
   const [columnDisplay, setColumnDisplay] = useState([]);
   const [sigungu, setSigungu] = useState("1");
   const [selectSigungu, setSelectSigungu] = useState([<Default />]);
-  const [searchTitle, setSearchTitle] = useState("");
-  const [ani3, setAni3] = useState("");
-  const [ani4, setAni4] = useState("");
-  const [ani5, setAni5] = useState("");
   const [added, setAdded] = useState(true);
   const [columnAdded, setColumnAdded] = useState(false);
   const [columnSubed, setColumnSubed] = useState(false);
+  const [z1, setZ1] = useState(100);
+  const [z2, setZ2] = useState(100);
+  const [z3, setZ3] = useState(3);
+  const [z4, setZ4] = useState(2);
+  const [z5, setZ5] = useState(1);
   
+  const x = props.x;
+  const y = props.y;
+  const setX = props.setX;
+  const setY = props.setY;
+  const data2 = props.data2;
+  const data3 = props.data3;
+  const data4 = props.data4;
+  const data5 = props.data5;
+  const setData2 = props.setData2;
+  const setData3 = props.setData3;
+  const setData4 = props.setData4;
+  const setData5 = props.setData5;
+  const setPushed = props.setPushed;
 
   
 
@@ -172,6 +182,7 @@ function ScrollBox(props) {
   
     const sourceColumnId = result.source.droppableId;
     const destinationColumnId = result.destination.droppableId;
+    setPushed(true);
   
     if (sourceColumnId === destinationColumnId) {
       // 같은 column 내에서의 이동
@@ -274,12 +285,14 @@ function ScrollBox(props) {
             setColumnDisplay([column, column2, column3]);
             setColumnAdded(false);
             setColumnSubed(false);
+
             break;
           }
           else {
             setColumnDisplay([column, column2, column3, column4]);
             setColumnAdded(false);
             setColumnSubed(false);
+            
             break;
           }
   
@@ -315,7 +328,8 @@ function ScrollBox(props) {
 
 
   const column = (
-        <Box display="flex" sx={{ zIndex:10, backgroundColor: 'white', border:'solid', borderWidth:'10px', borderColor:'#569AF5', height:'900px', overflow:'auto', width: w1, marginRight:'30px'}}>
+    <div style={{}}>
+        <Box display="flex" sx={{ backgroundColor: 'white', border:'solid', borderWidth:'10px', borderColor:'#569AF5', height:'900px', overflow:'auto', width: w1, marginRight:'30px'}}>
             <Droppable droppableId="drop1">
             {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
@@ -328,7 +342,7 @@ function ScrollBox(props) {
                         {...provided.dragHandleProps}
                         >
                         <CardBox
-                            index={index} column={"drop1"} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
+                            style={{}} index={index} column={"drop1"} setX={setX} setY={setY} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
                         />
                         </div>
                     )}
@@ -339,10 +353,12 @@ function ScrollBox(props) {
             )}
             </Droppable>
         </Box>
+    </div>
   );
 
   const column2 = (
-        <Box display="flex" sx={{ zIndex:4, backgroundColor: 'lightGray',backgroundColor: 'white', border:'solid', borderWidth:'10px', borderColor:'#569AF5', height:'900px', overflow:'auto', width:w2}}>
+    <div style={{}}>
+        <Box display="flex" sx={{ backgroundColor: 'lightGray',backgroundColor: 'white', border:'solid', borderWidth:'10px', borderColor:'#569AF5', height:'900px', overflow:'auto', width:w2}}>
             <Droppable droppableId="drop2">
             {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
@@ -355,7 +371,7 @@ function ScrollBox(props) {
                         {...provided.dragHandleProps}
                         >
                             <CardBox
-                            index={index} column={"drop2"} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
+                            style={{}} index={index} column={"drop2"} setX={setX} setY={setY} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
                         />
 
                         </div>
@@ -367,10 +383,11 @@ function ScrollBox(props) {
             )}
             </Droppable>
         </Box>
+        </div>
   );
 
   const column3 = (
-    <div className={columnAdded ? "add" : columnSubed ? columnNum===2 ? "sub" : "" : ""} style={{zIndex:3}}>
+    <div className={columnAdded ? "add" : columnSubed ? columnNum===2 ? "sub" : "" : ""} style={{}}>
         <Box display="flex" sx={{ backgroundColor: 'gray', backgroundColor: 'white', border:'solid', borderWidth:'10px', borderLeftWidth:'0px', borderColor:'#569AF5', height:'900px', overflow:'auto', width:w3}}>
             <Droppable droppableId="drop3">
             {(provided) => (
@@ -384,7 +401,7 @@ function ScrollBox(props) {
                         {...provided.dragHandleProps}
                         >
                             <CardBox
-                            index={index} column={"drop3"} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
+                            index={index} column={"drop3"} setX={setX} setY={setY} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
                         />
                             
                         </div>
@@ -400,7 +417,7 @@ function ScrollBox(props) {
   );
 
   const column4 = (
-    <div className={columnAdded ? "add" : columnSubed ? columnNum===3 ? "sub" : "" : ""} style={{zIndex:2}}>
+    <div className={columnAdded ? "add" : columnSubed ? columnNum===3 ? "sub" : "" : ""} style={{}}>
           <Box display="flex" sx={{ backgroundColor: 'white', border:'solid', borderWidth:'10px', borderLeftWidth:'0px', borderColor:'#569AF5', height:'900px', overflow:'auto', width:w4}}>
             <Droppable droppableId="drop4">
             {(provided) => (
@@ -414,7 +431,7 @@ function ScrollBox(props) {
                         {...provided.dragHandleProps}
                         >
                             <CardBox
-                            index={index} column={"drop4"} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
+                            index={index} column={"drop4"} setX={setX} setY={setY} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
                         />
                             
                         </div>
@@ -430,7 +447,7 @@ function ScrollBox(props) {
   );
 
   const column5 = (
-    <div className={columnAdded ? "add" : columnSubed ? columnNum===4 ? "sub" : "" : ""} style={{zIndex:1}}>
+    <div className={columnAdded ? "add" : columnSubed ? columnNum===4 ? "sub" : "" : ""} style={{}}>
       <Box display="flex" sx={{ backgroundColor: 'gray', backgroundColor: 'white', border:'solid', borderWidth:'10px', borderLeftWidth:'0px', borderColor:'#569AF5', height:'900px', overflow:'auto', width:w5}}>
           <Droppable droppableId="drop5">
           {(provided) => (
@@ -444,7 +461,7 @@ function ScrollBox(props) {
                       {...provided.dragHandleProps}
                       >
                           <CardBox
-                          index={index} column={"drop5"} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
+                          index={index} column={"drop5"} setX={setX} setY={setY} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
                       />
                           
                       </div>
@@ -458,6 +475,9 @@ function ScrollBox(props) {
       </Box>
     </div>
 );
+
+
+
 
   return (
     <div>
@@ -492,8 +512,15 @@ function ColumnSet(props) {
 
 
 export default function List() {
+  const [data2, setData2] = useState([]);
+  const [data3, setData3] = useState([]);
+  const [data4, setData4] = useState([]);
+  const [data5, setData5] = useState([]);
   const [keyword, setKeyword] = useState("");
   const [boxBar, setBoxBar] = useState(true);
+  const [x, setX] = useState(33.450701);
+  const [y, setY] = useState(126.570667);
+  const [pushed, setPushed] = useState(false);
 
   useEffect(()=> {
   }, [keyword]);
@@ -503,19 +530,23 @@ export default function List() {
     <div style={{backgroundColor:"#ffffff", marginTop:'-30px'}}>
       <div className="root">
         <div className="upperBar">
-          <h1 style={{fontFamily:"naver_bold", color:"#569AF5", fontSize:"50px"}}>넌 P해 난 J할게</h1>
+          <h1 style={{fontFamily:"naver_bold", color:"#ffffff", fontSize:"50px"}}>넌 P해 난 J할게</h1>
           
         </div>
         <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between', fontFamily:"naver_light"}}>
-          <ScrollBox setKeyword={setKeyword} keyword={keyword} />
+          <ScrollBox setKeyword={setKeyword} setPushed={setPushed} keyword={keyword} x={x} setX={setX} y={y} setY={setY} data2={data2} data3={data3} data4={data4} data5={data5} setData2={setData2} setData3={setData3} setData4={setData4} setData5={setData5}/>
           <div style={{backgroundColor:'lightGray', width:'400px', height:'900px', marginTop:'5px', padding:'0px'}} >
             <div style={{ boxShadow: '0px 10px 5px rgba(0, 0, 0, 0.2)' }}>
               <BoxBar setBoxBar={setBoxBar} />
             </div>
-            {boxBar ? <MapBox boxBar={boxBar}/> : <SearchBox setKeyword={setKeyword} keyword={keyword} /> }
+            {boxBar ? <MapBox boxBar={boxBar} setPushed={setPushed} pushed={pushed} x={x} setX={setX} y={y} setY={setY} data2={data2} /> : <SearchBox setKeyword={setKeyword} keyword={keyword} /> }
           </div>
         </div>
       </div>
     </div>
   );
 }
+
+
+// #569AF5"
+          
