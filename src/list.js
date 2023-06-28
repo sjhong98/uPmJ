@@ -285,7 +285,6 @@ function ScrollBox(props) {
             setColumnDisplay([column, column2, column3]);
             setColumnAdded(false);
             setColumnSubed(false);
-
             break;
           }
           else {
@@ -518,8 +517,8 @@ export default function List() {
   const [data5, setData5] = useState([]);
   const [keyword, setKeyword] = useState("");
   const [boxBar, setBoxBar] = useState(true);
-  const [x, setX] = useState(33.450701);
-  const [y, setY] = useState(126.570667);
+  const [x, setX] = useState(126.97722);
+  const [y, setY] = useState(37.57861);
   const [pushed, setPushed] = useState(false);
 
   useEffect(()=> {
@@ -539,7 +538,7 @@ export default function List() {
             <div style={{ boxShadow: '0px 10px 5px rgba(0, 0, 0, 0.2)' }}>
               <BoxBar setBoxBar={setBoxBar} />
             </div>
-            {boxBar ? <MapBox boxBar={boxBar} setPushed={setPushed} pushed={pushed} x={x} setX={setX} y={y} setY={setY} data2={data2} /> : <SearchBox setKeyword={setKeyword} keyword={keyword} /> }
+            {boxBar ? <MapBox boxBar={boxBar} setPushed={setPushed} pushed={pushed} x={x} setX={setX} y={y} setY={setY} data2={data2} data3={data3} data4={data4} data5={data5} /> : <SearchBox setKeyword={setKeyword} keyword={keyword} /> }
           </div>
         </div>
       </div>
