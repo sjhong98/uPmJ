@@ -27,6 +27,7 @@ import BoxBar from './field/boxbar.js';
 import { useSpring, animated } from '@react-spring/web';
 import SearchBox from './searchBox.js';
 import MapBox from './mapBox.js';
+import SearchField from './field/searchField.js';
 
 
 
@@ -72,6 +73,8 @@ function ScrollBox(props) {
   const setData4 = props.setData4;
   const setData5 = props.setData5;
   const setPushed = props.setPushed;
+  const setXData = props.setXData;
+  const searchData = props.searchData;
 
   
 
@@ -324,6 +327,23 @@ function ScrollBox(props) {
     }, 0);
   }, [columnNum, data2, data, data3, data4, data5]); // data2 -> 처음에 day1 카드들어갈 때 업데이트 / data -> axios할 때 업데이트 / data3-5 -> 제거시 리랜더링
 
+  useEffect(() => {  // make card 검색 시 result 가져와 card로 만들기
+    const result = [{     // result를 배열 형태로 가져오기
+      index: 0,
+      contentId: searchData.id,
+      title: searchData.place_name,
+      addr1: searchData.road_address_name,
+      mapx: searchData.x,
+      mapy: searchData.y
+    }];
+
+    console.log("result ::: ", searchData);
+
+    setData(result);  // data에 집어넣음 -> column1에서 출력
+
+
+  }, [searchData]);  // 검색 시에 동작
+
 
 
   const column = (
@@ -341,7 +361,7 @@ function ScrollBox(props) {
                         {...provided.dragHandleProps}
                         >
                         <CardBox
-                            style={{}} index={index} column={"drop1"} setX={setX} setY={setY} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
+                            style={{}} droppableId="drop1" setXData={setXData} index={index} column={"drop1"} setX={setX} setY={setY} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
                         />
                         </div>
                     )}
@@ -370,7 +390,7 @@ function ScrollBox(props) {
                         {...provided.dragHandleProps}
                         >
                             <CardBox
-                            style={{}} index={index} column={"drop2"} setX={setX} setY={setY} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
+                            style={{}} droppableId="drop2" setXData={setXData} index={index} column={"drop2"} setX={setX} setY={setY} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
                         />
 
                         </div>
@@ -400,7 +420,7 @@ function ScrollBox(props) {
                         {...provided.dragHandleProps}
                         >
                             <CardBox
-                            index={index} column={"drop3"} setX={setX} setY={setY} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
+                            index={index} droppableId="drop3" setXData={setXData} column={"drop3"} setX={setX} setY={setY} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
                         />
                             
                         </div>
@@ -430,7 +450,7 @@ function ScrollBox(props) {
                         {...provided.dragHandleProps}
                         >
                             <CardBox
-                            index={index} column={"drop4"} setX={setX} setY={setY} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
+                            index={index} droppableId="drop4" column={"drop4"} setXData={setXData} setX={setX} setY={setY} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
                         />
                             
                         </div>
@@ -460,7 +480,7 @@ function ScrollBox(props) {
                       {...provided.dragHandleProps}
                       >
                           <CardBox
-                          index={index} column={"drop5"} setX={setX} setY={setY} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
+                          index={index} droppableId="drop5" column={"drop5"} setXData={setXData} setX={setX} setY={setY} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
                       />
                           
                       </div>
@@ -484,7 +504,8 @@ function ScrollBox(props) {
         <div style={{display:'flex', flexDirection:'row'}}>
           <SelectSido setDoAxios={setDoAxios} setSido={setSido} />
           {selectSigungu}
-          <div style={{marginLeft:'730px'}}>
+          <SearchField setKeyword={props.setKeyword} />
+          <div style={{marginLeft:'500px', marginRight:'50px'}}>
             <ColumnSet setColumnNum={setColumnNum} columnNum={columnNum} setAdded={setAdded} setColumnAdded={setColumnAdded} setColumnSubed={setColumnSubed} setC4={setC4} />
           </div>
         </div>
@@ -520,6 +541,8 @@ export default function List() {
   const [x, setX] = useState(126.97722);
   const [y, setY] = useState(37.57861);
   const [pushed, setPushed] = useState(false);
+  const [xData, setXData] = useState("");
+  const [searchData, setSearchData] = useState([]);
 
   useEffect(()=> {
   }, [keyword]);
@@ -533,12 +556,12 @@ export default function List() {
           
         </div>
         <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between', fontFamily:"naver_light"}}>
-          <ScrollBox setKeyword={setKeyword} setPushed={setPushed} keyword={keyword} x={x} setX={setX} y={y} setY={setY} data2={data2} data3={data3} data4={data4} data5={data5} setData2={setData2} setData3={setData3} setData4={setData4} setData5={setData5}/>
-          <div style={{backgroundColor:'lightGray', width:'400px', height:'900px', marginTop:'5px', padding:'0px'}} >
-            <div style={{ boxShadow: '0px 10px 5px rgba(0, 0, 0, 0.2)' }}>
+          <ScrollBox searchData={searchData} setKeyword={setKeyword} setXData={setXData} setPushed={setPushed} keyword={keyword} x={x} setX={setX} y={y} setY={setY} data2={data2} data3={data3} data4={data4} data5={data5} setData2={setData2} setData3={setData3} setData4={setData4} setData5={setData5}/>
+          <div style={{backgroundColor:'#FFFFFF', width:'400px', height:'900px', marginTop:'5px', padding:'0px', boxShadow: '0px 0px 30px rgba(0, 0, 0, 0.2)'}} >
+            <div style={{ }}>
               <BoxBar setBoxBar={setBoxBar} />
             </div>
-            {boxBar ? <MapBox boxBar={boxBar} setPushed={setPushed} pushed={pushed} x={x} setX={setX} y={y} setY={setY} data2={data2} data3={data3} data4={data4} data5={data5} /> : <SearchBox setKeyword={setKeyword} keyword={keyword} /> }
+            {boxBar ? <MapBox boxBar={boxBar} setPushed={setPushed} pushed={pushed} xData={xData} x={x} setX={setX} y={y} setY={setY} data2={data2} data3={data3} data4={data4} data5={data5} /> : <SearchBox setSearchData={setSearchData} setKeyword={setKeyword} keyword={keyword} /> }
           </div>
         </div>
       </div>

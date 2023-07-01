@@ -19,6 +19,7 @@ export default function CardBox(props) {
           props.setY(props.mapy);
         }
       }
+      props.setXData(props.droppableId);
     }}>
         <CardContent>
             <p style={{marginLeft:'140px', marginTop:'-10px', cursor:'pointer'}} onClick={()=>{

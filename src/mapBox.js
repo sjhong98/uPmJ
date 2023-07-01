@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 export default function MapBox(props) {
+  const [color, setColor] = useState("#4D62FA")
   const x = props.x;
   const y = props.y;
+  const droppableId = props.droppableId;
 
   // useEffect(()=> {
   //   const marker = new window.kakao.maps.Marker({
@@ -20,13 +22,19 @@ export default function MapBox(props) {
         center: new window.kakao.maps.LatLng(y, x), 
         level: 9 
       };
-      const map = new window.kakao.maps.Map(container, options); 
+      const map = new window.kakao.maps.Map(container, options);
+
+
+
 
       const marker = new window.kakao.maps.Marker({
-        position: new window.kakao.maps.LatLng(y, x)
+        position: new window.kakao.maps.LatLng(y, x),
       });
       
       marker.setMap(map);
+
+
+
 
 
       const positions2 = props.data2.map(item=> ({
@@ -165,7 +173,7 @@ export default function MapBox(props) {
   
     return (
       <div>
-        <div id="map" style={{ width: '400px', height: '800px' }} />
+        <div id="map" style={{ width: '400px', height: '900px' }} />
       </div>
       );
   }
