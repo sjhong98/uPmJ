@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Box, Button } from '@mui/material';
 import './index.css';
 import axios from 'axios';
@@ -28,7 +28,9 @@ import { useSpring, animated } from '@react-spring/web';
 import SearchBox from './searchBox.js';
 import MapBox from './mapBox.js';
 import SearchField from './field/searchField.js';
-import styled from 'styled-components';
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import BackgroundImg from "./assets/images/travel3.jpeg";
 
 
 
@@ -375,7 +377,7 @@ function ScrollBox(props) {
 
   const column = (
     <div style={{}}>
-        <Box display="flex" sx={{ backgroundColor: "#ffffff", border:'solid', borderWidth:'10px', borderColor:'#569AF5', height:'900px', overflow:'auto', width: w1, marginRight:'30px'}}>
+        <Box display="flex" sx={{ backgroundColor: "transparent", border:'solid', borderWidth:'10px', borderColor:'#bbb', height:'900px', overflow:'auto', width: w1, marginRight:'30px'}}>
             <Droppable droppableId="drop1">
             {(provided, snapshot) => (
                 <div ref={provided.innerRef} {...provided.droppableProps} >
@@ -404,7 +406,7 @@ function ScrollBox(props) {
 
   const column2 = (
     <div style={{}}>
-        <Box display="flex" sx={{ backgroundColor: 'lightGray',backgroundColor: 'white', border:'solid', borderWidth:'10px', borderColor:'#569AF5', height:'900px', overflow:'auto', width:w2}}>
+        <Box display="flex" sx={{ border:'solid', borderWidth:'10px', borderColor:'#bbb', height:'900px', overflow:'auto', width:w2}}>
             <Droppable droppableId="drop2">
             {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
@@ -434,7 +436,7 @@ function ScrollBox(props) {
 
   const column3 = (
     <div className={columnAdded ? "add" : columnSubed ? columnNum===2 ? "sub" : "" : ""} style={{}}>
-        <Box display="flex" sx={{ backgroundColor: 'gray', backgroundColor: 'white', border:'solid', borderWidth:'10px', borderLeftWidth:'0px', borderColor:'#569AF5', height:'900px', overflow:'auto', width:w3}}>
+        <Box display="flex" sx={{ backgroundColor: "transparent", border:'solid', borderWidth:'10px', borderLeftWidth:'0px', borderColor:'#bbb', height:'900px', overflow:'auto', width:w3}}>
             <Droppable droppableId="drop3">
             {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
@@ -464,7 +466,7 @@ function ScrollBox(props) {
 
   const column4 = (
     <div className={columnAdded ? "add" : columnSubed ? columnNum===3 ? "sub" : "" : ""} style={{}}>
-          <Box display="flex" sx={{ backgroundColor: 'white', border:'solid', borderWidth:'10px', borderLeftWidth:'0px', borderColor:'#569AF5', height:'900px', overflow:'auto', width:w4}}>
+          <Box display="flex" sx={{ backgroundColor: "transparent", border:'solid', borderWidth:'10px', borderLeftWidth:'0px', borderColor:'#bbb', height:'900px', overflow:'auto', width:w4}}>
             <Droppable droppableId="drop4">
             {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
@@ -494,7 +496,7 @@ function ScrollBox(props) {
 
   const column5 = (
     <div className={columnAdded ? "add" : columnSubed ? columnNum===4 ? "sub" : "" : ""} style={{}}>
-      <Box display="flex" sx={{ backgroundColor: 'gray', backgroundColor: 'white', border:'solid', borderWidth:'10px', borderLeftWidth:'0px', borderColor:'#569AF5', height:'900px', overflow:'auto', width:w5}}>
+      <Box display="flex" sx={{backgroundColor: "transparent", border:'solid', borderWidth:'10px', borderLeftWidth:'0px', borderColor:'#bbb', height:'900px', overflow:'auto', width:w5}}>
           <Droppable droppableId="drop5">
           {(provided) => (
               <div ref={provided.innerRef} {...provided.droppableProps}>
@@ -571,20 +573,72 @@ export default function List() {
   const [xData, setXData] = useState("");
   const [searchData, setSearchData] = useState([]);
 
-  useEffect(()=> {
-  }, [keyword]);
+
+  const titleRef = useRef();
+  const bodyRef = useRef();
+  const imgRef = useRef();
+
+  useEffect(() => {
+    let tl = gsap.timeline();
+    tl.from(titleRef.current, {
+      x: 0,  // 에서 시작
+      duration: 0,   // 부터 시작
+      ease: "bounce.out"  // 마무리 모션
+    });
+    tl.to(titleRef.current, {
+      x: 0,
+      duration: 1,
+      scale: 2
+    });
+    tl.to(titleRef.current, {
+      scale: 1.5,
+      ease: "bounce.out"
+    })
+  }, []);
+
+  // useEffect(() => {
+  //   let tl = gsap.timeline();
+  //   tl.from(bodyRef.current, {
+  //     opacity:0,
+  //     duration: 1.5
+  //   })
+  //   tl.to(bodyRef.current, {
+  //    opacity:1
+  //   })
+  // }, []);
+
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    ScrollTrigger.create({
+      trigger: imgRef.current,
+      start: 'top top',
+      scrub: 1,
+      onUpdate: (self) => {
+        gsap.to(imgRef.current, {
+          y: (self.progress * -800),
+          overwrite: true,
+        });
+      },
+    });
+  }, []);
+  
 
 
   return (
-    <div style={{backgroundColor:"#ffffff", marginTop:'-30px'}}>
+    <div className="page">
+      <div className='test'>
+        <img className='img' ref={imgRef} src={BackgroundImg} style={{width:'100%', position:'absolute', zIndex:1}} />
+      </div>
+    <div style={{marginTop:'30px', position:'absolute', zIndex:2}}>
       <div className="root">
         <div className="upperBar">
-          <h1 style={{fontFamily:"naver_bold", color:"#ffffff", fontSize:"50px"}}>넌 P해 난 J할게</h1>
-          
+          <h1 ref={titleRef} style={{fontFamily:"naver_bold", color:"#ccc", fontSize:"30px"}}>넌 P해 난 J할게</h1>
         </div>
-        <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between', fontFamily:"naver_light"}}>
+
+        <div ref={bodyRef} style={{display:'flex', flexDirection:'row', justifyContent:'space-between', fontFamily:"naver_light"}}>
           <ScrollBox searchData={searchData} setKeyword={setKeyword} setXData={setXData} setPushed={setPushed} keyword={keyword} x={x} setX={setX} y={y} setY={setY} data2={data2} data3={data3} data4={data4} data5={data5} setData2={setData2} setData3={setData3} setData4={setData4} setData5={setData5}/>
-          <div style={{backgroundColor:'#FFFFFF', width:'400px', height:'900px', marginTop:'5px', padding:'0px', boxShadow: '0px 0px 30px rgba(0, 0, 0, 0.2)'}} >
+          <div style={{backgroundColor:'#FFFFFF', width:'400px', height:'900px', marginTop:'5px', padding:'0px', boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.4)'}} >
             <div style={{ }}>
               <BoxBar setBoxBar={setBoxBar} />
             </div>
@@ -592,6 +646,7 @@ export default function List() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

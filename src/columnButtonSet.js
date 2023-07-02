@@ -4,9 +4,29 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import Box from '@mui/material/Box';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 export default function ColumnButtonSet(props) {
+
+  const theme = createTheme({
+    status: {
+      danger: '#e53e3e',
+    },
+    palette: {
+      primary: {
+        main: '#0971f1',
+        darker: '#053e85',
+      },
+    neutral: {
+        main: '#333333',
+        contrastText: '#ffffff',
+      },
+    },
+  });
+
+
   return (
+    
     <Box
       sx={{
         display: 'flex',
@@ -17,10 +37,13 @@ export default function ColumnButtonSet(props) {
         },
       }}
     >
+      <ThemeProvider theme={theme}>
       <ButtonGroup variant="outlined" aria-label="outlined button group">
 
+      
 
-        <Button startIcon={<AddIcon />} onClick={()=> {
+
+        <Button startIcon={<AddIcon />} color="neutral" onClick={()=> {
             props.setColumnAdded(true);
             
             if(props.columnNum < 5) {
@@ -31,7 +54,7 @@ export default function ColumnButtonSet(props) {
         }}></Button>
 
 
-        <Button startIcon={<RemoveIcon />} onClick={()=> {
+        <Button startIcon={<RemoveIcon />} color="neutral" onClick={()=> {
             props.setColumnSubed(true);
             
             if(props.columnNum > 2) {
@@ -40,9 +63,13 @@ export default function ColumnButtonSet(props) {
             }
             console.log("subtracted : ", props.columnNum);
         }}></Button>
+        
 
 
       </ButtonGroup>
+
+      </ThemeProvider>
     </Box>
+    
   );
 }

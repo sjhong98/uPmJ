@@ -10,9 +10,26 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import SearchIcon from '@mui/icons-material/Search';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 export default function SearchField(props) {
   const [keyword, setKeyword] = useState("");
+
+const theme = createTheme({
+  status: {
+    danger: '#e53e3e',
+  },
+  palette: {
+    primary: {
+      main: '#0971f1',
+      darker: '#053e85',
+    },
+    neutral: {
+      main: '#333333',
+      contrastText: '#ffffff',
+    },
+  },
+});
 
   return (
     <div style={{display:'flex', flexDirection:'row'}}>
@@ -24,11 +41,11 @@ export default function SearchField(props) {
         }}/>
       </Box>
     </Box>
-    <Stack direction="row" spacing={2}>
-      <Button variant="outlined" sx={{height:'55px'}} onClick={() => {
-        props.setKeyword(keyword);
-      }}>Search</Button>
-    </Stack>
+    <ThemeProvider theme={theme}>
+      <Button variant="outlined" color="neutral" sx={{height:55}} onClick={() => {
+          props.setKeyword(keyword);
+        }}>Search</Button>
+    </ThemeProvider>
      </div>
   );
 }
