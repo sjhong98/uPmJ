@@ -28,6 +28,7 @@ import { useSpring, animated } from '@react-spring/web';
 import SearchBox from './searchBox.js';
 import MapBox from './mapBox.js';
 import SearchField from './field/searchField.js';
+import styled from 'styled-components';
 
 
 
@@ -59,7 +60,13 @@ function ScrollBox(props) {
   const [z3, setZ3] = useState(3);
   const [z4, setZ4] = useState(2);
   const [z5, setZ5] = useState(1);
-  
+  const [draggingItem, setDraggingItem] = useState("");
+  const [draggingColumn, setDraggingColumn] = useState("");
+  const [BackgroundColor, setBackgroundColor] = useState("#000000");
+  const [column1, setColumn1] = useState();
+
+
+
   const x = props.x;
   const y = props.y;
   const setX = props.setX;
@@ -205,7 +212,27 @@ function ScrollBox(props) {
       setDataByColumnId(sourceColumnId, sourceColumnItems); // 잘라낸 sourceData update
       setDataByColumnId(destinationColumnId, destinationColumnItems);   // 끼워넣은 destinationData update
     }
+
+    setDraggingItem(0);
+    setDraggingColumn("");
+    setBackgroundColor("#FFFFFF");
   };
+
+  const handleDragStart = (start, provided) => {
+
+    console.log(start);
+    console.log(start.draggableId);
+    console.log(start.source.droppableId)
+
+    setDraggingItem(start.draggableId);
+    setDraggingColumn(start.source.droppableId);
+  }
+
+  useEffect(() => { // 드래그 시에 어떤 요소가 드래고 있는지에 대한 정보 갱신
+    setBackgroundColor("#569AF5");
+    console.log("color : ", BackgroundColor);
+  }, [draggingItem, draggingColumn]);
+
 
   const getDataByColumnId = (columnId) => {
     switch (columnId) {
@@ -325,7 +352,7 @@ function ScrollBox(props) {
       }
 
     }, 0);
-  }, [columnNum, data2, data, data3, data4, data5]); // data2 -> 처음에 day1 카드들어갈 때 업데이트 / data -> axios할 때 업데이트 / data3-5 -> 제거시 리랜더링
+  }, [columnNum, data, data2, data3, data4, data5, draggingItem, draggingColumn]); // data2 -> 처음에 day1 카드들어갈 때 업데이트 / data -> axios할 때 업데이트 / data3-5 -> 제거시 리랜더링
 
   useEffect(() => {  // make card 검색 시 result 가져와 card로 만들기
     const result = [{     // result를 배열 형태로 가져오기
@@ -344,16 +371,16 @@ function ScrollBox(props) {
 
   }, [searchData]);  // 검색 시에 동작
 
-
+  
 
   const column = (
     <div style={{}}>
-        <Box display="flex" sx={{ backgroundColor: 'white', border:'solid', borderWidth:'10px', borderColor:'#569AF5', height:'900px', overflow:'auto', width: w1, marginRight:'30px'}}>
+        <Box display="flex" sx={{ backgroundColor: "#ffffff", border:'solid', borderWidth:'10px', borderColor:'#569AF5', height:'900px', overflow:'auto', width: w1, marginRight:'30px'}}>
             <Droppable droppableId="drop1">
-            {(provided) => (
-                <div ref={provided.innerRef} {...provided.droppableProps}>
+            {(provided, snapshot) => (
+                <div ref={provided.innerRef} {...provided.droppableProps} >
                 {data.map((item, index) => (
-                    <Draggable key={item.contentId} draggableId={item.contentId} index={index}>
+                    <Draggable key={item.contentId} draggableId={item.contentId} index={index} >
                     {(provided) => (
                         <div
                         ref={provided.innerRef}
@@ -361,7 +388,7 @@ function ScrollBox(props) {
                         {...provided.dragHandleProps}
                         >
                         <CardBox
-                            style={{}} droppableId="drop1" setXData={setXData} index={index} column={"drop1"} setX={setX} setY={setY} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
+                           draggingItem={draggingItem} droppableId="drop1" setXData={setXData} index={index} column={"drop1"} setX={setX} setY={setY} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
                         />
                         </div>
                     )}
@@ -511,7 +538,7 @@ function ScrollBox(props) {
         </div>
       </div>
       <div className="column" style={{ display: 'flex', flexDirection: 'row'}}>
-        <DragDropContext onDragEnd={(result) => handleDragEnd(result)}>
+        <DragDropContext onDragEnd={(result) => handleDragEnd(result)} onDragStart={(start, provided) => handleDragStart(start, provided)}>
             {columnDisplay}
         </DragDropContext>
       </div>

@@ -16,7 +16,6 @@ export default function MapBox(props) {
   // }, x, y);
 
     useEffect(() => {
-      console.log("mapbox : ", x, y);
       const container = document.getElementById('map'); 
       const options = {
         center: new window.kakao.maps.LatLng(y, x), 

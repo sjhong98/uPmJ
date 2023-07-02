@@ -6,11 +6,14 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 
 export default function CardBox(props) {
+
   return (
-    <Card sx={{ width: 180, maxHeight: 150, margin: 2, paddingBottom:3, borderRadius:0, backgroundColor:'#569AF5', color:'white' }} onClick={()=>{
+    <div style={{margin:'15px'}}>
+    <Card sx={{ width: 180, maxHeight: 150, margin:0 , paddingBottom:3, borderRadius:0, backgroundColor:'#569AF5', color:'white', borderRadius:'1' }} onClick={()=>{
       props.setKeyword(props.title);
 
       if(props.title !== "day1" && props.title !== "day2") {
@@ -42,5 +45,6 @@ export default function CardBox(props) {
         <CardActions>
         </CardActions>
     </Card>
+    </div>
   );
 }
