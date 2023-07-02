@@ -609,18 +609,29 @@ export default function List() {
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
-
-    ScrollTrigger.create({
-      trigger: imgRef.current,
-      start: 'top top',
-      scrub: 1,
-      onUpdate: (self) => {
-        gsap.to(imgRef.current, {
-          y: (self.progress * -800),
-          overwrite: true,
-        });
-      },
-    });
+  
+    const handleImageLoad = () => {
+      ScrollTrigger.create({
+        trigger: imgRef.current,
+        start: 'top top',
+        scrub: 1,
+        onUpdate: (self) => {
+          gsap.to(imgRef.current, {
+            y: (self.progress * -1000),
+            overwrite: true,
+          });
+        },
+      });
+    };
+  
+    const img = new Image();   // 이미지 로드 이후 에니메이션 적용
+                               // js에서 이미지 나타내는 객체인 Image 생성 후, 이미지 로드. 로드 완료되면 onload 트리거되어 handler 실행.
+    img.onload = handleImageLoad;
+    img.src = BackgroundImg;
+  
+    return () => {
+      img.onload = null; // 이벤트 핸들러 제거
+    };
   }, []);
   
 
@@ -638,7 +649,7 @@ export default function List() {
 
         <div ref={bodyRef} style={{display:'flex', flexDirection:'row', justifyContent:'space-between', fontFamily:"naver_light"}}>
           <ScrollBox searchData={searchData} setKeyword={setKeyword} setXData={setXData} setPushed={setPushed} keyword={keyword} x={x} setX={setX} y={y} setY={setY} data2={data2} data3={data3} data4={data4} data5={data5} setData2={setData2} setData3={setData3} setData4={setData4} setData5={setData5}/>
-          <div style={{backgroundColor:'#FFFFFF', width:'400px', height:'900px', marginTop:'5px', padding:'0px', boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.4)'}} >
+          <div style={{backgroundColor:'#FFFFFF', width:'400px', height:'970px', marginTop:'5px', padding:'0px', boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.4)'}} >
             <div style={{ }}>
               <BoxBar setBoxBar={setBoxBar} />
             </div>

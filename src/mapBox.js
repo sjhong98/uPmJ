@@ -172,7 +172,7 @@ export default function MapBox(props) {
   
     return (
       <div>
-        <div id="map" style={{ width: '400px', height: '900px' }} />
+        <div id="map" style={{ width: '400px', height: '920px' }} />
       </div>
       );
   }
