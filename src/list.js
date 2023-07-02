@@ -31,6 +31,7 @@ import SearchField from './field/searchField.js';
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import BackgroundImg from "./assets/images/travel5.jpeg";
+import Logo from "./assets/images/logo.png";
 
 
 
@@ -644,7 +645,7 @@ export default function List() {
     <div style={{marginTop:'30px', position:'absolute', zIndex:2}}>
       <div className="root">
         <div className="upperBar">
-          <h1 ref={titleRef} style={{fontFamily:"naver_bold", color:"#ccc", fontSize:"30px"}}>넌 P해 난 J할게</h1>
+          <img src={Logo} style={{width:'500px'}} />
         </div>
 
         <div ref={bodyRef} style={{display:'flex', flexDirection:'row', justifyContent:'space-between', fontFamily:"naver_light"}}>
