@@ -30,7 +30,7 @@ import MapBox from './mapBox.js';
 import SearchField from './field/searchField.js';
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import BackgroundImg from "./assets/images/travel3.jpeg";
+import BackgroundImg from "./assets/images/travel5.jpeg";
 
 
 
