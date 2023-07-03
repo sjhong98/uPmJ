@@ -27,6 +27,11 @@ code {
 	src: url(./assets/fonts/naver_light.ttf);
 }
 
+@font-face {
+  font-family: "google1";
+  src: url(./assets/fonts/google1.ttf);
+}
+
 
 
 .root {

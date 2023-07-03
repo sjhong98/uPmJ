@@ -599,6 +599,10 @@ export default function List() {
   const titleRef = useRef();
   const bodyRef = useRef();
   const imgRef = useRef();
+  const p1Ref = useRef();
+  const p2Ref = useRef();
+  const p3Ref = useRef();
+  const captureRef = useRef();
 
   useEffect(() => {
     let tl = gsap.timeline();
@@ -656,14 +660,6 @@ export default function List() {
     };
   }, []);
 
-  const captureRef = useRef();
-
-  // const capture = () => {
-  //   h2c(captureRef.current).then(canvas => {
-  //     const dataURL = canvas.toDataURL();
-  //     console.log(dataURL);
-  //   });
-  // };
 
   const capture = () => {
     h2c(captureRef.current).then(canvas => {
@@ -677,6 +673,68 @@ export default function List() {
     });
   };
 
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+  
+      ScrollTrigger.create({
+        trigger: '.p1',
+        start: 'top bottom',  // when the "X" of the startTrigger hits "Y" of the scroller
+        end: 'bottom 700px',     // when the "X" of the endTrigger hits "Y" of the scroller
+        scrub: 1,
+        onUpdate: (self) => {
+          gsap.to(p1Ref.current, {
+            y: (self.progress * -400),
+            overwrite: true,
+          });
+        },
+      });
+
+      ScrollTrigger.update();   // updata로 실행
+
+    }, []);
+
+    useEffect(() => {
+      gsap.registerPlugin(ScrollTrigger);
+    
+        ScrollTrigger.create({
+          trigger: '.p2',
+          start: 'top bottom',  // when the "X" of the startTrigger hits "Y" of the scroller
+          end: 'bottom 700px',     // when the "X" of the endTrigger hits "Y" of the scroller
+          scrub: 1,
+          onUpdate: (self) => {
+            gsap.to(p2Ref.current, {
+              y: (self.progress * -400),
+              overwrite: true,
+            });
+          },
+        });
+  
+        ScrollTrigger.update();
+  
+      }, []);
+
+      useEffect(() => {
+        gsap.registerPlugin(ScrollTrigger);
+      
+          ScrollTrigger.create({
+            trigger: '.p3',
+            start: 'top bottom',  // when the "X" of the startTrigger hits "Y" of the scroller
+            end: 'bottom 700px',     // when the "X" of the endTrigger hits "Y" of the scroller
+            scrub: 1,
+            onUpdate: (self) => {
+              gsap.to(p3Ref.current, {
+                x: (self.progress * 1000),
+                overwrite: true,
+              });
+            },
+          });
+    
+          ScrollTrigger.update();
+    
+        }, []);
+
+  
+
 
   
 
@@ -685,7 +743,7 @@ export default function List() {
     <div className="page" style={{width:'100%'}}>
 
       <div className='test'>
-        <img className='img' ref={imgRef} src={BackgroundImg} style={{width:'100%', position:'absolute', zIndex:1}} />
+        <img className='img' ref={imgRef} src={BackgroundImg} style={{width:'120%', position:'absolute', zIndex:1, alignContent:'center'}} />
       </div>
 
       <div style={{marginTop:'30px', position:'absolute', zIndex:2, width: '100%'}}>
@@ -693,19 +751,31 @@ export default function List() {
           <div className="upperBar">
             <img src={Logo} style={{width:'500px'}} />
           </div>
+          
+          <div style={{display:'flex', flexDirection:'column'}}>
 
-          <div ref={bodyRef} style={{display:'flex', flexDirection:'row', justifyContent:'space-between', fontFamily:"naver_light"}}>
-            
-              <ScrollBox captureRef={captureRef} searchData={searchData} setKeyword={setKeyword} setXData={setXData} setPushed={setPushed} keyword={keyword} x={x} setX={setX} y={y} setY={setY} data2={data2} data3={data3} data4={data4} data5={data5} setData2={setData2} setData3={setData3} setData4={setData4} setData5={setData5}/>
+            <div ref={bodyRef} style={{display:'flex', flexDirection:'row', justifyContent:'space-between', fontFamily:"naver_light"}}>
+              
+                <ScrollBox captureRef={captureRef} searchData={searchData} setKeyword={setKeyword} setXData={setXData} setPushed={setPushed} keyword={keyword} x={x} setX={setX} y={y} setY={setY} data2={data2} data3={data3} data4={data4} data5={data5} setData2={setData2} setData3={setData3} setData4={setData4} setData5={setData5}/>
 
-            <div style={{backgroundColor:'#FFFFFF', width:'400px', height:'970px', marginTop:'5px', padding:'0px', boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.4)'}} >
-              <div style={{ }}>
-                <BoxBar setBoxBar={setBoxBar} />
+              <div style={{backgroundColor:'#FFFFFF', width:'400px', height:'970px', marginTop:'5px', padding:'0px', boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.4)'}} >
+                <div style={{ }}>
+                  <BoxBar setBoxBar={setBoxBar} />
+                </div>
+                {boxBar ? <MapBox boxBar={boxBar} setPushed={setPushed} pushed={pushed} xData={xData} x={x} setX={setX} y={y} setY={setY} data2={data2} data3={data3} data4={data4} data5={data5} /> : <SearchBox setSearchData={setSearchData} setKeyword={setKeyword} keyword={keyword} /> }
               </div>
-              {boxBar ? <MapBox boxBar={boxBar} setPushed={setPushed} pushed={pushed} xData={xData} x={x} setX={setX} y={y} setY={setY} data2={data2} data3={data3} data4={data4} data5={data5} /> : <SearchBox setSearchData={setSearchData} setKeyword={setKeyword} keyword={keyword} /> }
-            </div>
             
-            <button onClick={capture} >Capture</button>
+          </div>
+
+          <div className='downloadBox' style={{textAlign:'center', marginTop:'100px'}}>
+
+            <p className='p1' style={{zIndex:'100', fontFamily:'google1', fontSize:'100px', color:'#fff', position:'relative',}} ref={p1Ref} >Are You Finished?</p>
+            <p className='p2' style={{zIndex:'100', fontFamily:'google1', fontSize:'100px', color:'#fff', cursor:'pointer'}} ref={p2Ref} onClick={capture} >Download!</p>
+
+          </div>
+
+
+
           </div>
 
         </div>
