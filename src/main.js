@@ -25,7 +25,7 @@ function Main() {
           navigate('/list');
         }}
       >
-        List
+        너는 P해 나는 J할게 바로가기
       </button>
     </div>
   );

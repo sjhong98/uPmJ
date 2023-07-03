@@ -93,7 +93,7 @@ function ScrollBox(props) {
     console.log(sido, sigungu);
     if (doAxios) {
       const fetchData = async () => {
-        const response = await axios.get(`http://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=9WoDbi5cEPzCGVDav3rhhV97QiukpderlvNMdfM8nJ4gTXBHoky%2BSAyPpmQtqdyOz3PUABXccwrIqz%2FtJXBIJg%3D%3D&areaCode=${sido}&sigunguCode=${sigungu}&contentTypeId=12&numOfRows=100&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json`);
+        const response = await axios.get(`http://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=${process.env.REACT_APP_PUBLIC_DATA_KEY}&areaCode=${sido}&sigunguCode=${sigungu}&contentTypeId=12&numOfRows=100&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json`);
         setTotalCount(response.data.response.body.totalCount);
 
         const _data = response.data.response.body.items.item;
@@ -277,13 +277,13 @@ function ScrollBox(props) {
   };
   
   useEffect(() => {
-    const temp2 = {contentId:1234, title:'day1', index:0};
+    const temp2 = {contentId:1234, title:'day 1', index:0};
     setData2([temp2]);
-    const temp3 = {contentId:5678, title:'day2', index:0};
+    const temp3 = {contentId:5678, title:'day 2', index:0};
     setData3([temp3]);
-    const temp4 = {contentId:9012, title:'day3', index:0};
+    const temp4 = {contentId:9012, title:'day 3', index:0};
     setData4([temp4]);
-    const temp5 = {contentId:3456, title:'day4', index:0};
+    const temp5 = {contentId:3456, title:'day 4', index:0};
     setData5([temp5]);
   }, []);
 
@@ -377,7 +377,10 @@ function ScrollBox(props) {
   
 
   const column = (
-    <div style={{}}>
+    <div style={{display:'flex', flexDirection: 'column', marginTop:'-15px'}}>
+        <div style={{display:'flex', flexDirection: 'row', justifyContent:'center', marginBottom:'-10px'}}>
+          <p style={{color:"#bbb"}}>P l a c e</p>
+        </div>
         <Box display="flex" sx={{ backgroundColor: "transparent", border:'solid', borderWidth:'10px', borderColor:'#bbb', height:'900px', overflow:'auto', width: w1, marginRight:'30px'}}>
             <Droppable droppableId="drop1">
             {(provided, snapshot) => (
@@ -406,7 +409,10 @@ function ScrollBox(props) {
   );
 
   const column2 = (
-    <div style={{}}>
+    <div style={{display:'flex', flexDirection: 'column', marginTop:'-15px'}}>
+        <div style={{display:'flex', flexDirection: 'row', justifyContent:'center', marginBottom:'-10px'}}>
+          <p style={{color:"#bbb"}}>D a y  1</p>
+        </div>
         <Box display="flex" sx={{ border:'solid', borderWidth:'10px', borderColor:'#bbb', height:'900px', overflow:'auto', width:w2}}>
             <Droppable droppableId="drop2">
             {(provided) => (
@@ -436,7 +442,10 @@ function ScrollBox(props) {
   );
 
   const column3 = (
-    <div className={columnAdded ? "add" : columnSubed ? columnNum===2 ? "sub" : "" : ""} style={{}}>
+    <div className={columnAdded ? "add" : columnSubed ? columnNum===2 ? "sub" : "" : ""} style={{marginTop:"-15px"}}>
+      <div style={{display:'flex', flexDirection: 'row', justifyContent:'center', marginBottom:'-10px'}}>
+          <p style={{color:"#bbb"}}>D a y  2</p>
+        </div>
         <Box display="flex" sx={{ backgroundColor: "transparent", border:'solid', borderWidth:'10px', borderLeftWidth:'0px', borderColor:'#bbb', height:'900px', overflow:'auto', width:w3}}>
             <Droppable droppableId="drop3">
             {(provided) => (
@@ -466,7 +475,10 @@ function ScrollBox(props) {
   );
 
   const column4 = (
-    <div className={columnAdded ? "add" : columnSubed ? columnNum===3 ? "sub" : "" : ""} style={{}}>
+    <div className={columnAdded ? "add" : columnSubed ? columnNum===3 ? "sub" : "" : ""} style={{marginTop:'-15px'}}>
+      <div style={{display:'flex', flexDirection: 'row', justifyContent:'center', marginBottom:'-10px'}}>
+          <p style={{color:"#bbb"}}>D a y  3</p>
+        </div>
           <Box display="flex" sx={{ backgroundColor: "transparent", border:'solid', borderWidth:'10px', borderLeftWidth:'0px', borderColor:'#bbb', height:'900px', overflow:'auto', width:w4}}>
             <Droppable droppableId="drop4">
             {(provided) => (
@@ -496,7 +508,10 @@ function ScrollBox(props) {
   );
 
   const column5 = (
-    <div className={columnAdded ? "add" : columnSubed ? columnNum===4 ? "sub" : "" : ""} style={{}}>
+    <div className={columnAdded ? "add" : columnSubed ? columnNum===4 ? "sub" : "" : ""} style={{marginTop:'-15px'}}>
+      <div style={{display:'flex', flexDirection: 'row', justifyContent:'center', marginBottom:'-10px'}}>
+          <p style={{color:"#bbb"}}>D a y  4</p>
+        </div>
       <Box display="flex" sx={{backgroundColor: "transparent", border:'solid', borderWidth:'10px', borderLeftWidth:'0px', borderColor:'#bbb', height:'900px', overflow:'auto', width:w5}}>
           <Droppable droppableId="drop5">
           {(provided) => (
@@ -638,28 +653,33 @@ export default function List() {
 
 
   return (
-    <div className="page">
+    <div className="page" style={{width:'100%'}}>
+
       <div className='test'>
         <img className='img' ref={imgRef} src={BackgroundImg} style={{width:'100%', position:'absolute', zIndex:1}} />
       </div>
-    <div style={{marginTop:'30px', position:'absolute', zIndex:2}}>
-      <div className="root">
-        <div className="upperBar">
-          <img src={Logo} style={{width:'500px'}} />
-        </div>
 
-        <div ref={bodyRef} style={{display:'flex', flexDirection:'row', justifyContent:'space-between', fontFamily:"naver_light"}}>
-          <ScrollBox searchData={searchData} setKeyword={setKeyword} setXData={setXData} setPushed={setPushed} keyword={keyword} x={x} setX={setX} y={y} setY={setY} data2={data2} data3={data3} data4={data4} data5={data5} setData2={setData2} setData3={setData3} setData4={setData4} setData5={setData5}/>
-          <div style={{backgroundColor:'#FFFFFF', width:'400px', height:'970px', marginTop:'5px', padding:'0px', boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.4)'}} >
-            <div style={{ }}>
-              <BoxBar setBoxBar={setBoxBar} />
-            </div>
-            {boxBar ? <MapBox boxBar={boxBar} setPushed={setPushed} pushed={pushed} xData={xData} x={x} setX={setX} y={y} setY={setY} data2={data2} data3={data3} data4={data4} data5={data5} /> : <SearchBox setSearchData={setSearchData} setKeyword={setKeyword} keyword={keyword} /> }
+      <div style={{marginTop:'30px', position:'absolute', zIndex:2, width: '100%'}}>
+        <div className="root">
+          <div className="upperBar">
+            <img src={Logo} style={{width:'500px'}} />
           </div>
+
+          <div ref={bodyRef} style={{display:'flex', flexDirection:'row', justifyContent:'space-between', fontFamily:"naver_light"}}>
+            <ScrollBox searchData={searchData} setKeyword={setKeyword} setXData={setXData} setPushed={setPushed} keyword={keyword} x={x} setX={setX} y={y} setY={setY} data2={data2} data3={data3} data4={data4} data5={data5} setData2={setData2} setData3={setData3} setData4={setData4} setData5={setData5}/>
+            <div style={{backgroundColor:'#FFFFFF', width:'400px', height:'970px', marginTop:'5px', padding:'0px', boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.4)'}} >
+              <div style={{ }}>
+                <BoxBar setBoxBar={setBoxBar} />
+              </div>
+              {boxBar ? <MapBox boxBar={boxBar} setPushed={setPushed} pushed={pushed} xData={xData} x={x} setX={setX} y={y} setY={setY} data2={data2} data3={data3} data4={data4} data5={data5} /> : <SearchBox setSearchData={setSearchData} setKeyword={setKeyword} keyword={keyword} /> }
+            </div>
+          </div>
+
         </div>
       </div>
+
     </div>
-    </div>
+
   );
 }
 

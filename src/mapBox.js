@@ -7,14 +7,6 @@ export default function MapBox(props) {
   const y = props.y;
   const droppableId = props.droppableId;
 
-  // useEffect(()=> {
-  //   const marker = new window.kakao.maps.Marker({
-  //     position: LatLng(y, x)
-  //   });
-
-  //   marker.setMap(map);
-  // }, x, y);
-
     useEffect(() => {
       const container = document.getElementById('map'); 
       const options = {
