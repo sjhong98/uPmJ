@@ -32,6 +32,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import BackgroundImg from "./assets/images/travel5.jpeg";
 import Logo from "./assets/images/logo.png";
+import h2c from 'html2canvas';
 
 
 
@@ -301,13 +302,13 @@ function ScrollBox(props) {
       switch (columnNum) {
         case 2:
           if(!columnSubed) {
-            setColumnDisplay([column, column2]);
+            setColumnDisplay([column2]);
             setColumnAdded(false);
             setColumnSubed(false);
             break;
           }
           else {
-            setColumnDisplay([column, column2, column3]);
+            setColumnDisplay([column2, column3]);
             setColumnAdded(false);
             setColumnSubed(false);
             break;
@@ -315,13 +316,13 @@ function ScrollBox(props) {
   
         case 3:
           if(!columnSubed) {
-            setColumnDisplay([column, column2, column3]);
+            setColumnDisplay([column2, column3]);
             setColumnAdded(false);
             setColumnSubed(false);
             break;
           }
           else {
-            setColumnDisplay([column, column2, column3, column4]);
+            setColumnDisplay([column2, column3, column4]);
             setColumnAdded(false);
             setColumnSubed(false);
             
@@ -330,20 +331,20 @@ function ScrollBox(props) {
   
         case 4:
           if(!columnSubed) {
-            setColumnDisplay([column, column2, column3, column4]);
+            setColumnDisplay([column2, column3, column4]);
             setColumnAdded(false);
             setColumnSubed(false);
             break;
           }
           else {
-            setColumnDisplay([column, column2, column3, column4, column5]);
+            setColumnDisplay([column2, column3, column4, column5]);
             setColumnAdded(false);
             setColumnSubed(false);
             break;
           }
   
         case 5:
-            setColumnDisplay([column, column2, column3, column4, column5]);
+            setColumnDisplay([column2, column3, column4, column5]);
             setColumnAdded(false);
             setColumnSubed(false);
             break;
@@ -555,9 +556,14 @@ function ScrollBox(props) {
           </div>
         </div>
       </div>
+
+    
       <div className="column" style={{ display: 'flex', flexDirection: 'row'}}>
         <DragDropContext onDragEnd={(result) => handleDragEnd(result)} onDragStart={(start, provided) => handleDragStart(start, provided)}>
-            {columnDisplay}
+            {column}
+            <div ref={props.captureRef} style={{display:'flex', flexDirection:'row'}}>
+              {columnDisplay}
+            </div>
         </DragDropContext>
       </div>
     </div>
@@ -649,6 +655,29 @@ export default function List() {
       img.onload = null; // 이벤트 핸들러 제거
     };
   }, []);
+
+  const captureRef = useRef();
+
+  // const capture = () => {
+  //   h2c(captureRef.current).then(canvas => {
+  //     const dataURL = canvas.toDataURL();
+  //     console.log(dataURL);
+  //   });
+  // };
+
+  const capture = () => {
+    h2c(captureRef.current).then(canvas => {
+      const dataURL = canvas.toDataURL();
+
+      const a = document.createElement('a');
+      a.href = dataURL;
+      a.download = '너는P해_나는J할게.png';
+  
+      a.click();
+    });
+  };
+
+
   
 
 
@@ -666,13 +695,17 @@ export default function List() {
           </div>
 
           <div ref={bodyRef} style={{display:'flex', flexDirection:'row', justifyContent:'space-between', fontFamily:"naver_light"}}>
-            <ScrollBox searchData={searchData} setKeyword={setKeyword} setXData={setXData} setPushed={setPushed} keyword={keyword} x={x} setX={setX} y={y} setY={setY} data2={data2} data3={data3} data4={data4} data5={data5} setData2={setData2} setData3={setData3} setData4={setData4} setData5={setData5}/>
+            
+              <ScrollBox captureRef={captureRef} searchData={searchData} setKeyword={setKeyword} setXData={setXData} setPushed={setPushed} keyword={keyword} x={x} setX={setX} y={y} setY={setY} data2={data2} data3={data3} data4={data4} data5={data5} setData2={setData2} setData3={setData3} setData4={setData4} setData5={setData5}/>
+
             <div style={{backgroundColor:'#FFFFFF', width:'400px', height:'970px', marginTop:'5px', padding:'0px', boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.4)'}} >
               <div style={{ }}>
                 <BoxBar setBoxBar={setBoxBar} />
               </div>
               {boxBar ? <MapBox boxBar={boxBar} setPushed={setPushed} pushed={pushed} xData={xData} x={x} setX={setX} y={y} setY={setY} data2={data2} data3={data3} data4={data4} data5={data5} /> : <SearchBox setSearchData={setSearchData} setKeyword={setKeyword} keyword={keyword} /> }
             </div>
+            
+            <button onClick={capture} >Capture</button>
           </div>
 
         </div>
