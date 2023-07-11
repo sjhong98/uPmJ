@@ -16,8 +16,8 @@ export default function CardBox(props) {
     <Card sx={{ width: 180, maxHeight: 150, margin:0 , paddingBottom:3, borderRadius:0, backgroundColor:'#bbb', color:'#555555', borderRadius:'1' }} onClick={()=>{
       props.setKeyword(props.title);
 
-      if(props.title !== "day1" && props.title !== "day2") {
-        if(props.title !== "day3" && props.title !== "day4") {
+      if(props.contentId !== 1 && props.contentId !== 2) {
+        if(props.contentId !== 3 && props.contentId !== 3) {
           props.setX(props.mapx);
           props.setY(props.mapy);
         }

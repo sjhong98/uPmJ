@@ -34,7 +34,7 @@ export default function MapBox(props) {
       }));
 
       const _line2 = props.data2.map(item => {
-        if (item.title !== "day1") {
+        if (item.contentId !== 1) {
           return new window.kakao.maps.LatLng(item.mapy, item.mapx);
         }
         return null; // 해당 조건이 아닌 경우에는 null을 반환하거나 원하는 값을 반환할 수 있습니다.
@@ -67,7 +67,7 @@ export default function MapBox(props) {
       }));
 
       const _line3 = props.data3.map(item => {
-        if (item.title !== "day2") {
+        if (item.contentId !== 2) {
           return new window.kakao.maps.LatLng(item.mapy, item.mapx);
         }
         return null; // 해당 조건이 아닌 경우에는 null을 반환하거나 원하는 값을 반환할 수 있습니다.
@@ -100,7 +100,7 @@ export default function MapBox(props) {
       }));
 
       const _line4 = props.data4.map(item => {
-        if (item.title !== "day3") {
+        if (item.contentId !== 3) {
           return new window.kakao.maps.LatLng(item.mapy, item.mapx);
         }
         return null; // 해당 조건이 아닌 경우에는 null을 반환하거나 원하는 값을 반환할 수 있습니다.
@@ -132,7 +132,7 @@ export default function MapBox(props) {
       }));
 
       const _line5 = props.data5.map(item => {
-        if (item.title !== "day4") {
+        if (item.contentId !== 4) {
           return new window.kakao.maps.LatLng(item.mapy, item.mapx);
         }
         return null; // 해당 조건이 아닌 경우에는 null을 반환하거나 원하는 값을 반환할 수 있습니다.
