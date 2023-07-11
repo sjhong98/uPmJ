@@ -59,11 +59,6 @@ function ScrollBox(props) {
   const [added, setAdded] = useState(true);
   const [columnAdded, setColumnAdded] = useState(false);
   const [columnSubed, setColumnSubed] = useState(false);
-  const [z1, setZ1] = useState(100);
-  const [z2, setZ2] = useState(100);
-  const [z3, setZ3] = useState(3);
-  const [z4, setZ4] = useState(2);
-  const [z5, setZ5] = useState(1);
   const [draggingItem, setDraggingItem] = useState("");
   const [draggingColumn, setDraggingColumn] = useState("");
   const [BackgroundColor, setBackgroundColor] = useState("#000000");
@@ -94,7 +89,7 @@ function ScrollBox(props) {
     console.log(sido, sigungu);
     if (doAxios) {
       const fetchData = async () => {
-        const response = await axios.get(`http://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=${process.env.REACT_APP_PUBLIC_DATA_KEY}&areaCode=${sido}&sigunguCode=${sigungu}&contentTypeId=12&numOfRows=100&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json`);
+        const response = await axios.get(`https://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=${process.env.REACT_APP_PUBLIC_DATA_KEY}&areaCode=${sido}&sigunguCode=${sigungu}&contentTypeId=12&numOfRows=100&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json`);
         setTotalCount(response.data.response.body.totalCount);
 
         const _data = response.data.response.body.items.item;
@@ -278,13 +273,13 @@ function ScrollBox(props) {
   };
   
   useEffect(() => {
-    const temp2 = {contentId:1234, title:'day 1', index:0};
+    const temp2 = {contentId:1, title:'day 1', index:0};
     setData2([temp2]);
-    const temp3 = {contentId:5678, title:'day 2', index:0};
+    const temp3 = {contentId:2, title:'day 2', index:0};
     setData3([temp3]);
-    const temp4 = {contentId:9012, title:'day 3', index:0};
+    const temp4 = {contentId:3, title:'day 3', index:0};
     setData4([temp4]);
-    const temp5 = {contentId:3456, title:'day 4', index:0};
+    const temp5 = {contentId:4, title:'day 4', index:0};
     setData5([temp5]);
   }, []);
 
@@ -707,6 +702,7 @@ export default function List() {
               overwrite: true,
             });
           },
+          
         });
   
         ScrollTrigger.update();
@@ -773,6 +769,7 @@ export default function List() {
             <p className='p2' style={{zIndex:'100', fontFamily:'google1', fontSize:'100px', color:'#fff', cursor:'pointer'}} ref={p2Ref} onClick={capture} >Download!</p>
 
           </div>
+
 
 
 
