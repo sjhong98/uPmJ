@@ -545,7 +545,7 @@ function ScrollBox(props) {
         <div style={{display:'flex', flexDirection:'row'}}>
           <SelectSido setDoAxios={setDoAxios} setSido={setSido} />
           {selectSigungu}
-          <SearchField setKeyword={props.setKeyword} />
+          <SearchField setKeyword={props.setKeyword} setBoxBar={props.setBoxBar} />
           <div style={{marginLeft:'500px', marginRight:'50px'}}>
             <ColumnSet setColumnNum={setColumnNum} columnNum={columnNum} setAdded={setAdded} setColumnAdded={setColumnAdded} setColumnSubed={setColumnSubed} setC4={setC4} />
           </div>
@@ -730,7 +730,7 @@ export default function List() {
 
             <div ref={bodyRef} style={{display:'flex', flexDirection:'row', justifyContent:'space-between', fontFamily:"naver_light"}}>
               
-                <ScrollBox captureRef={captureRef} searchData={searchData} setKeyword={setKeyword} setXData={setXData} setPushed={setPushed} keyword={keyword} x={x} setX={setX} y={y} setY={setY} data2={data2} data3={data3} data4={data4} data5={data5} setData2={setData2} setData3={setData3} setData4={setData4} setData5={setData5}/>
+                <ScrollBox setBoxBar={setBoxBar} captureRef={captureRef} searchData={searchData} setKeyword={setKeyword} setXData={setXData} setPushed={setPushed} keyword={keyword} x={x} setX={setX} y={y} setY={setY} data2={data2} data3={data3} data4={data4} data5={data5} setData2={setData2} setData3={setData3} setData4={setData4} setData5={setData5}/>
 
               <div style={{backgroundColor:'#FFFFFF', width:'400px', height:'970px', marginTop:'5px', padding:'0px', boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.4)'}} >
                 <div style={{ }}>

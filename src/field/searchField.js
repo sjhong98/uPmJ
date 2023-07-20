@@ -44,6 +44,7 @@ const theme = createTheme({
     <ThemeProvider theme={theme}>
       <Button variant="outlined" color="neutral" sx={{height:55}} onClick={() => {
           props.setKeyword(keyword);
+          props.setBoxBar(false);
         }}>Search</Button>
     </ThemeProvider>
      </div>
