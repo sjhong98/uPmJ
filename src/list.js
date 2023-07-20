@@ -672,13 +672,14 @@ export default function List() {
     gsap.registerPlugin(ScrollTrigger);
   
       ScrollTrigger.create({
+        markers: false,
         trigger: '.p1',
         start: 'top bottom',  // when the "X" of the startTrigger hits "Y" of the scroller
-        end: 'bottom 700px',     // when the "X" of the endTrigger hits "Y" of the scroller
+        end: 'bottom 850px',     // when the "X" of the endTrigger hits "Y" of the scroller
         scrub: 1,
         onUpdate: (self) => {
           gsap.to(p1Ref.current, {
-            y: (self.progress * -400),
+            y: (self.progress * -200),
             overwrite: true,
           });
         },
@@ -692,13 +693,14 @@ export default function List() {
       gsap.registerPlugin(ScrollTrigger);
     
         ScrollTrigger.create({
+          markers: false,
           trigger: '.p2',
           start: 'top bottom',  // when the "X" of the startTrigger hits "Y" of the scroller
-          end: 'bottom 700px',     // when the "X" of the endTrigger hits "Y" of the scroller
+          end: 'bottom 850px',     // when the "X" of the endTrigger hits "Y" of the scroller
           scrub: 1,
           onUpdate: (self) => {
             gsap.to(p2Ref.current, {
-              y: (self.progress * -400),
+              y: (self.progress * -200),
               overwrite: true,
             });
           },
@@ -708,38 +710,14 @@ export default function List() {
         ScrollTrigger.update();
   
       }, []);
-
-      useEffect(() => {
-        gsap.registerPlugin(ScrollTrigger);
-      
-          ScrollTrigger.create({
-            trigger: '.p3',
-            start: 'top bottom',  // when the "X" of the startTrigger hits "Y" of the scroller
-            end: 'bottom 700px',     // when the "X" of the endTrigger hits "Y" of the scroller
-            scrub: 1,
-            onUpdate: (self) => {
-              gsap.to(p3Ref.current, {
-                x: (self.progress * 1000),
-                overwrite: true,
-              });
-            },
-          });
-    
-          ScrollTrigger.update();
-    
-        }, []);
-
-  
-
-
   
 
 
   return (
-    <div className="page" style={{width:'100%'}}>
+    <div className="page" style={{height:'100vh', backgroundColor:'#000000'}}>
 
       <div className='test'>
-        <img className='img' ref={imgRef} src={BackgroundImg} style={{width:'120%', position:'absolute', zIndex:1, alignContent:'center'}} />
+        <img className='img' ref={imgRef} src={BackgroundImg} style={{width:'100vw', position:'absolute', zIndex:1, alignContent:'center'}} />
       </div>
 
       <div style={{marginTop:'30px', position:'absolute', zIndex:2, width: '100%'}}>
@@ -765,8 +743,8 @@ export default function List() {
 
           <div className='downloadBox' style={{textAlign:'center', marginTop:'100px'}}>
 
-            <p className='p1' style={{zIndex:'100', fontFamily:'google1', fontSize:'100px', color:'#fff', position:'relative',}} ref={p1Ref} >Are You Finished?</p>
-            <p className='p2' style={{zIndex:'100', fontFamily:'google1', fontSize:'100px', color:'#fff', cursor:'pointer'}} ref={p2Ref} onClick={capture} >Download!</p>
+            <p className='p1' style={{zIndex:'100', fontFamily:'google1', fontSize:'100px', color:'#fff', position:'relative'}} ref={p1Ref} >Are You Finished?</p>
+            <p className='p2' style={{zIndex:'100', fontFamily:'google1', fontSize:'100px', color:'#fff', cursor:'pointer', position: 'relative', top:'-80px'}} ref={p2Ref} onClick={capture} >Download!</p>
 
           </div>
 
