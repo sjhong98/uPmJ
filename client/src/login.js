@@ -1,5 +1,6 @@
 import React, {useContext, useState, useEffect} from 'react';
 import {Link, useLocation, useNavigate} from 'react-router-dom';
+import kakaoLogin from './assets/images/kakaoLogin.png';
 
 const Login = () =>
 {
@@ -10,10 +11,15 @@ const Login = () =>
     const handleLogin = ()=>{
         window.location.href = kakaoURL
     }
+
     return(
     <>
-    <button onClick={handleLogin}>카카오 로그인</button>
+        <img src={kakaoLogin} style={{height: '55px', width: '200px', marginLeft:'15px', cursor: 'pointer', borderRadius:'2%',boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.15)'}} onClick={() => {
+            handleLogin();
+
+        }}/>
     </>
     )
 }
+
 export default Login;
