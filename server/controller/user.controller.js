@@ -3,7 +3,7 @@ const express = require("express");
 const axios = require("axios");
 const app = express();
 
-const userCheck = () => {
+const userCheck = () => {c
 
 }
 
@@ -11,10 +11,7 @@ const signUp = () => {
 
 }
 
-const createGroup = () => {
-
-}
-
-const joinGroup = () => {
-  
-}
+module.exports = {
+  userCheck,
+  signUp,
+};

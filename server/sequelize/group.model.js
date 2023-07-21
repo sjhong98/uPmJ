@@ -11,10 +11,8 @@ host: 'localhost',
 dialect: 'postgres'
 });
 
-
-
-const User = sequelize.define(
-  "user", // users 생성됨.
+const Group = sequelize.define(
+  "group", 
   {
       id: {
         type: DataTypes.INTEGER,
@@ -22,10 +20,7 @@ const User = sequelize.define(
         primaryKey: true,
         autoIncrement: true,
       },
-      name: {
-        type: DataTypes.STRING,
-      },
-      email: {
+      member: {
         type: DataTypes.STRING,
       },
   },
@@ -34,7 +29,6 @@ const User = sequelize.define(
   }
 );
 
-User.sync().then(() => {
-  console.log("Users Model synced");
+Group.sync().then(() => {
+  console.log("Group Model synced");
 });
-
