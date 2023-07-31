@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route} from 'react-router-dom';
 import Main from './main.js';
 import Login from './login.js';
 import List from './list.js';
+import Entry from './entry.js';
 import Auth from './auth.js';
 
 
@@ -11,10 +12,11 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<List />} />
+        <Route path="/" element={<Main />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/list" element={<List />} />
+        <Route path="/plan" element={<List />} />
         <Route path="/login/auth" element={<Auth />} />
+        <Route path="/entry" element={<Entry />} />
       </Routes>
     </BrowserRouter>
   )

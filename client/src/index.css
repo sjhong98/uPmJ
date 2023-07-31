@@ -15,7 +15,7 @@ code {
 
 @font-face {
 	font-family: "baemin";
-	src: url(./assets/fonts/BMHANNA_11yrs_ttf.ttf);
+	src: url(./assets/fonts/font1.ttf);
 }
 
 @font-face {
@@ -33,6 +33,10 @@ code {
   src: url(./assets/fonts/google1.ttf);
 }
 
+@font-face {
+  font-family: "tmon";
+  src: url(./assets/fonts/tmon.ttf);
+}
 
 
 .root {
