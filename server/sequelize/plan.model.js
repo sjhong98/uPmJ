@@ -3,7 +3,7 @@ const { Sequelize, DataTypes } = require("sequelize");
 require("dotenv").config();
 
 const sequelize = new Sequelize(
-  'travel', 
+  'pj', 
   process.env.DB_ID, 
   process.env.DB_PW, 
 {
