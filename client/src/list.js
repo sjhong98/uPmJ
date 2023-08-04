@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Box, Button } from '@mui/material';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateData2 } from './actions.js'; // action에 정의된 내용 가져오기
 import './index.css';
 import axios from 'axios';
 import CardBox from './card.js';
@@ -48,12 +50,6 @@ function ScrollBox(props) {
   const [sido, setSido] = useState("1");
   const [delCol, setDelCol] = useState("");
   const [delId, setDelId] = useState("");
-  const [w1, setW1] = useState(210);
-  const [w2, setW2] = useState(210);
-  const [w3, setW3] = useState(210);
-  const [w4, setW4] = useState(210);
-  const [w5, setW5] = useState(210);
-  const [c4, setC4] = useState(false);
   const [columnNum, setColumnNum] = useState(2);
   const [columnDisplay, setColumnDisplay] = useState([]);
   const [sigungu, setSigungu] = useState("1");
@@ -64,15 +60,14 @@ function ScrollBox(props) {
   const [draggingItem, setDraggingItem] = useState("");
   const [draggingColumn, setDraggingColumn] = useState("");
   const [BackgroundColor, setBackgroundColor] = useState("#000000");
-  const [column1, setColumn1] = useState();
-
-
 
   const x = props.x;
   const y = props.y;
   const setX = props.setX;
   const setY = props.setY;
-  const data2 = props.data2;
+  //const data2 = props.data2;
+  // const data2 = [];
+  const data2 = useSelector((state) => state.dataReducer.data2);
   const data3 = props.data3;
   const data4 = props.data4;
   const data5 = props.data5;
@@ -84,6 +79,16 @@ function ScrollBox(props) {
   const setXData = props.setXData;
   const searchData = props.searchData;
 
+  const dispatch = useDispatch();
+  const data_2 = useSelector((state) => state.dataReducer);
+
+  const updata2 = (item) => {  // 인자로 뭐가 필요한지
+    dispatch(updateData2(item));
+  }
+
+  const removeData2 = (item) => {
+    dispatch(removeData2(item));
+  }
   
 
   useEffect(() => {
@@ -255,10 +260,11 @@ function ScrollBox(props) {
   const setDataByColumnId = (columnId, newData) => {
     switch (columnId) {
       case 'drop1':
-        setData(newData);
+        setData(newData);  // useState로 상태관리
         break;
       case 'drop2':
-        setData2(newData);
+        console.log("SAVE AT STORE : ", newData);
+        updateData2(newData);  // redux로 상태관리
         break;
       case 'drop3':
         setData3(newData);
@@ -379,7 +385,7 @@ function ScrollBox(props) {
         <div style={{display:'flex', flexDirection: 'row', justifyContent:'center', marginBottom:'-10px'}}>
           <p style={{color:"#bbb"}}>P l a c e</p>
         </div>
-        <Box display="flex" sx={{ backgroundColor: "transparent", border:'solid', borderWidth:'10px', borderColor:'#bbb', height:'900px', overflow:'auto', width: w1, marginRight:'30px'}}>
+        <Box display="flex" sx={{ backgroundColor: "transparent", border:'solid', borderWidth:'10px', borderColor:'#bbb', height:'900px', overflow:'auto', width: '210', marginRight:'30px'}}>
             <Droppable droppableId="drop1">
             {(provided, snapshot) => (
                 <div ref={provided.innerRef} {...provided.droppableProps} >
@@ -411,7 +417,7 @@ function ScrollBox(props) {
         <div style={{display:'flex', flexDirection: 'row', justifyContent:'center', marginBottom:'-10px'}}>
           <p style={{color:"#bbb"}}>D a y  1</p>
         </div>
-        <Box display="flex" sx={{ border:'solid', borderWidth:'10px', borderColor:'#bbb', height:'900px', overflow:'auto', width:w2}}>
+        <Box display="flex" sx={{ border:'solid', borderWidth:'10px', borderColor:'#bbb', height:'900px', overflow:'auto', width:'210'}}>
             <Droppable droppableId="drop2">
             {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
@@ -444,7 +450,7 @@ function ScrollBox(props) {
       <div style={{display:'flex', flexDirection: 'row', justifyContent:'center', marginBottom:'-10px'}}>
           <p style={{color:"#bbb"}}>D a y  2</p>
         </div>
-        <Box display="flex" sx={{ backgroundColor: "transparent", border:'solid', borderWidth:'10px', borderLeftWidth:'0px', borderColor:'#bbb', height:'900px', overflow:'auto', width:w3}}>
+        <Box display="flex" sx={{ backgroundColor: "transparent", border:'solid', borderWidth:'10px', borderLeftWidth:'0px', borderColor:'#bbb', height:'900px', overflow:'auto', width:'210'}}>
             <Droppable droppableId="drop3">
             {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
@@ -477,7 +483,7 @@ function ScrollBox(props) {
       <div style={{display:'flex', flexDirection: 'row', justifyContent:'center', marginBottom:'-10px'}}>
           <p style={{color:"#bbb"}}>D a y  3</p>
         </div>
-          <Box display="flex" sx={{ backgroundColor: "transparent", border:'solid', borderWidth:'10px', borderLeftWidth:'0px', borderColor:'#bbb', height:'900px', overflow:'auto', width:w4}}>
+          <Box display="flex" sx={{ backgroundColor: "transparent", border:'solid', borderWidth:'10px', borderLeftWidth:'0px', borderColor:'#bbb', height:'900px', overflow:'auto', width:'210'}}>
             <Droppable droppableId="drop4">
             {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
@@ -510,7 +516,7 @@ function ScrollBox(props) {
       <div style={{display:'flex', flexDirection: 'row', justifyContent:'center', marginBottom:'-10px'}}>
           <p style={{color:"#bbb"}}>D a y  4</p>
         </div>
-      <Box display="flex" sx={{backgroundColor: "transparent", border:'solid', borderWidth:'10px', borderLeftWidth:'0px', borderColor:'#bbb', height:'900px', overflow:'auto', width:w5}}>
+      <Box display="flex" sx={{backgroundColor: "transparent", border:'solid', borderWidth:'10px', borderLeftWidth:'0px', borderColor:'#bbb', height:'900px', overflow:'auto', width:'210'}}>
           <Droppable droppableId="drop5">
           {(provided) => (
               <div ref={provided.innerRef} {...provided.droppableProps}>
@@ -549,7 +555,7 @@ function ScrollBox(props) {
           {selectSigungu}
           <SearchField setKeyword={props.setKeyword} setBoxBar={props.setBoxBar} />
           <div style={{marginLeft:'500px', marginRight:'50px'}}>
-            <ColumnSet setColumnNum={setColumnNum} columnNum={columnNum} setAdded={setAdded} setColumnAdded={setColumnAdded} setColumnSubed={setColumnSubed} setC4={setC4} />
+            <ColumnSet setColumnNum={setColumnNum} columnNum={columnNum} setAdded={setAdded} setColumnAdded={setColumnAdded} setColumnSubed={setColumnSubed}/>
           </div>
         </div>
       </div>
@@ -573,7 +579,7 @@ function ColumnSet(props) {
   const columnNum = props.columnNum;
 
   return(
-    <ColumnButtonSet setColumnNum={setColumnNum} columnNum={columnNum} setAdded={props.setAdded} setColumnAdded={props.setColumnAdded} setColumnSubed={props.setColumnSubed} setC4={props.setC4} />
+    <ColumnButtonSet setColumnNum={setColumnNum} columnNum={columnNum} setAdded={props.setAdded} setColumnAdded={props.setColumnAdded} setColumnSubed={props.setColumnSubed}/>
   )
 }
 
