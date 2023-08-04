@@ -7,11 +7,11 @@ const userCheck = () => {c
 
 }
 
-const signUp = () => {
+const userRegister = () => {
 
 }
 
 module.exports = {
   userCheck,
-  signUp,
+  userRegister,
 };
