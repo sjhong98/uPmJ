@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Box, Button } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateData2 } from './actions.js'; // action에 정의된 내용 가져오기
+import { updateData2, updateData3, updateData4, updateData5 } from './actions.js'; // action에 정의된 내용 가져오기
 import './index.css';
 import axios from 'axios';
 import CardBox from './card.js';
@@ -61,36 +61,21 @@ function ScrollBox(props) {
   const [draggingColumn, setDraggingColumn] = useState("");
   const [BackgroundColor, setBackgroundColor] = useState("#000000");
 
-  const x = props.x;
-  const y = props.y;
   const setX = props.setX;
   const setY = props.setY;
-  //const data2 = props.data2;
-  // const data2 = [];
-  const data2 = useSelector((state) => state.dataReducer.data2);
-  const data3 = props.data3;
-  const data4 = props.data4;
-  const data5 = props.data5;
-  const setData2 = props.setData2;
-  const setData3 = props.setData3;
-  const setData4 = props.setData4;
-  const setData5 = props.setData5;
+  const data2 = useSelector((state) => state.data2);
+  const data3 = useSelector((state) => state.data3);
+  const data4 = useSelector((state) => state.data4);
+  const data5 = useSelector((state) => state.data5);
   const setPushed = props.setPushed;
   const setXData = props.setXData;
   const searchData = props.searchData;
 
   const dispatch = useDispatch();
-  const data_2 = useSelector((state) => state.dataReducer);
 
-  const updata2 = (item) => {  // 인자로 뭐가 필요한지
-    dispatch(updateData2(item));
-  }
 
-  const removeData2 = (item) => {
-    dispatch(removeData2(item));
-  }
+  console.log("======LIST DATA=====",data2);
   
-
   useEffect(() => {
     let count = 0;
     console.log(sido, sigungu);
@@ -257,40 +242,27 @@ function ScrollBox(props) {
     }
   };
   
-  const setDataByColumnId = (columnId, newData) => {
+  const setDataByColumnId = (columnId, newData) => { // 변경된 데이터 업데이트
     switch (columnId) {
       case 'drop1':
         setData(newData);  // useState로 상태관리
         break;
       case 'drop2':
-        console.log("SAVE AT STORE : ", newData);
-        updateData2(newData);  // redux로 상태관리
+        dispatch(updateData2(newData))  // redux로 상태관리
         break;
       case 'drop3':
-        setData3(newData);
+        dispatch(updateData3(newData))
         break;
       case 'drop4':
-        setData4(newData);
+        dispatch(updateData4(newData))
         break;
       case 'drop5':
-        setData5(newData);
+        dispatch(updateData5(newData))
         break;
       default:
         break;
     }
   };
-  
-  useEffect(() => {
-    const temp2 = {contentId:1, title:'day 1', index:0};
-    setData2([temp2]);
-    const temp3 = {contentId:2, title:'day 2', index:0};
-    setData3([temp3]);
-    const temp4 = {contentId:3, title:'day 3', index:0};
-    setData4([temp4]);
-    const temp5 = {contentId:4, title:'day 4', index:0};
-    setData5([temp5]);
-  }, []);
-
 
   useEffect(() => {  // 카드 삭제
     const items = getDataByColumnId(delCol);
@@ -421,7 +393,7 @@ function ScrollBox(props) {
             <Droppable droppableId="drop2">
             {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
-                {data2.map((item, index) => (
+                {data2 && data2.map((item, index) => (
                     <Draggable key={item.contentId} draggableId={item.contentId} index={index}>
                     {(provided) => (
                         <div
@@ -454,7 +426,7 @@ function ScrollBox(props) {
             <Droppable droppableId="drop3">
             {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
-                {data3.map((item, index) => (
+                {data3 && data3.map((item, index) => (
                     <Draggable key={item.contentId} draggableId={item.contentId} index={index}>
                     {(provided) => (
                         <div
@@ -487,7 +459,7 @@ function ScrollBox(props) {
             <Droppable droppableId="drop4">
             {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
-                {data4.map((item, index) => (
+                {data4 && data4.map((item, index) => (
                     <Draggable key={item.contentId} draggableId={item.contentId} index={index}>
                     {(provided) => (
                         <div
@@ -520,7 +492,7 @@ function ScrollBox(props) {
           <Droppable droppableId="drop5">
           {(provided) => (
               <div ref={provided.innerRef} {...provided.droppableProps}>
-              {data5.map((item, index) => (
+              {data5 && data5.map((item, index) => (
                   <Draggable key={item.contentId} draggableId={item.contentId} index={index}>
                   {(provided) => (
                       <div
@@ -586,10 +558,6 @@ function ColumnSet(props) {
 
 
 export default function List() {
-  const [data2, setData2] = useState([]);
-  const [data3, setData3] = useState([]);
-  const [data4, setData4] = useState([]);
-  const [data5, setData5] = useState([]);
   const [keyword, setKeyword] = useState("");
   const [boxBar, setBoxBar] = useState(true);
   const [x, setX] = useState(126.97722);
@@ -597,7 +565,6 @@ export default function List() {
   const [pushed, setPushed] = useState(false);
   const [xData, setXData] = useState("");
   const [searchData, setSearchData] = useState([]);
-
 
   const titleRef = useRef();
   const bodyRef = useRef();
@@ -741,13 +708,13 @@ export default function List() {
 
             <div ref={bodyRef} style={{display:'flex', flexDirection:'row', justifyContent:'space-between', fontFamily:"naver_light"}}>
               
-                <ScrollBox setBoxBar={setBoxBar} captureRef={captureRef} searchData={searchData} setKeyword={setKeyword} setXData={setXData} setPushed={setPushed} keyword={keyword} x={x} setX={setX} y={y} setY={setY} data2={data2} data3={data3} data4={data4} data5={data5} setData2={setData2} setData3={setData3} setData4={setData4} setData5={setData5}/>
+                <ScrollBox setBoxBar={setBoxBar} captureRef={captureRef} searchData={searchData} setKeyword={setKeyword} setXData={setXData} setPushed={setPushed} keyword={keyword} x={x} y={y} setX={setX} setY={setY} />
 
               <div style={{backgroundColor:'#FFFFFF', width:'400px', height:'970px', marginTop:'5px', padding:'0px', boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.4)'}} >
                 <div style={{ }}>
                   <BoxBar setBoxBar={setBoxBar} />
                 </div>
-                {boxBar ? <MapBox boxBar={boxBar} setPushed={setPushed} pushed={pushed} xData={xData} x={x} setX={setX} y={y} setY={setY} data2={data2} data3={data3} data4={data4} data5={data5} /> : <SearchBox setSearchData={setSearchData} setKeyword={setKeyword} keyword={keyword} /> }
+                {boxBar ? <MapBox boxBar={boxBar} setPushed={setPushed} pushed={pushed} xData={xData} x={x} y={y}/> : <SearchBox setSearchData={setSearchData} setKeyword={setKeyword} keyword={keyword} /> }
               </div>
             
           </div>

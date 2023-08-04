@@ -28,7 +28,6 @@ export default function CardBox(props) {
             <p style={{marginLeft:'140px', marginTop:'-10px', cursor:'pointer'}} onClick={()=>{
               props.setDelCol(props.column);
               props.setDelId(props.contentId);
-              console.log(props.column, props.contentId);
             }}>x</p>
             <Typography gutterBottom variant="h6" component="div" sx={{marginTop:-2}} onClick={()=>{
               props.setSearchTitle(props.title);
