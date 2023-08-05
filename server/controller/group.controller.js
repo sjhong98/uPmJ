@@ -7,7 +7,7 @@ const createGroup = async (req, res) => {
   try{
     // const userInfo = req.body.userInfo;
     // sequelize로 group 테이블에 유저이름 삽입.
-    Group
+    // Group
     // sequelize로 group 테이블에 그룹코드 삽입.
     const code = createCode()
     // 최초 그룹 생성이므로 그룹코드를 전송해줌
