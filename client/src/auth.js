@@ -16,8 +16,13 @@ export default function Auth() {
         .then(res => {
             setAccessToken(res.data.access_token);
             setRefreshToken(res.data.refresh_token);
+
+            const token = {access: res.data.access_token, refresh: res.data.refresh_token};
+            console.log(token);
             
-            axios.post(`localhost:5001/user/signin?access_token=${accessToken}&refresh_token=${refreshToken}`)
+            axios.post("http://localhost:5001/user/signin", {
+                token: token
+            })
             .then(res => {
                 console.log(res.data);
             })
