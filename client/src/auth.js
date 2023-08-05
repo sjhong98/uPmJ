@@ -8,6 +8,7 @@ export default function Auth() {
     const uri = 'http://localhost:3000/login/auth';
     const [accessToken, setAccessToken] = useState("");
     const [refreshToken, setRefreshToken] = useState("");
+    const [token, setToken] = useState({});
 
     const code = new URL(document.location.toString()).searchParams.get("code");
 
@@ -16,8 +17,11 @@ export default function Auth() {
         .then(res => {
             setAccessToken(res.data.access_token);
             setRefreshToken(res.data.refresh_token);
+
+            setToken({access:accessToken, refresh:refreshToken});
+            console.log(token);
             
-            axios.post(`localhost:5001/user/signin?access_token=${accessToken}&refresh_token=${refreshToken}`)
+            axios.post(`localhost:5001/user/signin?access_token=${res.data.access_token}&refresh_token=${res.data.refresh_token}`)
             .then(res => {
                 console.log(res.data);
             })
