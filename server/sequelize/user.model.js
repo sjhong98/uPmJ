@@ -12,7 +12,7 @@ dialect: 'postgres'
 });
 
 const User = sequelize.define(
-  "user", // users 생성됨.
+  "users", // users 생성됨.
   {
       id: {
         type: DataTypes.INTEGER,
@@ -36,22 +36,27 @@ User.sync().then(() => {
   console.log("Users Model synced");
 });
 
-// const userFind = async (userInfo) => {
-//   const data = await member.findOne({where: {email: `${userInfo.email}`}});
-//   if(data === null){
-//     return !userRegister(userInfo);
-//   }else{
-//     console.log("already exist");
-//     return true;
-//   }
-// }
+const userFind = async (userInfo) => {
+  try{
+    const data = await User.findOne({where: {email: `${userInfo.email}`}});
+    if(data === null){
+      return !userRegister(userInfo);
+    }else{
+      console.log("already exist");
+      return true;
+    }
+  }catch(error){
+    console.log(error);
+  }
+}
 
-// const userRegister = async (userInfo) => {
-//   Member.create({
-//     name: `${userInfo.nickname}`,
-//     email: `${userInfo.email}`,
-//   });
-//   return true;
-// }
+const userRegister = async (userInfo) => {
+  console.log(userInfo)
+  User.create({
+    name: `${userInfo.name}`,
+    email: `${userInfo.email}`,
+  });
+  return true;
+}
 
-// module.exports = { sq: sequelize, userFind, userRegister };
+module.exports = { sq: sequelize, userFind, userRegister };

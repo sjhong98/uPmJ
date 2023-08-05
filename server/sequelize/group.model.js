@@ -20,7 +20,7 @@ const Group = sequelize.define(
         primaryKey: true,
         autoIncrement: true,
       },
-      member: {
+      host: {
         type: DataTypes.STRING,
       },
       code: {
@@ -38,7 +38,7 @@ Group.sync().then(() => {
 
 const modelCreateGroup = async (data) => {
   group.create({
-    member: `${data.nickname}`,
+    host: `${data.nickname}`,
     code: `${data.code}`,
   });
   return true;
