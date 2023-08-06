@@ -72,13 +72,9 @@ function ScrollBox(props) {
   const searchData = props.searchData;
 
   const dispatch = useDispatch();
-
-
-  console.log("======LIST DATA=====",data2);
   
   useEffect(() => {
     let count = 0;
-    console.log(sido, sigungu);
     if (doAxios) {
       const fetchData = async () => {
         const response = await axios.get(`https://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=${process.env.REACT_APP_PUBLIC_DATA_KEY}&areaCode=${sido}&sigunguCode=${sigungu}&contentTypeId=12&numOfRows=100&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json`);
@@ -221,7 +217,6 @@ function ScrollBox(props) {
 
   useEffect(() => { // 드래그 시에 어떤 요소가 드래고 있는지에 대한 정보 갱신
     setBackgroundColor("#569AF5");
-    console.log("color : ", BackgroundColor);
   }, [draggingItem, draggingColumn]);
 
 
@@ -273,7 +268,6 @@ function ScrollBox(props) {
 
   useEffect(() => {
     setTimeout(() => {
-      console.log("columnNum : ", columnNum);
       switch (columnNum) {
         case 2:
           if(!columnSubed) {
@@ -342,8 +336,6 @@ function ScrollBox(props) {
       mapx: searchData.x,
       mapy: searchData.y
     }];
-
-    console.log("result ::: ", searchData);
 
     setData(result);  // data에 집어넣음 -> column1에서 출력
 
