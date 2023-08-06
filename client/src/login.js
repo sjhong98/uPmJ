@@ -16,7 +16,6 @@ function Login()
         <div>
             <img src={kakaoLogin} style={{height: '70px', width: 'auto', marginLeft:'15px', cursor: 'pointer', borderRadius:'2%'}} onClick={() => {
                 handleLogin();
-
             }}/>
         </div>
     )

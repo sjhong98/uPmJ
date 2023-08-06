@@ -25,7 +25,8 @@ export default function Auth() {
                 token: token
             })
             .then(res => {
-                console.log(res.data);
+                sessionStorage.setItem('name', res.data.name);
+                sessionStorage.setItem('email', res.data.email);
             })
             .catch(err => {
                 console.log("err : ", err);
