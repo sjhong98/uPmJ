@@ -5,15 +5,15 @@ const app = express();
 
 const createGroup = async (req, res) => {
   try{
-    // const userInfo = req.body.userInfo;
-    // sequelize로 group 테이블에 유저이름 삽입.
-    // Group
-    // sequelize로 group 테이블에 그룹코드 삽입.
-    const code = createCode()
-    // 최초 그룹 생성이므로 그룹코드를 전송해줌
-    
-    return res.status(200).send(createCode());
+    const email = req.body.userInfo.email;
+    const code = createCode();
+
+    // 이메일을 기반으로 users에서 검색을하고, 연결된 group에서 한 줄 생성후 host와 code에 이름을 넣어줌
+
+
+    return res.status(200).send(code);
   }catch(error){
+    console.log(error);
     return res.status(400).send(error);
   } 
 }
@@ -28,6 +28,7 @@ const requestCode = async (req, res) => {
     // DB에 업데이트 시키는 코드 필요
     return res.status(200).send(code);
   } catch(error){
+    console.log(error);
     return res.status(400).send(error);
   }
   
