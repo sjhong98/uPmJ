@@ -8,6 +8,7 @@ export default function Auth() {
     const uri = 'http://localhost:3000/login/auth';
     const [accessToken, setAccessToken] = useState("");
     const [refreshToken, setRefreshToken] = useState("");
+    const [token, setToken] = useState({});
 
     const code = new URL(document.location.toString()).searchParams.get("code");
 
