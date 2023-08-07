@@ -6,8 +6,33 @@ import logo from './assets/images/logo.png';
 import entry4Img from './assets/images/entry4.png';
 import entry5Img from './assets/images/entry5.png'; 
 import { TripName, TripDesc, TripCode } from './field/entryField.js';
-import { Create, Join } from './field/entryButton.js';
+import { Create, Join, Create2 } from './field/entryButton.js';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { createdGroup, randomNumber } from './actions.js';
+import { useSelector, useDispatch } from 'react-redux';
+
+function CreateGroupInput() {
+    return (
+        <div>
+            <TripName />
+            <div style={{height:'3vh'}} />
+            <TripDesc />
+            <div style={{height:'3vh'}} />
+            <Create />
+        </div>
+    )
+}
+
+function CreateGroupRandomNumber() {
+    const randomNumber = useSelector((state) => state.randomNumber);
+
+    return (
+        <div>
+            <p>{randomNumber}</p>
+            <Create2 />
+        </div>
+    )
+}
 
 function Entry() {
     const [entryCreate, setEntryCreate] = useState(false);
@@ -24,6 +49,7 @@ function Entry() {
     const entryFilterRef = useRef(null);
     const entry4_4Ref = useRef(null);
     const entry5_4Ref = useRef(null);
+    const createdGroup = useSelector((state) => state.createdGroup);
 
     function handleClick() {
         entry4Ref.current.classList.add('entry-lr');
@@ -84,11 +110,8 @@ function Entry() {
                     {entryCreate && <div className='entry4-4' ref={entry4_4Ref}>
                         <div className='entry4-5'>
                             <p style={{fontSize:'5vh'}}>여행 시작하기</p>
-                            <TripName />
-                            <div style={{height:'3vh'}} />
-                            <TripDesc />
-                            <div style={{height:'3vh'}} />
-                            <Create />
+                            { createdGroup ? <CreateGroupRandomNumber /> : <CreateGroupInput /> }
+                                    
                             
                         </div>
                     </div>}
@@ -111,5 +134,7 @@ function Entry() {
         </div>
     )
 }
+
+
 
 export default Entry;

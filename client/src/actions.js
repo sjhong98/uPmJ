@@ -25,3 +25,31 @@ export const updateData5 = (item) => {
         payload: item,
     };
 };
+
+export const updateGroupName = (item) => {
+    return {
+        type: 'GROUP_NAME',
+        payload: item,
+    }
+}
+
+export const updateGroupDesc = (item) => {
+    return {
+        type: 'GROUP_DESC',
+        payload: item,
+    }
+}
+
+export const createdGroup = (item) => {
+    return {
+        type: 'CREATED_GROUP',
+        payload: item,
+    }
+}
+
+export const randomNumber = (item) => {
+    return {
+        type: 'RANDOM_NUMER',
+        payload: item,
+    }
+}

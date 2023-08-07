@@ -19,13 +19,13 @@ export default function Auth() {
             setRefreshToken(res.data.refresh_token);
 
             const token = {access: res.data.access_token, refresh: res.data.refresh_token};
-            console.log(token);
             
             axios.post("http://localhost:5001/user/signin", {
                 token: token
             })
             .then(res => {
-                console.log(res.data);
+                sessionStorage.setItem('name', res.data.name);
+                sessionStorage.setItem('email', res.data.email);
             })
             .catch(err => {
                 console.log("err : ", err);

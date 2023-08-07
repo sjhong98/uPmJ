@@ -166,10 +166,7 @@ export default function MapBox(props) {
       }
     }
   
-
     }, [props.boxBar, props.pushed, x, y]);
-
-  // [props.boxBar, props.pushed, x, y]
   
     return (
       <div>
