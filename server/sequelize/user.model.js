@@ -59,4 +59,4 @@ const userRegister = async (userInfo) => {
   return true;
 }
 
-module.exports = { sq: sequelize, userFind, userRegister };
+module.exports = { sq: sequelize, userFind, userRegister, User };
