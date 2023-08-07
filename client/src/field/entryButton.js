@@ -34,6 +34,7 @@ export function Create() {
           //     console.log("===== ERROR =====", err);
           //   })
           dispatch(createdGroup(true));
+          console.log(groupInfo);
           
         }}
         >여행 만들기</Button>

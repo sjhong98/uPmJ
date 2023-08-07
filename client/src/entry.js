@@ -73,10 +73,6 @@ function Entry() {
         }, 1000)
     }
 
-    useEffect(() => {
-        console.log("CREATED GROUP : ", createdGroup);
-    }, [createdGroup]);
-
     return (
         <div className='entry'>
             <div className='upperBar'>
