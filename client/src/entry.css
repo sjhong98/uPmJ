@@ -321,5 +321,32 @@
   }
 
   .trip_list {
+    background-color: #eee;
     width: 20vw;
+    height: 40vh;
+    display: flex;
+    flex-direction: column;
+    border-radius: 2%;
+    justify-content: center;
+    align-items: center;
+    box-shadow: inset 0px 0px 20px 5px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+  }
+
+  .trip_card {
+    background-color: #fff;
+    width: 18vw;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    border-radius: 2%;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+  }
+
+  .dummy_card {
+    width: 18vw;
+    height: 270px;
   }

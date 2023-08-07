@@ -13,7 +13,6 @@ export function Create() {
   const randomNumber = useSelector((state) => state.randomNumber);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  //
 
   return (
       <Button 
