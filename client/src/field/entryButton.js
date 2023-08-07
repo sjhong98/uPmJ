@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import {Link, useLocation, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { createdGroup } from '../actions';
+import { createdGroup, } from '../actions';
 
 export function Create() {
   const _name = sessionStorage.getItem('name');

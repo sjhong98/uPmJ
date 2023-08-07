@@ -1,15 +1,15 @@
 import React, {useContext, useState, useEffect, useRef} from 'react';
 import {Link, useLocation, useNavigate} from 'react-router-dom';
-import kakaoLogin from './assets/images/kakaoLogin.png';
-import video1 from './assets/videos/video1.mp4';
+import './entry.css';
 import logo from './assets/images/logo.png';
 import entry4Img from './assets/images/entry4.png';
 import entry5Img from './assets/images/entry5.png'; 
 import { TripName, TripDesc, TripCode } from './field/entryField.js';
-import { Create, Join, Create2 } from './field/entryButton.js';
+import { Create, Join, Create2, Join2 } from './field/entryButton.js';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { createdGroup, randomNumber } from './actions.js';
 import { useSelector, useDispatch } from 'react-redux';
+import TripList from './tripList.js';
 
 function CreateGroupInput() {
     return (
@@ -33,6 +33,7 @@ function CreateGroupRandomNumber() {
         </div>
     )
 }
+
 
 function Entry() {
     const [entryCreate, setEntryCreate] = useState(false);
@@ -82,7 +83,7 @@ function Entry() {
             <div className='entry1'>
                 <div className='entry2' ref={entry2Ref}>
                     <p className='entry3'>참여 중인 여행</p>
-                    <div style={{backgroundColor:'#bbb', height:'40vh', width:'15vw'}}>
+                        <TripList />
 
                     </div>
                     <p className='entry6' onClick={handleClick} >새로운 여행 떠나기</p>
@@ -122,16 +123,18 @@ function Entry() {
 
                         <div className='entry5-5'>
                             <p style={{fontSize:'5vh'}}>여행 참여하기</p>
-                            <TripCode />
-                            <div style={{height:'3vh'}} />
-                            <Join />
+                            <div>
+                                <TripCode />
+                                <div style={{height:'3vh'}} />
+                                <Join />
+                            </div>
+                            
                         </div>
                     </div>}
 
                 </div>
                 
             </div>
-        </div>
     )
 }
 
