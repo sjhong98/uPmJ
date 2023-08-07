@@ -24,15 +24,15 @@ export function Create() {
             groupName: groupName,
             groupDesc: groupDesc,
           };
-          // axios.post("http://localhost:5001/group/creategroup", {
-          //       userInfo: userInfo
-          //   })
-          //   .then(res => {
-          //     console.log("===== HOST =====", res);  // 난수 받아서 randomNumber에 저장
-          //   })
-          //   .catch(err => {
-          //     console.log("===== ERROR =====", err);
-          //   })
+          axios.post("http://localhost:5001/group/creategroup", {
+              groupInfo: groupInfo
+            })
+            .then(res => {
+              console.log("===== HOST =====", res);  // 난수 받아서 randomNumber에 저장
+            })
+            .catch(err => {
+              console.log("===== ERROR =====", err);
+            })
           dispatch(createdGroup(true));
           console.log(groupInfo);
           

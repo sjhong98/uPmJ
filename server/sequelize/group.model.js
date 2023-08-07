@@ -1,4 +1,5 @@
 const { Sequelize, DataTypes } = require("sequelize");
+const { User } = require("./user.model");
 
 require("dotenv").config();
 
@@ -37,12 +38,23 @@ Group.sync().then(() => {
 });
 
 const modelCreateGroup = async (data) => {
-  group.create({
-    host: `${data.nickname}`,
-    code: `${data.code}`,
-  });
-  return true;
+
+  // const group = await User.findOne({
+  //   include: [{ // join할 테이블 선택
+  //     model: Group,
+  //   }]
+  // })
+
+  // console.log(group);
+
+  // group.create({
+  //   host: `${data.nickname}`,
+  //   code: `${data.code}`,
+  // });
+  // return true;
 }
+
+modelCreateGroup();
 
 const modelJoinGroup = async (data) => {
   // const groupId = data.id;
@@ -51,6 +63,6 @@ const modelJoinGroup = async (data) => {
 }
 
 
-module.exports = { sq: sequelize, modelCreateGroup, modelJoinGroup };
+module.exports = { sq: sequelize, modelCreateGroup, modelJoinGroup, Group };
 
 
