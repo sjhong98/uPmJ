@@ -1,10 +1,14 @@
 import React, {useContext, useState, useEffect, useRef} from 'react';
-import {Link, useLocation, useNavigate} from 'react-router-dom';
+import {Link, Navigate, useLocation, useNavigate} from 'react-router-dom';
 import axios from 'axios';
+import {useSelector} from 'react-redux';
 
 function TripCard(props) {
+    const navigate = useNavigate();
     return (
-        <div className='trip_card'>
+        <div className='trip_card' onClick={()=>{
+            navigate(`/plan?trip_id=${props.id}`);
+        }}>
             <p>{props.name}</p>
         </div>
     )
@@ -18,23 +22,21 @@ function DummyCard(props) {
 }
 
 export default function TripList() {
+
     const test = [
-        {name:'USA'}, 
-        {name:'Russia'},
-        {name:'Austrailia'},
-        {name:'Japan'},
-        {name:'Hungary'},
-        {name:'France'},
-        {name:'China'},
-        {name:'Korea'},
-        {name:'Britain'},
+        {name:'USA', id:'usa'}, 
+        {name:'Russia', id:'russia'},
+        {name:'Austrailia', id:'austrailia'},
+        {name:'Japan', id:'japan'},
+        {name:'Hungary', id:'hungary'},
+        {name:'France', id:'france'},
+        {name:'China', id:'china'},
+        {name:'Korea', id:'korea'},
+        {name:'Britain', id:'britain'},
     ];
 
-    const height = `${test.length * 70}px`;
-    console.log(height);
-
     const list = test.map((item, index) => (
-        <TripCard key={index} name={item.name} />
+        <TripCard key={index} name={item.name} id={item.id} />
     ));
 
     return (

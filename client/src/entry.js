@@ -4,7 +4,7 @@ import './entry.css';
 import logo from './assets/images/logo.png';
 import entry4Img from './assets/images/entry4.png';
 import entry5Img from './assets/images/entry5.png'; 
-import { TripName, TripDesc, TripCode } from './field/entryField.js';
+import { TripName, TripDesc, TripCode, RandomNumber } from './field/entryField.js';
 import { Create, Join, Create2, Join2 } from './field/entryButton.js';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { createdGroup, randomNumber } from './actions.js';
@@ -28,7 +28,7 @@ function CreateGroupRandomNumber() {
 
     return (
         <div>
-            <p>{randomNumber}</p>
+            <RandomNumber />
             <Create2 />
         </div>
     )
@@ -84,8 +84,6 @@ function Entry() {
                 <div className='entry2' ref={entry2Ref}>
                     <p className='entry3'>참여 중인 여행</p>
                         <TripList />
-
-                    </div>
                     <p className='entry6' onClick={handleClick} >새로운 여행 떠나기</p>
                 </div>
 
@@ -135,6 +133,7 @@ function Entry() {
                 </div>
                 
             </div>
+        </div>
     )
 }
 

@@ -322,7 +322,7 @@
 
   .trip_list {
     background-color: #eee;
-    width: 20vw;
+    width: 30vw;
     height: 40vh;
     display: flex;
     flex-direction: column;
@@ -335,7 +335,7 @@
 
   .trip_card {
     background-color: #fff;
-    width: 18vw;
+    width: 27vw;
     height: 50px;
     display: flex;
     flex-direction: row;

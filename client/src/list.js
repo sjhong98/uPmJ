@@ -72,7 +72,13 @@ function ScrollBox(props) {
   const searchData = props.searchData;
 
   const dispatch = useDispatch();
-  
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const tripId = urlParams.get('trip_id');
+  console.log("TRIP_ID : ", tripId);
+
+  // axios로 tripId 전송하여 data 받아오기 (data2~5)
+
   useEffect(() => {
     let count = 0;
     if (doAxios) {
@@ -347,9 +353,9 @@ function ScrollBox(props) {
   const column = (
     <div style={{display:'flex', flexDirection: 'column', marginTop:'-15px'}}>
         <div style={{display:'flex', flexDirection: 'row', justifyContent:'center', marginBottom:'-10px'}}>
-          <p style={{color:"#bbb"}}>P l a c e</p>
+          <p style={{color:"#fff"}}>P l a c e</p>
         </div>
-        <Box display="flex" sx={{ backgroundColor: "transparent", border:'solid', borderWidth:'10px', borderColor:'#bbb', height:'900px', overflow:'auto', width: '210', marginRight:'30px'}}>
+        <Box display="flex" sx={{ backgroundColor: "transparent", border:'solid', borderWidth:'10px', borderColor:'#fff', height:'900px', overflow:'auto', width: '210', marginRight:'30px'}}>
             <Droppable droppableId="drop1">
             {(provided, snapshot) => (
                 <div ref={provided.innerRef} {...provided.droppableProps} >
@@ -379,9 +385,9 @@ function ScrollBox(props) {
   const column2 = (
     <div style={{display:'flex', flexDirection: 'column', marginTop:'-15px'}}>
         <div style={{display:'flex', flexDirection: 'row', justifyContent:'center', marginBottom:'-10px'}}>
-          <p style={{color:"#bbb"}}>D a y  1</p>
+          <p style={{color:"#fff"}}>D a y  1</p>
         </div>
-        <Box display="flex" sx={{ border:'solid', borderWidth:'10px', borderColor:'#bbb', height:'900px', overflow:'auto', width:'210'}}>
+        <Box display="flex" sx={{ border:'solid', borderWidth:'10px', borderColor:'#fff', height:'900px', overflow:'auto', width:'210'}}>
             <Droppable droppableId="drop2">
             {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
@@ -412,9 +418,9 @@ function ScrollBox(props) {
   const column3 = (
     <div className={columnAdded ? "add" : columnSubed ? columnNum===2 ? "sub" : "" : ""} style={{marginTop:"-15px"}}>
       <div style={{display:'flex', flexDirection: 'row', justifyContent:'center', marginBottom:'-10px'}}>
-          <p style={{color:"#bbb"}}>D a y  2</p>
+          <p style={{color:"#fff"}}>D a y  2</p>
         </div>
-        <Box display="flex" sx={{ backgroundColor: "transparent", border:'solid', borderWidth:'10px', borderLeftWidth:'0px', borderColor:'#bbb', height:'900px', overflow:'auto', width:'210'}}>
+        <Box display="flex" sx={{ backgroundColor: "transparent", border:'solid', borderWidth:'10px', borderLeftWidth:'0px', borderColor:'#fff', height:'900px', overflow:'auto', width:'210'}}>
             <Droppable droppableId="drop3">
             {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
@@ -445,9 +451,9 @@ function ScrollBox(props) {
   const column4 = (
     <div className={columnAdded ? "add" : columnSubed ? columnNum===3 ? "sub" : "" : ""} style={{marginTop:'-15px'}}>
       <div style={{display:'flex', flexDirection: 'row', justifyContent:'center', marginBottom:'-10px'}}>
-          <p style={{color:"#bbb"}}>D a y  3</p>
+          <p style={{color:"#fff"}}>D a y  3</p>
         </div>
-          <Box display="flex" sx={{ backgroundColor: "transparent", border:'solid', borderWidth:'10px', borderLeftWidth:'0px', borderColor:'#bbb', height:'900px', overflow:'auto', width:'210'}}>
+          <Box display="flex" sx={{ backgroundColor: "transparent", border:'solid', borderWidth:'10px', borderLeftWidth:'0px', borderColor:'#fff', height:'900px', overflow:'auto', width:'210'}}>
             <Droppable droppableId="drop4">
             {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
@@ -478,9 +484,9 @@ function ScrollBox(props) {
   const column5 = (
     <div className={columnAdded ? "add" : columnSubed ? columnNum===4 ? "sub" : "" : ""} style={{marginTop:'-15px'}}>
       <div style={{display:'flex', flexDirection: 'row', justifyContent:'center', marginBottom:'-10px'}}>
-          <p style={{color:"#bbb"}}>D a y  4</p>
+          <p style={{color:"#fff"}}>D a y  4</p>
         </div>
-      <Box display="flex" sx={{backgroundColor: "transparent", border:'solid', borderWidth:'10px', borderLeftWidth:'0px', borderColor:'#bbb', height:'900px', overflow:'auto', width:'210'}}>
+      <Box display="flex" sx={{backgroundColor: "transparent", border:'solid', borderWidth:'10px', borderLeftWidth:'0px', borderColor:'#fff', height:'900px', overflow:'auto', width:'210'}}>
           <Droppable droppableId="drop5">
           {(provided) => (
               <div ref={provided.innerRef} {...provided.droppableProps}>
@@ -684,11 +690,7 @@ export default function List() {
 
 
   return (
-    <div className="page" style={{height:'100vh', backgroundColor:'#000000'}}>
-
-      <div className='test'>
-        <img className='img' ref={imgRef} src={BackgroundImg} style={{width:'100vw', position:'absolute', zIndex:1, alignContent:'center'}} />
-      </div>
+    <div className="page" style={{height:'200vh', backgroundColor:'#E3AF27'}}>
 
       <div style={{marginTop:'30px', position:'absolute', zIndex:2, width: '100%'}}>
         <div className="root">

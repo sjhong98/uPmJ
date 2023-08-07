@@ -3,16 +3,17 @@ import Button from '@mui/material/Button';
 import {Link, useLocation, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { createdGroup, } from '../actions';
+import { createdGroup, randomNumberAction } from '../actions';
 
 export function Create() {
   const _name = sessionStorage.getItem('name');
   const _email = sessionStorage.getItem('email');
   const groupName = useSelector((state) => state.groupName);
   const groupDesc = useSelector((state) => state.groupDesc);
-  const randomNumber = useSelector((state) => state.randomNumber);
+  // const randomNumber = useSelector((state) => state.randomNumber);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const rn = useSelector((state) => state.randomNumber);
 
   return (
       <Button 
@@ -29,12 +30,13 @@ export function Create() {
             })
             .then(res => {
               console.log("===== HOST =====", res);  // 난수 받아서 randomNumber에 저장
+              console.log(res.data);
+              dispatch(randomNumberAction(res.data));
+              dispatch(createdGroup(true));
             })
             .catch(err => {
               console.log("===== ERROR =====", err);
             })
-          dispatch(createdGroup(true));
-          console.log(groupInfo);
           
         }}
         >여행 만들기</Button>
@@ -48,7 +50,9 @@ export function Join() {
         variant="contained"
         sx={{width:'17vw'}}
         onClick={() => {
-            navigate('/plan');
+          // axios로 randomNumber post하고 trip_id 받아오기
+          const trip_id = "trip_id";
+          navigate(`/plan?trip_id=${trip_id}`);
         }}
         >여행 참여하기</Button>
   );
@@ -61,10 +65,12 @@ export function Create2() {
   return (
     <Button
       variant="contained"
-      sx={{width:'17vw'}}
+      sx={{width:'20vw'}}
       onClick={() => {
+        // axios로 randomNumber post하고 trip_id 받아오기
+        const trip_id = 'trip_id';
         dispatch(createdGroup(false));
-        navigate('/plan');
+        navigate(`/plan?trip_id=${trip_id}`);
       }}
       >여행 만들기</Button>
   )

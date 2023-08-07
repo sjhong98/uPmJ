@@ -13,7 +13,7 @@ export default function CardBox(props) {
 
   return (
     <div style={{margin:'15px'}}>
-    <Card sx={{ width: 180, maxHeight: 150, margin:0 , paddingBottom:3, borderRadius:0, backgroundColor:'#bbb', color:'#555555', borderRadius:'1' }} onClick={()=>{
+    <Card sx={{ width: 180, maxHeight: 150, margin:0 , paddingBottom:3, borderRadius:0, backgroundColor:'#fff', color:'#555555', borderRadius:'1' }} onClick={()=>{
       props.setKeyword(props.title);
 
       if(props.contentId !== 1 && props.contentId !== 2) {
