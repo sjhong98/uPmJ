@@ -32,6 +32,7 @@ const Group = sequelize.define(
     timestamps: false
   }
 );
+Group.belongsTo(User, { foreignKey: "host", targetKey: "nickname" });
 
 Group.sync().then(() => {
   console.log("Group Model synced");

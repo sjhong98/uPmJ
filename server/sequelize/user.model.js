@@ -1,4 +1,5 @@
 const { Sequelize, DataTypes } = require("sequelize");
+const Group = require("./group.model")
 
 require("dotenv").config();
 
@@ -31,6 +32,7 @@ const User = sequelize.define(
     timestamps: false
   }
 );
+User.hasMany(Group, { foreignKey: "host", sourceKey: "nickname" });
 
 User.sync().then(() => {
   console.log("Users Model synced");

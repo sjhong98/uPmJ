@@ -20,6 +20,7 @@ const createGroup = async (req, res) => {
 const joinGroup = async (req, res) => {
   
 }
+
 const requestCode = async (req, res) => {
   try{
     const code = await createCode();
