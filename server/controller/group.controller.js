@@ -5,12 +5,11 @@ const app = express();
 
 const createGroup = async (req, res) => {
   try{
-    const email = req.body.userInfo.email;
+    const host = req.body.groupInfo.host;
+    console.log(host);
     const code = createCode();
 
     // 이메일을 기반으로 users에서 검색을하고, 연결된 group에서 한 줄 생성후 host와 code에 이름을 넣어줌
-
-
     return res.status(200).send(code);
   }catch(error){
     console.log(error);
@@ -34,7 +33,7 @@ const requestCode = async (req, res) => {
   
 }
 
-const createCode = async (req, res) => {
+const createCode = (req, res) => {
   // 최초 그룹 생성 시와, 이후 코드 요청 시 사용되는 함수
   let randNum = ''
   for (let i = 0; i < 6; i++) {
