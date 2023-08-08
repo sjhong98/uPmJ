@@ -1,4 +1,4 @@
-const Group = require("../sequelize/group.model");
+const Group = require("../model/group.model");
 const express = require("express");
 const axios = require("axios");
 const app = express();

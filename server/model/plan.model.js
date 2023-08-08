@@ -1,17 +1,7 @@
-const { Sequelize, DataTypes } = require("sequelize");
+const { DataTypes } = require("sequelize");
+const { sequelize } = require("./sequelize/sq.instance");
 
-require("dotenv").config();
-
-const sequelize = new Sequelize(
-  'pj', 
-  process.env.DB_ID, 
-  process.env.DB_PW, 
-{
-host: 'localhost',
-dialect: 'postgres'
-});
-
-const firstDay = sequelize.define(
+const FirstDay = sequelize.define(
   "firstDay", 
   {
       id: {
@@ -19,6 +9,10 @@ const firstDay = sequelize.define(
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
+        references: {
+          model: 'groups', 
+          key: 'code',
+        },
       },
       plan: {
         type: DataTypes.STRING,
@@ -29,7 +23,7 @@ const firstDay = sequelize.define(
   }
 );
 
-const secondDay = sequelize.define(
+const SecondDay = sequelize.define(
   "secondDay", 
   {
       id: {
@@ -37,6 +31,10 @@ const secondDay = sequelize.define(
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
+        references: {
+          model: 'groups', 
+          key: 'code',
+        },
       },
       plan: {
         type: DataTypes.STRING,
@@ -47,7 +45,7 @@ const secondDay = sequelize.define(
   }
 );
 
-const thirdDay = sequelize.define(
+const ThirdDay = sequelize.define(
   "thirdDay", 
   {
       id: {
@@ -55,6 +53,10 @@ const thirdDay = sequelize.define(
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
+        references: {
+          model: 'groups', 
+          key: 'code',
+        },
       },
       plan: {
         type: DataTypes.STRING,
@@ -65,7 +67,7 @@ const thirdDay = sequelize.define(
   }
 );
 
-const fourthDay = sequelize.define(
+const FourthDay = sequelize.define(
   "fourthDay", 
   {
       id: {
@@ -73,6 +75,10 @@ const fourthDay = sequelize.define(
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
+        references: {
+          model: 'groups', 
+          key: 'code',
+        },
       },
       plan: {
         type: DataTypes.STRING,
@@ -83,20 +89,4 @@ const fourthDay = sequelize.define(
   }
 );
 
-
-firstDay.sync().then(() => {
-  console.log("firstDay Model synced");
-});
-
-secondDay.sync().then(() => {
-  console.log("secondDay Model synced");
-});
-
-thirdDay.sync().then(() => {
-  console.log("thirdDay Model synced");
-});
-
-fourthDay.sync().then(() => {
-  console.log("fourthDay Model synced");
-});
-
+module.exports = { FirstDay, SecondDay, ThirdDay, FourthDay };
