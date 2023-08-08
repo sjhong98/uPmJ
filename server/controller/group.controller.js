@@ -1,4 +1,4 @@
-const Group = require("../sequelize/group.model");
+const Group = require("../model/group.model");
 const express = require("express");
 const axios = require("axios");
 const app = express();
@@ -20,6 +20,7 @@ const createGroup = async (req, res) => {
 const joinGroup = async (req, res) => {
   
 }
+
 const requestCode = async (req, res) => {
   try{
     const code = await createCode();
