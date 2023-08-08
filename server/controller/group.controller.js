@@ -71,13 +71,6 @@ const modelCreateGroup = async (data, res) => {
 
     await user.addGroup(createdGroup);
 
-    const userWithGroups = await db.User.findOne({
-      where: { email: data.host },
-      include: [{ model: db.Group }],
-    });
-
-    console.log('user와 관련된 group: ', userWithGroups);
-
     return true;
   } catch (error) {
     console.error('Error:', error);
