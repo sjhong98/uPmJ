@@ -1,5 +1,3 @@
-import action from './actions.js';
-
 const initialState = {
     data2: [{contentId:1, title:'day 1', index:0}],
     data3: [{contentId:2, title:'day 2', index:0}],
@@ -8,7 +6,8 @@ const initialState = {
     groupName: "",
     groupDesc: "",
     createdGroup: false,    
-    randomNumber: ["RANDOM_NUMBER"],
+    randomNumber: "",
+    tripCardClicked: false,
 }
 
 const dataReducer = (state = initialState, action) => {
@@ -17,7 +16,7 @@ const dataReducer = (state = initialState, action) => {
         case 'RANDOM_NUMBER' :
             return {
                 ...state,
-                ramdomNumber: action.payload,
+                randomNumber: action.payload,
             }
 
         case 'CREATED_GROUP' :
