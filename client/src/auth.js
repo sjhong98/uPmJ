@@ -24,16 +24,20 @@ export default function Auth() {
                 token: token
             })
             .then(res => {
-                console.log(res);
-                sessionStorage.setItem('name', res.data.name);
-                sessionStorage.setItem('email', res.data.email);
+                console.log("RESULT : ", res);
+                if(res.data.justCreatedData) {
+                    sessionStorage.setItem('name', res.data.justCreatedData.name);
+                    sessionStorage.setItem('email', res.data.justCreatedData.email);       // 여행목록 정보 받아서 redux에 저장? SS에 저장?
+                }
+                else {
+                    sessionStorage.setItem('name', res.data.existedData.name);
+                    sessionStorage.setItem('email', res.data.existedData.email);
+                }
+                
             })
             .catch(err => {
                 console.log("err : ", err);
             })
-
-            console.log("access token ::: ", res.data.access_token);
-            console.log("refresh token ::: ", res.data.refresh_token);
         })
         .catch(err => {
             console.log(err);

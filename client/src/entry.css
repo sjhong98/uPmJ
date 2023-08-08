@@ -56,12 +56,14 @@
     box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.7);
     z-index: 3;
     margin-right: 20vw;
-    opacity: 0;
+    opacity: 1;
+    display:none;
     margin-top: 10vh;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    display: none;
   }
   
   .entry4-1 {
@@ -138,6 +140,7 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    display: none;
   }
   
   .entry5-1 {
@@ -288,11 +291,13 @@
   .entry-lr {
     animation: left-to-right 1s ease;
     animation-fill-mode: forwards;
+    display: flex;
   }
   
   .entry-rl {
     animation: right-to-left 1s ease;
     animation-fill-mode: forwards;
+    display: flex;
   }
   
   .entry-tb {

@@ -25,6 +25,7 @@ export function Create() {
             groupName: groupName,
             groupDesc: groupDesc,
           };
+          console.log(groupInfo);
           axios.post("http://localhost:5001/group/creategroup", {
               groupInfo: groupInfo
             })

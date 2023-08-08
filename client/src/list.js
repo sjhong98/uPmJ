@@ -77,6 +77,14 @@ function ScrollBox(props) {
   const tripId = urlParams.get('trip_id');
   console.log("TRIP_ID : ", tripId);
 
+  // axios.post({   // data 받아와서 redux에 저장
+  //   msg: groupjoin,
+  //   data: {
+  //     groupId:’GROUP_ID’,   
+  //     randomNumber:’RANDOM_NUMBER’,
+  //     },
+  // })
+
   // axios로 tripId 전송하여 data 받아오기 (data2~5)
 
   useEffect(() => {
@@ -590,17 +598,6 @@ export default function List() {
     })
   }, []);
 
-  // useEffect(() => {
-  //   let tl = gsap.timeline();
-  //   tl.from(bodyRef.current, {
-  //     opacity:0,
-  //     duration: 1.5
-  //   })
-  //   tl.to(bodyRef.current, {
-  //    opacity:1
-  //   })
-  // }, []);
-
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
   
@@ -694,8 +691,14 @@ export default function List() {
 
       <div style={{marginTop:'30px', position:'absolute', zIndex:2, width: '100%'}}>
         <div className="root">
-          <div className="upperBar">
-            <img src={Logo} style={{width:'500px'}} />
+          <div style={{height:'15vh', display:'flex', flexDirection:'row'}}>
+            <div>
+              <img src={Logo} style={{width:'500px'}} />
+            </div>
+            <div style={{textAlign:'right'}}>
+              <p>hello</p>
+            </div>
+            
           </div>
           
           <div style={{display:'flex', flexDirection:'column'}}>
@@ -719,9 +722,6 @@ export default function List() {
             <p className='p2' style={{zIndex:'100', fontFamily:'google1', fontSize:'100px', color:'#fff', cursor:'pointer', position: 'relative', top:'-80px'}} ref={p2Ref} onClick={capture} >Download!</p>
 
           </div>
-
-
-
 
           </div>
 

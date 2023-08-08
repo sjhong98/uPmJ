@@ -17,5 +17,9 @@
   },
   "author": "",
   "license": "ISC",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {},
   "description": ""
 }

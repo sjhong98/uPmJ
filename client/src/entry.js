@@ -51,6 +51,7 @@ function Entry() {
     const entry4_4Ref = useRef(null);
     const entry5_4Ref = useRef(null);
     const createdGroup = useSelector((state) => state.createdGroup);
+    const name = sessionStorage.getItem("name");
 
     function handleClick() {
         entry4Ref.current.classList.add('entry-lr');
@@ -82,7 +83,7 @@ function Entry() {
 
             <div className='entry1'>
                 <div className='entry2' ref={entry2Ref}>
-                    <p className='entry3'>참여 중인 여행</p>
+                    <p className='entry3'>{name} 님이 참여 중인 여행</p>
                         <TripList />
                     <p className='entry6' onClick={handleClick} >새로운 여행 떠나기</p>
                 </div>
