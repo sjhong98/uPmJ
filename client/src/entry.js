@@ -10,6 +10,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { createdGroup, randomNumber } from './actions.js';
 import { useSelector, useDispatch } from 'react-redux';
 import TripList from './tripList.js';
+import axios from 'axios';
 
 function CreateGroupInput() {
     return (
@@ -52,6 +53,19 @@ function Entry() {
     const entry5_4Ref = useRef(null);
     const createdGroup = useSelector((state) => state.createdGroup);
     const name = sessionStorage.getItem("name");
+    const access_token = sessionStorage.getItem("access_token");
+    const refrech_token = sessionStorage.getItem("refresh_token");
+    const token = {access: access_token, refresh: refrech_token};
+
+    axios.post("http://localhost:5001/user/signin", {
+                token: token
+            })
+            .then(res => {
+                console.log("ENTRY_AXIOS_RES : ", res);
+            })
+            .catch(err => {
+                console.log("err : ", err);
+            })
 
     function handleClick() {
         entry4Ref.current.classList.add('entry-lr');
