@@ -4,23 +4,22 @@ const initModels = (db) => {
 
   db.User.hasMany(db.Group, { foreignKey: 'host', sourceKey: 'email' });
   db.Group.belongsTo(db.User, { foreignKey: 'host', targetKey: 'email' });
-  db.Group.hasMany(db.FirstDay, { foreignKey: 'id', targetKey: 'code'});
-  db.FirstDay.belongsTo(db.Group, { foreignKey: 'id', targetKey: 'code'});
-  db.Group.hasMany(db.SecondDay, { foreignKey: 'id', targetKey: 'code'});
-  db.SecondDay.belongsTo(db.Group, { foreignKey: 'id', targetKey: 'code'});
-  db.Group.hasMany(db.ThirdDay, { foreignKey: 'id', targetKey: 'code'});
-  db.ThirdDay.belongsTo(db.Group, { foreignKey: 'id', targetKey: 'code'});
-  db.Group.hasMany(db.FourthDay, { foreignKey: 'id', targetKey: 'code'});
-  db.FourthDay.belongsTo(db.Group, { foreignKey: 'plidan_id', targetKey: 'code'});
+
+  // Day 모델들과 Group의 관계 설정 (코드 컬럼 사용)
+  const dayModels = ['FirstDay', 'SecondDay', 'ThirdDay', 'FourthDay'];
+  dayModels.forEach((dayModel) => {
+    db.Group.hasMany(db[dayModel], { foreignKey: 'id', sourceKey: 'code' });
+    db[dayModel].belongsTo(db.Group, { foreignKey: 'id', targetKey: 'code' });
+  });
 
   db.sequelize
-  .sync({ force: false }) // 데이터베이스 동기화
-  .then(() => {
-    console.log('Database synced');
-  })
-  .catch((error) => {
-    console.error('Error syncing database:', error);
-  });
+    .sync({ force: false }) // 데이터베이스 동기화
+    .then(() => {
+      console.log('Database synced');
+    })
+    .catch((error) => {
+      console.error('Error syncing database:', error);
+    });
 
 }
 

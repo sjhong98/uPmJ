@@ -58,10 +58,6 @@ const modelCreateGroup = async (data, res) => {
       include: [{ model: db.Group }],
     });
 
-    if (!user) {
-      res.status(400).send("User not found");
-    }
-
     const createdGroup = await db.Group.create({
       host: data.host,
       code: data.code,
