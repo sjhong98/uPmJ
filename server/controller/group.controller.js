@@ -5,7 +5,6 @@ const app = express();
 
 const createGroup = async (req, res) => {
   try{
-
     const code = createCode();
     const data = {
       host: req.body.groupInfo.host, 
@@ -13,54 +12,44 @@ const createGroup = async (req, res) => {
       title: req.body.groupInfo.groupName, 
       describe: req.body.groupInfo.groupDesc,
     }
-
-    modelCreateGroup(data,res)
-
-
-    // 이메일을 기반으로 users에서 검색을하고, 연결된 group에서 한 줄 생성후 host와 code에 이름을 넣어줌
+    modelCreateGroup(data)
     return res.status(200).send(code);
   }catch(error){
-    console.log(error);
+    console.log("createGroup function error: ", error);
     return res.status(400).send(error);
   } 
 }
 
 const joinGroup = async (req, res) => {
-  
-}
-
-const requestCode = async (req, res) => {
   try{
-    const code = await createCode();
-    // 추가적으로 코드를 요청했으니, 이전 DB에 있던 코드는 새로 만든 코드로 대체
-    // DB에 업데이트 시키는 코드 필요
-    return res.status(200).send(code);
-  } catch(error){
-    console.log(error);
+    // const data = req.body.data;
+    // 아래는 test용 data
+    const data = {code: 306050, email: "test@test.com", name: "홍길동"}
+
+    if(!(await modelJoinGroup(data)))
+      return res.status(201).send("already existed!");
+    
+    return res.status(200).send("just joined!")
+  }catch(error){
+    console.log("joinGroup function error: ", error);
     return res.status(400).send(error);
   }
-  
 }
 
 const createCode = (req, res) => {
-  // 최초 그룹 생성 시와, 이후 코드 요청 시 사용되는 함수
   let randNum = ''
   for (let i = 0; i < 6; i++) {
-    randNum += Math.floor(Math.random() * 10)
+    randNum += Math.floor((Math.random() * 8) + 1);
   }
   return randNum;
 }
 
-const modelCreateGroup = async (data, res) => {
+const modelCreateGroup = async (data) => {
   try {
       const user = await db.User.findOne({
-      where: { email: data.host },
-      include: [{ model: db.Group }],
-    });
-
-    if (!user) {
-      res.status(400).send("User not found");
-    }
+        where: { email: data.host },
+        include: [{ model: db.Group }],
+      });
 
     const createdGroup = await db.Group.create({
       host: data.host,
@@ -69,24 +58,49 @@ const modelCreateGroup = async (data, res) => {
       describe: data.describe,
     });
 
-    await user.addGroup(createdGroup);
+    await user.addGroup(createdGroup); // sequelize에서 제공하는 add 매소드 -> 사용방식은 .addModelName 으로 add 뒤에 모델 이름을 적어서 사용
 
     return true;
   } catch (error) {
-    console.error('Error:', error);
+    console.error('modelCreateGroup function error: ', error);
     return false;
   }
 };
 
 
 const modelJoinGroup = async (data) => {
-  // const groupId = data.id;
-  // id로 그룹 찾고
-  // 그룹에 조인하고싶은 사람 데이터 꺼내서 DB 중 해당되는 id 그룹에 포함시키기 -> update
+  try{
+    const group = await db.Group.findOne({
+      where: { code: data.code },
+      include: [{ model: db.GroupMember }], 
+    });
+
+    if(groupMemberFind(group.groupMembers, data.email)){
+      console.log("already existed")
+      return false;
+    }
+    
+    const member = await db.GroupMember.create({
+      email: data.email,
+      name: data.name,
+    })
+    await group.addGroupMember(member);
+
+  }catch(error){
+    console.log("modelJoinGroup function error: ", error);
+  }
+}
+
+const groupMemberFind = (groupData, target) => {
+  var result = false;
+  groupData.forEach(el => {
+    if(el.dataValues.email === target)
+      result = true;
+  });
+  return result;
 }
 
 module.exports = {
   createGroup,
   joinGroup,
-  requestCode,
 };
