@@ -22,13 +22,14 @@ const createGroup = async (req, res) => {
 
 const joinGroup = async (req, res) => {
   try{
-    // const {randomNumber: groupCode, email} = req.body.data;
-    // test용 temp
-    // const groupCode = "code";
-    // const email = "test@test.com";
+    // const data = req.body.data;
+    // 아래는 test용 data
+    const data = {code: 306050, email: "test@test.com", name: "홍길동"}
 
-
-
+    if(!(await modelJoinGroup(data)))
+      return res.status(201).send("already existed!");
+    
+    return res.status(200).send("just joined!")
   }catch(error){
     console.log("joinGroup function error: ", error);
     return res.status(400).send(error);
@@ -46,9 +47,9 @@ const createCode = (req, res) => {
 const modelCreateGroup = async (data) => {
   try {
       const user = await db.User.findOne({
-      where: { email: data.host },
-      include: [{ model: db.Group }],
-    });
+        where: { email: data.host },
+        include: [{ model: db.Group }],
+      });
 
     const createdGroup = await db.Group.create({
       host: data.host,
@@ -57,7 +58,7 @@ const modelCreateGroup = async (data) => {
       describe: data.describe,
     });
 
-    await user.addGroup(createdGroup);
+    await user.addGroup(createdGroup); // sequelize에서 제공하는 add 매소드 -> 사용방식은 .addModelName 으로 add 뒤에 모델 이름을 적어서 사용
 
     return true;
   } catch (error) {
@@ -68,9 +69,35 @@ const modelCreateGroup = async (data) => {
 
 
 const modelJoinGroup = async (data) => {
-  // const groupId = data.id;
-  // id로 그룹 찾고
-  // 그룹에 조인하고싶은 사람 데이터 꺼내서 DB 중 해당되는 id 그룹에 포함시키기 -> update
+  try{
+    const group = await db.Group.findOne({
+      where: { code: data.code },
+      include: [{ model: db.GroupMember }], 
+    });
+
+    if(groupMemberFind(group.groupMembers, data.email)){
+      console.log("already existed")
+      return false;
+    }
+    
+    const member = await db.GroupMember.create({
+      email: data.email,
+      name: data.name,
+    })
+    await group.addGroupMember(member);
+
+  }catch(error){
+    console.log("modelJoinGroup function error: ", error);
+  }
+}
+
+const groupMemberFind = (groupData, target) => {
+  var result = false;
+  groupData.forEach(el => {
+    if(el.dataValues.email === target)
+      result = true;
+  });
+  return result;
 }
 
 module.exports = {

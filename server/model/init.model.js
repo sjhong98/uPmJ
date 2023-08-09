@@ -4,9 +4,11 @@ const initModels = (db) => {
 
   db.User.hasMany(db.Group, { foreignKey: 'host', sourceKey: 'email' });
   db.Group.belongsTo(db.User, { foreignKey: 'host', targetKey: 'email' });
+  db.Group.hasMany(db.GroupMember, { foreignKey: 'code', sourceKey: 'code' });
+  db.GroupMember.belongsTo(db.Group, { foreignKey: 'code', sourceKey: 'code'} );
 
   // Day 모델들과 Group의 관계 설정 (코드 컬럼 사용)
-  const models = ['GroupMember', 'FirstDay', 'SecondDay', 'ThirdDay', 'FourthDay'];
+  const models = ['FirstDay', 'SecondDay', 'ThirdDay', 'FourthDay'];
   models.forEach((models) => {
     db.Group.hasMany(db[models], { foreignKey: 'id', sourceKey: 'code' });
     db[models].belongsTo(db.Group, { foreignKey: 'id', targetKey: 'code' });

@@ -30,19 +30,20 @@ const Group = sequelize.define(
 const GroupMember = sequelize.define(
   "groupMember", 
   {
-      id: {
+      code: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-        primaryKey: true,
-        autoIncrement: true,
         references: {
           model: 'groups', 
           key: 'code',
         },
       },
-      member: {
+      email: {
         type: DataTypes.STRING,
+        
       },
+      name: {
+        type: DataTypes.STRING,
+      }
   },
   {
     timestamps: false
