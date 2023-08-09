@@ -6,10 +6,10 @@ const initModels = (db) => {
   db.Group.belongsTo(db.User, { foreignKey: 'host', targetKey: 'email' });
 
   // Day 모델들과 Group의 관계 설정 (코드 컬럼 사용)
-  const dayModels = ['FirstDay', 'SecondDay', 'ThirdDay', 'FourthDay'];
-  dayModels.forEach((dayModel) => {
-    db.Group.hasMany(db[dayModel], { foreignKey: 'id', sourceKey: 'code' });
-    db[dayModel].belongsTo(db.Group, { foreignKey: 'id', targetKey: 'code' });
+  const models = ['GroupMember', 'FirstDay', 'SecondDay', 'ThirdDay', 'FourthDay'];
+  models.forEach((models) => {
+    db.Group.hasMany(db[models], { foreignKey: 'id', sourceKey: 'code' });
+    db[models].belongsTo(db.Group, { foreignKey: 'id', targetKey: 'code' });
   });
 
   db.sequelize

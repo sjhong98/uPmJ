@@ -3,7 +3,6 @@ const controller = require("../controller/group.controller");
 
 router.post("/creategroup", controller.createGroup);
 router.get("/joingroup", controller.joinGroup);
-router.get("/code", controller.requestCode);
 
 module.exports = router;
 

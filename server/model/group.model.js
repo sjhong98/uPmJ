@@ -27,7 +27,29 @@ const Group = sequelize.define(
   }
 );
 
-module.exports = { Group };
+const GroupMember = sequelize.define(
+  "groupMember", 
+  {
+      id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true,
+        references: {
+          model: 'groups', 
+          key: 'code',
+        },
+      },
+      member: {
+        type: DataTypes.STRING,
+      },
+  },
+  {
+    timestamps: false
+  }
+);
+
+module.exports = { Group, GroupMember };
 
 
 
