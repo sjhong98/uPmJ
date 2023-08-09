@@ -9,7 +9,10 @@ function TripCard(props) {
         <div className='trip_card' onClick={()=>{
             navigate(`/plan?trip_id=${props.id}`);
         }}>
-            <p>{props.name}</p>
+            <div style={{flex:'2', fontSize:'0.6vw'}}>
+                <p>{props.code}</p>
+            </div>
+            <p style={{flex:'8'}}>{props.name}</p>
         </div>
     )
 }
@@ -46,7 +49,7 @@ export default function TripList(props) {
     }, []);
 
     const list = groupList.map((item, index) => (
-        <TripCard key={index} name={item.host} id={item.id} />
+        <TripCard key={index} name={item.title} id={item.id} code={item.code} />
     ));
 
     console.log("list : ", list);

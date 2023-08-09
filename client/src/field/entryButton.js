@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import {Link, useLocation, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { createdGroup, randomNumberAction } from '../actions';
+import { createdGroup, setCode } from '../actions';
 
 export function Create() {
   const _name = sessionStorage.getItem('name');
@@ -32,7 +32,7 @@ export function Create() {
             .then(res => {
               console.log("===== HOST =====", res);  // 난수 받아서 randomNumber에 저장
               console.log(res.data);
-              dispatch(randomNumberAction(res.data));
+              dispatch(setCode(res.data));
               dispatch(createdGroup(true));
             })
             .catch(err => {
@@ -73,6 +73,6 @@ export function Create2() {
         dispatch(createdGroup(false));
         navigate(`/plan?trip_id=${trip_id}`);
       }}
-      >여행 만들기</Button>
+      >여행 시작하기</Button>
   )
 }

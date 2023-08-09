@@ -58,7 +58,7 @@ export function TripDesc() {
   }
 
 export function RandomNumber() {
-  const rn = useSelector((state) => state.randomNumber);
+  const code = useSelector((state) => state.code);
   const [copied, setCopied] = useState(false);
 
   return (
@@ -67,14 +67,14 @@ export function RandomNumber() {
           <TextField
           id="outlined-read-only-input"
           label=""
-          defaultValue={rn}
+          defaultValue={code}
           InputProps={{
             readOnly: true,
           }}
         />
         <Button variant="outlined"
         onClick={() => {
-          navigator.clipboard.writeText(rn);  // copy to clipboard
+          navigator.clipboard.writeText(code);  // copy to clipboard
           setCopied(true);
         }}>COPY</Button>
     </div>

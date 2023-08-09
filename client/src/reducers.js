@@ -6,17 +6,17 @@ const initialState = {
     groupName: "",
     groupDesc: "",
     createdGroup: false,    
-    randomNumber: "",
+    code: "",
     tripCardClicked: false,
 }
 
 const dataReducer = (state = initialState, action) => {
     switch(action.type) {
 
-        case 'RANDOM_NUMBER' :
+        case 'SET_CODE' :
             return {
                 ...state,
-                randomNumber: action.payload,
+                code: action.payload,
             }
 
         case 'CREATED_GROUP' :

@@ -47,9 +47,9 @@ export const createdGroup = (item) => {
     }
 }
 
-export const randomNumberAction = (item) => {
+export const setCode = (item) => {
     return {
-        type: 'RANDOM_NUMBER',
+        type: 'SET_CODE',
         payload: item,
     }
 }
