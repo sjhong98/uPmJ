@@ -21,23 +21,35 @@ function DummyCard(props) {
     )
 }
 
-export default function TripList() {
+export default function TripList(props) {
+    const [groupList, setGroupList] = useState([]);
+    const access_token = sessionStorage.getItem("access_token");
+    const refresh_token = sessionStorage.getItem("refresh_token");
+    const token = {access: access_token, refresh: refresh_token};
 
-    const test = [
-        {name:'USA', id:'usa'}, 
-        {name:'Russia', id:'russia'},
-        {name:'Austrailia', id:'austrailia'},
-        {name:'Japan', id:'japan'},
-        {name:'Hungary', id:'hungary'},
-        {name:'France', id:'france'},
-        {name:'China', id:'china'},
-        {name:'Korea', id:'korea'},
-        {name:'Britain', id:'britain'},
-    ];
+    useEffect(() => {
+        axios.post("http://localhost:5001/user/signin", {
+            token: token
+        })
+        .then(res => {
+            if(res.data.existedData) {
+                let n = res.data.existedData.groups.length;
+                    setGroupList(res.data.existedData.groups);
+            }
+            console.log("test : ", res);
 
-    const list = test.map((item, index) => (
-        <TripCard key={index} name={item.name} id={item.id} />
+        })
+        .catch(err => {
+            console.log("err : ", err);
+        })
+        
+    }, []);
+
+    const list = groupList.map((item, index) => (
+        <TripCard key={index} name={item.host} id={item.id} />
     ));
+
+    console.log("list : ", list);
 
     return (
         <div className='trip_list'>

@@ -11,7 +11,7 @@ import Button from '@mui/material/Button';
 function ToEntry() {
   const navigate = useNavigate();
   const name = sessionStorage.getItem('name');
-  
+
   return (
     <div style={{display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
       <Button sx={{fontSize:'50px'}} onClick={() => {
@@ -31,7 +31,6 @@ function Main() {
   const navigate = useNavigate(); 
   const [msg, setMsg] = useState('');
   const name = sessionStorage.getItem('name');
-  console.log("SESSTION : ", name);
 
   return (
     <div style={{backgroundColor:'#fff'}}>

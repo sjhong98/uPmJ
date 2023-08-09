@@ -10,6 +10,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { createdGroup, randomNumber } from './actions.js';
 import { useSelector, useDispatch } from 'react-redux';
 import TripList from './tripList.js';
+import axios from 'axios';
 
 function CreateGroupInput() {
     return (
