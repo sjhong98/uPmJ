@@ -109,7 +109,7 @@ const groupInfoFind = async (req, res) => {
       include: [{ model: db.GroupMember }], 
     });
 
-    res.status(200).send(group.groupMembers);
+    res.status(200).send(group);
   }catch(error){
     console.log("groupInfoFind function error: ", error);
     res.status(400).send(error);
