@@ -22,14 +22,15 @@ const createGroup = async (req, res) => {
 
 const joinGroup = async (req, res) => {
   try{
-    // const data = req.body.data;
-    // 아래는 test용 data
-    const data = {code: 306050, email: "test@test.com", name: "홍길동"}
-
+    const data = req.body.data;
+    
+    // test code -> 삭제가능
+    // const data = {code: 628718, email: "test@test.com", name: "홍길동"}
+  
     if(!(await modelJoinGroup(data)))
       return res.status(201).send("already existed!");
     
-    return res.status(200).send("just joined!")
+    return res.status(200).send("just joined!");
   }catch(error){
     console.log("joinGroup function error: ", error);
     return res.status(400).send(error);
@@ -67,7 +68,6 @@ const modelCreateGroup = async (data) => {
   }
 };
 
-
 const modelJoinGroup = async (data) => {
   try{
     const group = await db.Group.findOne({
@@ -85,7 +85,7 @@ const modelJoinGroup = async (data) => {
       name: data.name,
     })
     await group.addGroupMember(member);
-
+    return true;
   }catch(error){
     console.log("modelJoinGroup function error: ", error);
   }
@@ -100,7 +100,24 @@ const groupMemberFind = (groupData, target) => {
   return result;
 }
 
+const groupInfoFind = async (req, res) => {
+  try{
+    const code = req.body.data.code;
+
+    const group = await db.Group.findOne({
+      where: { code: code },
+      include: [{ model: db.GroupMember }], 
+    });
+
+    res.status(200).send(group.groupMembers);
+  }catch(error){
+    console.log("groupInfoFind function error: ", error);
+    res.status(400).send(error);
+  }
+}
+
 module.exports = {
   createGroup,
   joinGroup,
+  groupInfoFind,
 };
