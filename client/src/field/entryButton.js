@@ -13,7 +13,7 @@ export function Create() {
   // const randomNumber = useSelector((state) => state.randomNumber);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const rn = useSelector((state) => state.randomNumber);
+  const code = useSelector((state) => state.code);
 
   return (
       <Button 
@@ -46,14 +46,28 @@ export function Create() {
 
 export function Join() {
     const navigate = useNavigate();
+    const _code = useSelector((state) => state.code);
+    const _name = sessionStorage.getItem('name');
+    const _email = sessionStorage.getItem('email');
+    const dispatch = useDispatch();
+
   return (
       <Button 
         variant="contained"
         sx={{width:'17vw'}}
         onClick={() => {
-          // axios로 randomNumber post하고 trip_id 받아오기
-          const trip_id = "trip_id";
-          navigate(`/plan?trip_id=${trip_id}`);
+          dispatch(setCode(_code));
+          axios.post("http://localhost:5001/group/joingroup", {
+            msg: "groupjoin",
+            data: {
+              code: _code,
+              name: _name,
+              email: _email,
+            }
+          }).then(res => {
+            console.log("JOIN_BUTTON_RES : ", res); // DB에서 user 삽입
+          })
+          navigate(`/plan?trip_id=${_code}`);
         }}
         >여행 참여하기</Button>
   );
@@ -62,14 +76,14 @@ export function Join() {
 export function Create2() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const code = useSelector(state => state.code);
 
   return (
     <Button
       variant="contained"
       sx={{width:'20vw'}}
       onClick={() => {
-        // axios로 randomNumber post하고 trip_id 받아오기
-        const trip_id = 'trip_id';
+        const trip_id = code;
         dispatch(createdGroup(false));
         navigate(`/plan?trip_id=${trip_id}`);
       }}

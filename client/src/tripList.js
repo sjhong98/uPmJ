@@ -7,7 +7,7 @@ function TripCard(props) {
     const navigate = useNavigate();
     return (
         <div className='trip_card' onClick={()=>{
-            navigate(`/plan?trip_id=${props.id}`);
+            navigate(`/plan?trip_id=${props.code}`);
         }}>
             <div style={{flex:'2', fontSize:'0.6vw'}}>
                 <p>{props.code}</p>
@@ -35,11 +35,11 @@ export default function TripList(props) {
             token: token
         })
         .then(res => {
+            console.log("TEST : ", res);
             if(res.data.existedData) {
                 let n = res.data.existedData.groups.length;
-                    setGroupList(res.data.existedData.groups);
+                setGroupList(res.data.existedData.groups);
             }
-            console.log("test : ", res);
 
         })
         .catch(err => {
@@ -49,7 +49,7 @@ export default function TripList(props) {
     }, []);
 
     const list = groupList.map((item, index) => (
-        <TripCard key={index} name={item.title} id={item.id} code={item.code} />
+        <TripCard key={index} name={item.title} code={item.code} />
     ));
 
     console.log("list : ", list);

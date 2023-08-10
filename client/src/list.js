@@ -77,15 +77,15 @@ function ScrollBox(props) {
   const tripId = urlParams.get('trip_id');
   console.log("TRIP_ID : ", tripId);
 
-  // axios.post({   // data 받아와서 redux에 저장
-  //   msg: groupjoin,
-  //   data: {
-  //     groupId:’GROUP_ID’,   
-  //     randomNumber:’RANDOM_NUMBER’,
-  //     },
-  // })
-
-  // axios로 tripId 전송하여 data 받아오기 (data2~5)
+  axios.post("http://localhost:5001/group/requestgroup", {
+    data: tripId
+  })
+  .then(res => {
+    console.log("RES_PLAN : ", res);
+  })
+  .catch(err => {
+    console.log("ERR_PLAN : ", err);
+  })
 
   useEffect(() => {
     let count = 0;

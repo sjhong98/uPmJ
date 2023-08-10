@@ -2,7 +2,8 @@ import React, {useContext, useState, useEffect, useRef} from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateGroupName, updateGroupDesc } from '../actions.js';
+import { updateGroupName, updateGroupDesc, setCode } from '../actions.js';
+import { stepButtonClasses } from '@mui/material';
 
 export function TripName() {
   const dispatch = useDispatch();
@@ -45,12 +46,19 @@ export function TripDesc() {
   }
 
   export function TripCode() {
+    const code = useSelector(state => state.code);
+    const dispatch = useDispatch();
+
     return (
         <div>
           <TextField
             id="text3"
             label="여행 코드"
             defaultValue=""
+            value={code}
+            onChange={(e) => {
+              dispatch(setCode(e.target.value));
+            }}
             sx={{width:'17vw'}}
           />
         </div>
