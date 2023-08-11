@@ -395,6 +395,7 @@
     box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.2);
     margin-bottom: 20px;
     cursor: pointer;
+    font-family: 'baemin';
   }
 
   .dummy_card {

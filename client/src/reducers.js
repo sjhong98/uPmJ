@@ -8,10 +8,17 @@ const initialState = {
     createdGroup: false,    
     code: "",
     tripCardClicked: false,
+    groupMember: [],
 }
 
 const dataReducer = (state = initialState, action) => {
     switch(action.type) {
+
+        case 'SET_GROUP_MEMBER' :
+            return {
+                ...state,
+                groupMember: action.payload,
+            }
 
         case 'SET_TRIP_CARD_CLICKED' :
             return {

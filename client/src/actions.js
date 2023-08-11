@@ -60,3 +60,10 @@ export const setTripCardClicked = (item) => {
         payload: item,
     }
 }
+
+export const setGroupMember = (item) => {
+    return {
+        type: 'SET_GROUP_MEMBER',
+        payload: item,
+    }
+}

@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import {Link, useLocation, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { createdGroup, setCode } from '../actions';
+import { createdGroup, setCode, setTripCardClicked } from '../actions';
 
 export function Create() {
   const _name = sessionStorage.getItem('name');
@@ -67,7 +67,10 @@ export function Join() {
           }).then(res => {
             console.log("JOIN_BUTTON_RES : ", res); // DB에서 user 삽입
           })
-          navigate(`/plan?trip_id=${_code}`);
+          dispatch(setTripCardClicked(true));
+            setTimeout(() => {
+              navigate(`/plan?trip_id=${_code}`);
+            }, [500]);
         }}
         >여행 참여하기</Button>
   );
@@ -83,9 +86,13 @@ export function Create2() {
       variant="contained"
       sx={{width:'20vw'}}
       onClick={() => {
-        const trip_id = code;
+        dispatch(setTripCardClicked(true));
+            setTimeout(() => {
+              navigate(`/plan?trip_id=${code}`);
+            }, [500]);
+        
         dispatch(createdGroup(false));
-        navigate(`/plan?trip_id=${trip_id}`);
+        
       }}
       >여행 시작하기</Button>
   )

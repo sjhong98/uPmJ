@@ -9,16 +9,19 @@ function TripCard(props) {
     const dispatch = useDispatch();
 
     return (
-        <div className='trip_card' onClick={()=>{
+        <div onClick={()=>{
             dispatch(setTripCardClicked(true));
             setTimeout(() => {
                 navigate(`/plan?trip_id=${props.code}`);
             }, [500]);
         }}>
-            <div style={{flex:'2', fontSize:'0.6vw'}}>
-                <p>{props.code}</p>
+            <div className='trip_card' >
+                <div style={{flex:'2', fontSize:'0.6vw', marginLeft:'1vw'}}>
+                    <p>{props.code}</p>
+                </div>
+                <p style={{flex:'4', fontSize:'1vw'}}>{props.name}</p>
+                <p style={{flex:'2', color:'darkgray', fontSize:'0.6vw'}}>{props.host}</p>
             </div>
-            <p style={{flex:'8'}}>{props.name}</p>
         </div>
     )
 }
@@ -55,7 +58,7 @@ export default function TripList(props) {
     }, []);
 
     const list = groupList.map((item, index) => (
-        <TripCard key={index} name={item.title} code={item.code} />
+        <TripCard key={index} name={item.title} code={item.code} host={item.host}/>
     ));
 
     console.log("list : ", list);

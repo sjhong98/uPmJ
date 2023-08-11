@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Box, Button } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateData2, updateData3, updateData4, updateData5 } from './actions.js'; // action에 정의된 내용 가져오기
+import { updateData2, updateData3, updateData4, updateData5, setGroupMember } from './actions.js'; // action에 정의된 내용 가져오기
 import './index.css';
 import axios from 'axios';
 import CardBox from './card.js';
@@ -36,6 +36,7 @@ import BackgroundImg from "./assets/images/travel5.jpeg";
 import Logo from "./assets/images/logo.png";
 import h2c from 'html2canvas';
 import './entry.css';
+import Chip from '@mui/material/Chip';
 
 
 
@@ -77,17 +78,21 @@ function ScrollBox(props) {
   const tripId = urlParams.get('trip_id');
   console.log("TRIP_ID : ", tripId);
 
-  axios.post("http://localhost:5001/group/requestgroup", {  // data 받아오는 부분
-    data: {
-      code: tripId,
-    },
-  })
-  .then(res => {
-    console.log("RES_PLAN : ", res);
-  })
-  .catch(err => {
-    console.log("ERR_PLAN : ", err);
-  })
+  useEffect(() => {
+      axios.post("http://localhost:5001/group/requestgroup", {  // data 받아오는 부분
+      data: {
+        code: tripId,
+      },
+    })
+    .then(res => {
+      dispatch(setGroupMember(res.data.groupMembers));
+    })
+    .catch(err => {
+      console.log("ERR_PLAN : ", err);
+    })
+  }, []);
+
+
 
   useEffect(() => {
     let count = 0;
@@ -573,6 +578,11 @@ export default function List() {
   const [pushed, setPushed] = useState(false);
   const [xData, setXData] = useState("");
   const [searchData, setSearchData] = useState([]);
+  const groupMember = useSelector((state) => state.groupMember);
+
+  const groupMemberChip = groupMember.map((item) => (   // member 정보가져와 chip으로 나열
+      <Chip label={item.name} />
+  ))
 
   const titleRef = useRef();
   const bodyRef = useRef();
@@ -627,7 +637,6 @@ export default function List() {
       img.onload = null; // 이벤트 핸들러 제거
     };
   }, []);
-
 
   const capture = () => {
     h2c(captureRef.current).then(canvas => {
@@ -700,8 +709,8 @@ export default function List() {
             <div>
               <img src={Logo} style={{width:'500px'}} />
             </div>
-            <div style={{marginLeft:'60vw'}}>
-              <p>hello</p>
+            <div style={{width:'10vw', height:'10vh'}}>
+              {groupMemberChip}
             </div>
           </div>
           
