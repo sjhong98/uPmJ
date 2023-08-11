@@ -1,13 +1,19 @@
 import React, {useContext, useState, useEffect, useRef} from 'react';
 import {Link, Navigate, useLocation, useNavigate} from 'react-router-dom';
 import axios from 'axios';
-import {useSelector} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setTripCardClicked } from './actions.js';
 
 function TripCard(props) {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     return (
         <div className='trip_card' onClick={()=>{
-            navigate(`/plan?trip_id=${props.code}`);
+            dispatch(setTripCardClicked(true));
+            setTimeout(() => {
+                navigate(`/plan?trip_id=${props.code}`);
+            }, [500]);
         }}>
             <div style={{flex:'2', fontSize:'0.6vw'}}>
                 <p>{props.code}</p>

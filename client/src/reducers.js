@@ -13,6 +13,12 @@ const initialState = {
 const dataReducer = (state = initialState, action) => {
     switch(action.type) {
 
+        case 'SET_TRIP_CARD_CLICKED' :
+            return {
+                ...state,
+                tripCardClicked: action.payload,
+            }
+
         case 'SET_CODE' :
             return {
                 ...state,

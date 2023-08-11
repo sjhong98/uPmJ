@@ -7,7 +7,7 @@ import entry5Img from './assets/images/entry5.png';
 import { TripName, TripDesc, TripCode, RandomNumber } from './field/entryField.js';
 import { Create, Join, Create2, Join2 } from './field/entryButton.js';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { createdGroup, randomNumber } from './actions.js';
+import { createdGroup, randomNumber, setTripCardClicked } from './actions.js';
 import { useSelector, useDispatch } from 'react-redux';
 import TripList from './tripList.js';
 import axios from 'axios';
@@ -41,6 +41,7 @@ function Entry() {
     const [entryJoin, setEntryJoin] = useState(false);
     
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const entry4Ref = useRef(null);
     const entry5Ref = useRef(null);
     const entry2Ref = useRef(null);
@@ -51,8 +52,10 @@ function Entry() {
     const entryFilterRef = useRef(null);
     const entry4_4Ref = useRef(null);
     const entry5_4Ref = useRef(null);
+    const entryLoadingRef = useRef(null);
     const createdGroup = useSelector((state) => state.createdGroup);
     const name = sessionStorage.getItem("name");
+    const tripCardClicked = useSelector((state) => state.tripCardClicked);
 
     function handleClick() {
         entry4Ref.current.classList.add('entry-lr');
@@ -76,8 +79,15 @@ function Entry() {
         }, 1000)
     }
 
+    useEffect(() => {
+        if(tripCardClicked === true)
+            entryLoadingRef.current.classList.add('entry-loading-animation');
+            dispatch(setTripCardClicked(false));
+    }, [tripCardClicked])
+
     return (
         <div className='entry'>
+            <div className='entry_loading' ref={entryLoadingRef} />
             <div className='upperBar'>
                 <img className='entryLogo' src={logo} />
             </div>
@@ -135,6 +145,7 @@ function Entry() {
                 </div>
                 
             </div>
+            
         </div>
     )
 }

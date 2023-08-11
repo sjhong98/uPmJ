@@ -35,7 +35,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import BackgroundImg from "./assets/images/travel5.jpeg";
 import Logo from "./assets/images/logo.png";
 import h2c from 'html2canvas';
-import Login from './login.js';
+import './entry.css';
 
 
 
@@ -77,8 +77,10 @@ function ScrollBox(props) {
   const tripId = urlParams.get('trip_id');
   console.log("TRIP_ID : ", tripId);
 
-  axios.post("http://localhost:5001/group/requestgroup", {
-    data: tripId
+  axios.post("http://localhost:5001/group/requestgroup", {  // data 받아오는 부분
+    data: {
+      code: tripId,
+    },
   })
   .then(res => {
     console.log("RES_PLAN : ", res);
@@ -579,6 +581,7 @@ export default function List() {
   const p2Ref = useRef();
   const p3Ref = useRef();
   const captureRef = useRef();
+  const loadingRef = useRef();
 
   useEffect(() => {
     let tl = gsap.timeline();
@@ -659,7 +662,7 @@ export default function List() {
 
     }, []);
 
-    useEffect(() => {
+  useEffect(() => {
       gsap.registerPlugin(ScrollTrigger);
     
         ScrollTrigger.create({
@@ -679,26 +682,27 @@ export default function List() {
   
         ScrollTrigger.update();
   
-      }, []);
-
-    
-    
+    }, []);
   
-
+  useEffect(() => {
+    setTimeout(() => {
+      loadingRef.current.classList.add("plan-loading-animation");
+    }, [1000]);
+  }, [])
 
   return (
     <div className="page" style={{height:'200vh', backgroundColor:'#E3AF27'}}>
+      <div className='plan_loading' ref={loadingRef} />
 
       <div style={{marginTop:'30px', position:'absolute', zIndex:2, width: '100%'}}>
         <div className="root">
-          <div style={{height:'15vh', display:'flex', flexDirection:'row'}}>
+          <div style={{height:'15vh', display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
             <div>
               <img src={Logo} style={{width:'500px'}} />
             </div>
-            <div style={{textAlign:'right'}}>
+            <div style={{marginLeft:'60vw'}}>
               <p>hello</p>
             </div>
-            
           </div>
           
           <div style={{display:'flex', flexDirection:'column'}}>

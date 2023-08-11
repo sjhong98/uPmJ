@@ -53,3 +53,10 @@ export const setCode = (item) => {
         payload: item,
     }
 }
+
+export const setTripCardClicked = (item) => {
+    return {
+        type: 'SET_TRIP_CARD_CLICKED',
+        payload: item,
+    }
+}

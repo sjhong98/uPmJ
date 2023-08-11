@@ -1,3 +1,30 @@
+.entry_loading {
+  background-color: #DE5E59;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  left: 100vw;
+  z-index: 10;
+}
+
+.plan_loading {
+  background-color: #DE5E59;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  z-index: 10;
+}
+
+.entry-loading-animation {
+  animation: entry-loading 0.5s ease;
+  animation-fill-mode: forwards;
+}
+
+.plan-loading-animation {
+  animation: plan-loading 0.5s ease;
+  animation-fill-mode: forwards;
+}
+
 .entry {
     background-color: #FA8F57;
     height: 100vh;
@@ -286,6 +313,24 @@
     to {
       left: 100vw;
     } 
+  }
+
+  @keyframes entry-loading {
+    from {
+      left: -100vw;
+    }
+    to {
+      left: 0vw;
+    }
+  }
+
+  @keyframes plan-loading {
+    from {
+      left: 0vw;
+    }
+    to {
+      left: 100vw;
+    }
   }
   
   .entry-lr {
