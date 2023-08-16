@@ -7,6 +7,7 @@ import logo2 from './assets/images/logo2.png';
 import logo from './assets/images/logo.png';
 import Login from './login.js';
 import Button from '@mui/material/Button';
+import io from "socket.io-client";
 
 function ToEntry() {
   const navigate = useNavigate();
@@ -28,11 +29,17 @@ function ToEntry() {
 
 
 function Main() {
+
   const navigate = useNavigate(); 
   const [msg, setMsg] = useState('');
   const name = sessionStorage.getItem('name');
 
+  // socket.io 서버에 접속한다
+  var socket = io();
+
+
   return (
+    
     <div style={{backgroundColor:'#fff'}}>
       <video src={video1} autoplay='autoplay' muted loop style={{width: '100vw', position:'absolute', opacity:'1'}}/>
       <div style={{display:'flex', flexDirection:'row', justifyContent:'center'}}>
