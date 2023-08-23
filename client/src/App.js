@@ -6,6 +6,7 @@ import Login from './login.js';
 import List from './list.js';
 import Entry from './entry.js';
 import Auth from './auth.js';
+import SocketTest from './socketTest.js';
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Route path="/plan" element={<List />} />
         <Route path="/login/auth" element={<Auth />} />
         <Route path="/entry" element={<Entry />} />
+        <Route path="/socket_test" element={<SocketTest />} />
       </Routes>
     </BrowserRouter>
   )

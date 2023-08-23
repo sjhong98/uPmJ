@@ -9,6 +9,8 @@ export default function Auth() {
 
     const code = new URL(document.location.toString()).searchParams.get("code");
 
+    console.log("code : ", code);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -40,6 +42,7 @@ export default function Auth() {
                 }
 
                 navigate('/entry');
+                
             } catch (error) {
                 console.log("Error: ", error);
             }

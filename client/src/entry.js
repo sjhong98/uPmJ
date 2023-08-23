@@ -1,5 +1,5 @@
-import React, {useContext, useState, useEffect, useRef} from 'react';
-import {Link, useLocation, useNavigate} from 'react-router-dom';
+import React, {useState, useEffect, useRef} from 'react';
+import {useNavigate} from 'react-router-dom';
 import './entry.css';
 import logo from './assets/images/logo.png';
 import entry4Img from './assets/images/entry4.png';

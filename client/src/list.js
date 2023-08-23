@@ -8,7 +8,7 @@ import CardBox from './card.js';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import SelectSido from './field/selectSido.js';
 import ColumnButtonSet from './columnButtonSet.js';
-import Seoul from './field/sigungu/seoul.js';
+import Seoul from './field/sigungu/seoul.js'; // 동적 연결 필요
 import Busan from './field/sigungu/busan.js';
 import Incheon from './field/sigungu/incheon.js';
 import Gyeonggi from './field/sigungu/gyeonggi.js';
@@ -37,7 +37,7 @@ import Logo from "./assets/images/logo.png";
 import h2c from 'html2canvas';
 import './entry.css';
 import Chip from '@mui/material/Chip';
-
+import io from 'socket.io-client';
 
 
 
@@ -46,7 +46,6 @@ import Chip from '@mui/material/Chip';
 
 function ScrollBox(props) {
   const [data, setData] = useState([]);
-  const [totalCount, setTotalCount] = useState(0);
   const [doAxios, setDoAxios] = useState(false);
   const [sido, setSido] = useState("1");
   const [delCol, setDelCol] = useState("");
@@ -55,12 +54,10 @@ function ScrollBox(props) {
   const [columnDisplay, setColumnDisplay] = useState([]);
   const [sigungu, setSigungu] = useState("1");
   const [selectSigungu, setSelectSigungu] = useState([<Default />]);
-  const [added, setAdded] = useState(true);
   const [columnAdded, setColumnAdded] = useState(false);
   const [columnSubed, setColumnSubed] = useState(false);
   const [draggingItem, setDraggingItem] = useState("");
   const [draggingColumn, setDraggingColumn] = useState("");
-  const [BackgroundColor, setBackgroundColor] = useState("#000000");
 
   const setX = props.setX;
   const setY = props.setY;
@@ -76,7 +73,6 @@ function ScrollBox(props) {
 
   const urlParams = new URLSearchParams(window.location.search);
   const tripId = urlParams.get('trip_id');
-  console.log("TRIP_ID : ", tripId);
 
   useEffect(() => {
       axios.post("http://localhost:5001/group/requestgroup", {  // data 받아오는 부분
@@ -99,7 +95,7 @@ function ScrollBox(props) {
     if (doAxios) {
       const fetchData = async () => {
         const response = await axios.get(`https://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=${process.env.REACT_APP_PUBLIC_DATA_KEY}&areaCode=${sido}&sigunguCode=${sigungu}&contentTypeId=12&numOfRows=100&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json`);
-        setTotalCount(response.data.response.body.totalCount);
+        // setTotalCount(response.data.response.body.totalCount);
 
         const _data = response.data.response.body.items.item;
 
@@ -193,7 +189,7 @@ function ScrollBox(props) {
     }
   }, [sido])
 
-  const handleDragEnd = (result) => {
+  const handleDragEnd = (result) => {   // data 이동
     if (!result.destination) {
       return;
     }
@@ -202,15 +198,14 @@ function ScrollBox(props) {
     const destinationColumnId = result.destination.droppableId;
     setPushed(true);
   
-    if (sourceColumnId === destinationColumnId) {
-      // 같은 column 내에서의 이동
+    if (sourceColumnId === destinationColumnId) {  // 같은 column 내에서의 이동
       const columnId = sourceColumnId;
       const items = (getDataByColumnId(columnId));
       const [removed] = items.splice(result.source.index, 1);
       items.splice(result.destination.index, 0, removed);
       setDataByColumnId(columnId, items);
-    } else {
-      // 다른 column 간의 이동
+    } 
+    else {    // 다른 column 간의 이동
       const sourceColumnItems = getDataByColumnId(sourceColumnId);
       const destinationColumnItems = getDataByColumnId(destinationColumnId);
   
@@ -223,22 +218,13 @@ function ScrollBox(props) {
 
     setDraggingItem(0);
     setDraggingColumn("");
-    setBackgroundColor("#FFFFFF");
   };
 
-  const handleDragStart = (start, provided) => {
-
-    console.log(start);
-    console.log(start.draggableId);
-    console.log(start.source.droppableId)
+  const handleDragStart = (start, provided) => {    // 어떤 column에서 어떤 data가 이동 중인가
 
     setDraggingItem(start.draggableId);
     setDraggingColumn(start.source.droppableId);
   }
-
-  useEffect(() => { // 드래그 시에 어떤 요소가 드래고 있는지에 대한 정보 갱신
-    setBackgroundColor("#569AF5");
-  }, [draggingItem, draggingColumn]);
 
 
   const getDataByColumnId = (columnId) => {
@@ -540,7 +526,7 @@ function ScrollBox(props) {
           {selectSigungu}
           <SearchField setKeyword={props.setKeyword} setBoxBar={props.setBoxBar} />
           <div style={{marginLeft:'500px', marginRight:'50px'}}>
-            <ColumnSet setColumnNum={setColumnNum} columnNum={columnNum} setAdded={setAdded} setColumnAdded={setColumnAdded} setColumnSubed={setColumnSubed}/>
+            <ColumnSet setColumnNum={setColumnNum} columnNum={columnNum} setColumnAdded={setColumnAdded} setColumnSubed={setColumnSubed}/>
           </div>
         </div>
       </div>
@@ -559,6 +545,9 @@ function ScrollBox(props) {
   
 }
 
+
+
+
 function ColumnSet(props) {
   const setColumnNum = props.setColumnNum;
   const columnNum = props.columnNum;
@@ -570,7 +559,8 @@ function ColumnSet(props) {
 
 
 
-export default function List() {
+
+export default function List() {      // 리팩토링 : css 빼기
   const [keyword, setKeyword] = useState("");
   const [boxBar, setBoxBar] = useState(true);
   const [x, setX] = useState(126.97722);
@@ -579,7 +569,6 @@ export default function List() {
   const [xData, setXData] = useState("");
   const [searchData, setSearchData] = useState([]);
   const groupMember = useSelector((state) => state.groupMember);
-
   const groupMemberChip = groupMember.map((item) => (   // member 정보가져와 chip으로 나열
       <Chip label={item.name} />
   ))
@@ -589,9 +578,17 @@ export default function List() {
   const imgRef = useRef();
   const p1Ref = useRef();
   const p2Ref = useRef();
-  const p3Ref = useRef();
   const captureRef = useRef();
   const loadingRef = useRef();
+
+  // const socket = io.connect('http://localhost:3001');
+
+  // const sendMessage = () => {
+  //   socket.emit("send_message", { message: 'Hello' });
+  // };
+
+
+
 
   useEffect(() => {
     let tl = gsap.timeline();
@@ -712,6 +709,7 @@ export default function List() {
             <div style={{width:'10vw', height:'10vh'}}>
               {groupMemberChip}
             </div>
+            {/* <button type='button' onClick={sendMessage}>Chat</button> */}
           </div>
           
           <div style={{display:'flex', flexDirection:'column'}}>
