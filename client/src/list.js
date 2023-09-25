@@ -198,7 +198,7 @@ function ScrollBox(props) {
     const destinationColumnId = result.destination.droppableId;
     setPushed(true);
   
-    if (sourceColumnId === destinationColumnId) {  // 같은 column 내에서의 이동
+    if (sourceColumnId === d) {  // 같은 column 내에서의 이동
       const columnId = sourceColumnId;
       const items = (getDataByColumnId(columnId));
       const [removed] = items.splice(result.source.index, 1);
