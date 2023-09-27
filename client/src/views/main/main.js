@@ -5,7 +5,7 @@ import axios from 'axios';
 import video1 from './assets/videos/video1.mp4';
 import logo2 from './assets/images/logo2.png';
 import logo from './assets/images/logo.png';
-import Login from './login.js';
+import Login from '../login/login.js';
 import Button from '@mui/material/Button';
 
 function ToEntry() {

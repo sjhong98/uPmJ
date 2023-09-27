@@ -1,11 +1,11 @@
 import './App.css';
 import { BrowserRouter, Routes, Route} from 'react-router-dom';
 
-import Main from './main.js';
-import Login from './login.js';
-import List from './list.js';
-import Entry from './entry.js';
-import Auth from './auth.js';
+import Main from './views/main/main.js';
+import Login from './views/login/login.js';
+import List from './views/plan/list.js';
+import Entry from './views/entry/entry.js';
+import Auth from './views/login/auth.js';
 import SocketTest from './socketTest.js';
 
 
