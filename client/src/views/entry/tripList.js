@@ -2,7 +2,7 @@ import React, {useContext, useState, useEffect, useRef} from 'react';
 import {Link, Navigate, useLocation, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { setTripCardClicked } from './actions.js';
+import { setTripCardClicked } from '../../redux/actions.js';
 
 function TripCard(props) {
     const navigate = useNavigate();

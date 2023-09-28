@@ -7,13 +7,7 @@
   z-index: 10;
 }
 
-.plan_loading {
-  background-color: #DE5E59;
-  width: 100vw;
-  height: 100vh;
-  position: absolute;
-  z-index: 10;
-}
+
 
 .entry-loading-animation {
   animation: entry-loading 0.5s ease;

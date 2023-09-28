@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import '../../index.css';
 import BoxBar from '../../modules/field/boxbar.js';
-import SearchBox from './searchBox.js';
-import MapBox from './mapBox.js'
+import SearchBox from './sideBox/searchBox.js';
+import MapBox from './sideBox/mapBox.js'
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import BackgroundImg from "../../assets/images/travel5.jpeg";
@@ -12,7 +12,8 @@ import h2c from 'html2canvas';
 import '../../views/entry/entry.css';
 import Chip from '@mui/material/Chip';
 import io from 'socket.io-client';  // webSocket
-import ScrollBox from './scrollBox';
+import ScrollBox from './columns/scrollBox';
+import './list.css';
 
 
 export default function List() {      // 리팩토링 : css 빼기
@@ -41,8 +42,6 @@ export default function List() {      // 리팩토링 : css 빼기
   // const sendMessage = () => {
   //   socket.emit("send_message", { message: 'Hello' });
   // };
-
-
 
 
   useEffect(() => {
@@ -107,7 +106,7 @@ export default function List() {      // 리팩토링 : css 빼기
   
       ScrollTrigger.create({
         markers: false,
-        trigger: '.p1',
+        trigger: '.list-p1',
         start: 'top bottom',  // when the "X" of the startTrigger hits "Y" of the scroller
         end: 'bottom 850px',     // when the "X" of the endTrigger hits "Y" of the scroller
         scrub: 1,
@@ -128,7 +127,7 @@ export default function List() {      // 리팩토링 : css 빼기
     
         ScrollTrigger.create({
           markers: false,
-          trigger: '.p2',
+          trigger: '.list-p2',
           start: 'top bottom',  // when the "X" of the startTrigger hits "Y" of the scroller
           end: 'bottom 850px',     // when the "X" of the endTrigger hits "Y" of the scroller
           scrub: 1,
@@ -145,57 +144,74 @@ export default function List() {      // 리팩토링 : css 빼기
   
     }, []);
   
-  useEffect(() => {
+  useEffect(() => {  
     setTimeout(() => {
       loadingRef.current.classList.add("plan-loading-animation");
     }, [1000]);
   }, [])
 
   return (
-    <div className="page" style={{height:'200vh', backgroundColor:'#E3AF27'}}>
-      <div className='plan_loading' ref={loadingRef} />
+    <div className="list-page" >
+      <div className='plan-loading' ref={loadingRef} />
 
-      <div style={{marginTop:'30px', position:'absolute', zIndex:2, width: '100%'}}>
+      <div className='list-body'>
         <div className="root">
-          <div style={{height:'15vh', display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
+          <div className='list-header'>
             <div>
-              <img src={Logo} style={{width:'500px'}} />
+              <img className='list-logo' src={Logo} />
             </div>
-            <div style={{width:'10vw', height:'10vh'}}>
+            <div className='list-member' >
               {groupMemberChip}
             </div>
             {/* <button type='button' onClick={sendMessage}>Chat</button> */}
           </div>
           
-          <div style={{display:'flex', flexDirection:'column'}}>
-
-            <div ref={bodyRef} style={{display:'flex', flexDirection:'row', justifyContent:'space-between', fontFamily:"naver_light"}}>
-              
-                <ScrollBox setBoxBar={setBoxBar} captureRef={captureRef} searchData={searchData} setKeyword={setKeyword} setXData={setXData} setPushed={setPushed} keyword={keyword} x={x} y={y} setX={setX} setY={setY} />
-
-              <div style={{backgroundColor:'#FFFFFF', width:'400px', height:'970px', marginTop:'5px', padding:'0px', boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.4)'}} >
-                <div style={{ }}>
+          <div className='list-content' >
+            <div ref={bodyRef} className='list-content-container' >
+              <ScrollBox 
+                setBoxBar={setBoxBar} 
+                captureRef={captureRef} 
+                searchData={searchData} 
+                setKeyword={setKeyword} 
+                setXData={setXData} 
+                setPushed={setPushed} 
+                keyword={keyword} 
+                x={x} y={y} 
+                setX={setX} 
+                setY={setY} />
+              <div className='list-box-container' >
+                <div>
                   <BoxBar setBoxBar={setBoxBar} />
                 </div>
-                {boxBar ? <MapBox boxBar={boxBar} setPushed={setPushed} pushed={pushed} xData={xData} x={x} y={y}/> : <SearchBox setSearchData={setSearchData} setKeyword={setKeyword} keyword={keyword} /> }
+                {boxBar ? 
+                <MapBox 
+                  boxBar={boxBar} 
+                  setPushed={setPushed} 
+                  pushed={pushed} 
+                  xData={xData} 
+                  x={x} y={y}/> : 
+                <SearchBox 
+                  setSearchData={setSearchData} 
+                  setKeyword={setKeyword} 
+                  keyword={keyword} /> }
               </div>
-            
+            </div>
+
+          <div className='download-box'>
+            <p className='list-p1' 
+              ref={p1Ref} >
+                Are You Finished?
+            </p>
+            <p className='list-p2' 
+              ref={p2Ref} 
+              onClick={capture} >
+                Download!
+            </p>
           </div>
-
-          <div className='downloadBox' style={{textAlign:'center', marginTop:'100px'}}>
-
-            <p className='p1' style={{zIndex:'100', fontFamily:'google1', fontSize:'100px', color:'#fff', position:'relative'}} ref={p1Ref} >Are You Finished?</p>
-            <p className='p2' style={{zIndex:'100', fontFamily:'google1', fontSize:'100px', color:'#fff', cursor:'pointer', position: 'relative', top:'-80px'}} ref={p2Ref} onClick={capture} >Download!</p>
-
           </div>
-
-          </div>
-
         </div>
       </div>
-
     </div>
-
   );
 }
 

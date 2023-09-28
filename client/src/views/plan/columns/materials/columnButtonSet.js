@@ -24,6 +24,26 @@ export default function ColumnButtonSet(props) {
     },
   });
 
+  const handleAddColumn = () => {
+    props.setColumnAdded(true);
+            
+    if(props.columnNum < 5) {
+        let temp = props.columnNum;
+        props.setColumnNum(temp+1);
+    }
+    console.log("added : ", props.columnNum);
+  }
+
+  const handleSubColumn = () => {
+    props.setColumnSubed(true);
+            
+    if(props.columnNum > 2) {
+        let temp = props.columnNum;
+        props.setColumnNum(temp-1);
+    }
+    console.log("subtracted : ", props.columnNum);
+  }
+
 
   return (
     
@@ -37,34 +57,21 @@ export default function ColumnButtonSet(props) {
         },
       }}
     >
-      <ThemeProvider theme={theme}>
-      <ButtonGroup variant="outlined" aria-label="outlined button group">
-
-      
-
-
-        <Button startIcon={<AddIcon />} color="neutral" onClick={()=> {
-            props.setColumnAdded(true);
-            
-            if(props.columnNum < 5) {
-                let temp = props.columnNum;
-                props.setColumnNum(temp+1);
-            }
-            console.log("added : ", props.columnNum);
-        }}></Button>
-
-
-        <Button startIcon={<RemoveIcon />} color="neutral" onClick={()=> {
-            props.setColumnSubed(true);
-            
-            if(props.columnNum > 2) {
-                let temp = props.columnNum;
-                props.setColumnNum(temp-1);
-            }
-            console.log("subtracted : ", props.columnNum);
-        }}></Button>
+      <ThemeProvider 
+        theme={theme}>
+      <ButtonGroup 
+        variant="outlined" 
+        aria-label="outlined button group">
         
+        <Button 
+          startIcon={<AddIcon />} 
+          color="neutral" 
+          onClick={handleAddColumn} />
 
+        <Button 
+          startIcon={<RemoveIcon />} 
+          color="neutral" 
+          onClick={handleSubColumn} />
 
       </ButtonGroup>
 

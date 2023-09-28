@@ -1,0 +1,9 @@
+.card {
+    margin: 15px;
+}
+
+.card-delete-btn {
+    margin-left: 140px;
+    margin-top: -10px;
+    cursor: pointer;
+}

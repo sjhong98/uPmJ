@@ -1,0 +1,26 @@
+.scroll-box-upper-tools {
+    margin-bottom: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.scroll-box-tools-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.scroll-box-tools-container-right {
+    margin-left: 500px;
+    margin-right: 50px;
+}
+
+.scroll-box-columns {
+    display: flex;
+    flex-direction: row;
+}
+
+.scroll-box-columns-container {
+    display: flex;
+    flex-direction: row;
+}

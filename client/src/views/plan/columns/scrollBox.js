@@ -1,30 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import CardBox from './card.js';
-import ColumnButtonSet from './columnButtonSet.js';
+import CardBox from './materials/card.js';
+import ColumnButtonSet from './materials/columnButtonSet.js';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import SelectSido from './selectSido.js';
+import SelectSido from './materials/selectSido.js';
 import { Box, Button } from '@mui/material';
-import { updateData2, updateData3, updateData4, updateData5, setGroupMember } from '../../redux/actions.js'; // action에 정의된 내용 가져오기
+import { updateData2, updateData3, updateData4, updateData5, setGroupMember } from '../../../redux/actions.js'; // action에 정의된 내용 가져오기
 import { useSelector, useDispatch } from 'react-redux';
-import SearchField from '../../modules/field/searchField.js';
-import LocationMenu from './locationMenu.js';
+import SearchField from '../../../modules/field/searchField.js';
+import LocationMenu from './materials/locationMenu.js';
+import './scrollBox.css';
 
-
-function ColumnSet(props) {
-    const setColumnNum = props.setColumnNum;
-    const columnNum = props.columnNum;
-  
-    return(
-      <ColumnButtonSet setColumnNum={setColumnNum} columnNum={columnNum} setAdded={props.setAdded} setColumnAdded={props.setColumnAdded} setColumnSubed={props.setColumnSubed}/>
-    )
-  }
 
 export default function ScrollBox(props) {
-    const [data, setData] = useState([{}]);
+    const [data, setData] = useState([{contentId:1, title:'day 1', index:0}]);
     const [doAxios, setDoAxios] = useState(false);
     const [sido, setSido] = useState("시도");
-    const [sidoCode, setSidoCode] = useState(1);
+    const [sidoCode, setSidoCode] = useState("1");
     const [delCol, setDelCol] = useState("");
     const [delId, setDelId] = useState("");
     const [columnNum, setColumnNum] = useState(2);
@@ -53,7 +45,7 @@ export default function ScrollBox(props) {
     const tripId = urlParams.get('trip_id');
   
     useEffect(() => {   // 초기 세팅
-        axios.post("http://localhost:5001/group/requestgroup", {  // 그룹 정보 받아오는 부분
+      axios.post("http://localhost:5001/group/requestgroup", {  // 그룹 정보 받아오는 부분
         data: {
           code: tripId,
         },
@@ -99,7 +91,13 @@ export default function ScrollBox(props) {
     }, [sidoCode, sigungu]);
   
     useEffect(() => {   // 시도 메뉴창
-      setSelectSigungu([<LocationMenu sigungu={sigungu} setSigungu={setSigungu} setDoAxios={setDoAxios} location={sido} />])
+      setSelectSigungu([
+        <LocationMenu 
+            sigungu={sigungu} 
+            setSigungu={setSigungu} 
+            setDoAxios={setDoAxios} 
+            location={sido} />
+      ])
     }, [sido]);
   
     useEffect(() => {   // 웹소켓 동작부
@@ -141,7 +139,6 @@ export default function ScrollBox(props) {
       const sourceIndex = result.source.index;
       const destinationIndex = result.destination.index;
       const item = getDataByColumnId(sourceColumnId)[sourceIndex];
-      console.log("실시간 전송 : ", item, sourceColumnId, sourceIndex, destinationColumnId, destinationIndex);
     
       if (sourceColumnId === destinationColumnId) {  // 같은 column 내에서의 이동
         const columnId = sourceColumnId;
@@ -464,23 +461,37 @@ export default function ScrollBox(props) {
   
     return (
       <div>
-        <button onClick={() => {setTest(test => test+1)}}>test</button>
-        <div style={{marginBottom: '5px', display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
-          <div style={{display:'flex', flexDirection:'row'}}>
-            <SelectSido setDoAxios={setDoAxios} sido={sido} setSido={setSido} setSidoCode={setSidoCode} />
+        <button onClick={() => {setTest(test => test+1)}}>
+          test
+        </button>
+        <div className='scroll-box-upper-tools'>
+          <div className='scroll-box-tools-container'>
+            <SelectSido 
+              setDoAxios={setDoAxios} 
+              sido={sido} 
+              setSido={setSido} 
+              setSidoCode={setSidoCode} />
             {selectSigungu}
-            <SearchField setKeyword={props.setKeyword} setBoxBar={props.setBoxBar} />
-            <div style={{marginLeft:'500px', marginRight:'50px'}}>
-              <ColumnSet setColumnNum={setColumnNum} columnNum={columnNum} setColumnAdded={setColumnAdded} setColumnSubed={setColumnSubed}/>
+            <SearchField 
+              setKeyword={props.setKeyword} 
+              setBoxBar={props.setBoxBar} />
+            <div className='scroll-box-tools-container-right' >
+            <ColumnButtonSet 
+              setColumnNum={setColumnNum} 
+              columnNum={columnNum} 
+              setColumnAdded={setColumnAdded} 
+              setColumnSubed={setColumnSubed}/>
             </div>
           </div>
         </div>
   
       
-        <div className="column" style={{ display: 'flex', flexDirection: 'row'}}>
-          <DragDropContext onDragEnd={(result) => handleDragEnd(result)} onDragStart={(start, provided) => handleDragStart(start, provided)}>
+        <div className="scroll-box-columns">
+          <DragDropContext 
+            onDragEnd={(result) => handleDragEnd(result)} 
+            onDragStart={(start, provided) => handleDragStart(start, provided)}>
               {column}
-              <div ref={props.captureRef} style={{display:'flex', flexDirection:'row'}}>
+              <div ref={props.captureRef} className="scroll-box-columns-container" >
                 {columnDisplay}
               </div>
           </DragDropContext>

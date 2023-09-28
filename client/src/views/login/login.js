@@ -1,6 +1,7 @@
 import React, {useContext, useState, useEffect} from 'react';
 import {Link, useLocation, useNavigate} from 'react-router-dom';
-import kakaoLogin from './assets/images/kakaoLogin.png';
+import kakaoLogin from '../../assets/images/kakaoLogin.png';
+import './login.css';
 
 function Login() 
 {
@@ -14,9 +15,10 @@ function Login()
 
     return(
         <div>
-            <img src={kakaoLogin} style={{height: '70px', width: 'auto', marginLeft:'15px', cursor: 'pointer', borderRadius:'2%'}} onClick={() => {
-                handleLogin();
-            }}/>
+            <img 
+                src={kakaoLogin} 
+                className='login'
+                onClick={handleLogin}/>
         </div>
     )
 }

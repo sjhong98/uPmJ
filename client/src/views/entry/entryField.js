@@ -2,7 +2,7 @@ import React, {useContext, useState, useEffect, useRef} from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateGroupName, updateGroupDesc, setCode } from '../actions.js';
+import { updateGroupName, updateGroupDesc, setCode } from '../../redux/actions.js';
 import { stepButtonClasses } from '@mui/material';
 
 export function TripName() {

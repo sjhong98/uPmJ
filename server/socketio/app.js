@@ -12,6 +12,10 @@ app.get('/', function(req, res) {
   res.sendFile(__dirname + '/index.html');
 });
 
+server.listen(3001, () => {
+  console.log('Socket IO server listening on port 3001');
+});
+
 // connection event handler
 // connection이 수립되면 event handler function의 인자로 socket인 들어온다
 io.on('connection', function(socket) {
@@ -63,6 +67,3 @@ io.on('connection', function(socket) {
   });
 });
 
-server.listen(3001, function() {
-  console.log('Socket IO server listening on port 3001');
-});
