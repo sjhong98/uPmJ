@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import SearchField from '../../../modules/field/searchField.js';
 import LocationMenu from './materials/locationMenu.js';
 import './scrollBox.css';
+import io from 'socket.io-client';
 
 
 export default function ScrollBox(props) {
@@ -27,6 +28,7 @@ export default function ScrollBox(props) {
     const [columnSubed, setColumnSubed] = useState(false);
     const [draggingItem, setDraggingItem] = useState("");
     const [draggingColumn, setDraggingColumn] = useState("");
+    const [move, setMove] = useState({});
   
     const setX = props.setX;
     const setY = props.setY;
@@ -43,6 +45,10 @@ export default function ScrollBox(props) {
     const dispatch = useDispatch();
     const urlParams = new URLSearchParams(window.location.search);
     const tripId = urlParams.get('trip_id');
+    const socket = io.connect('http://localhost:3001', {
+        cors: { origin: '*' }
+    });
+    const _email = sessionStorage.getItem("email");
   
     useEffect(() => {   // 초기 세팅
       axios.post("http://localhost:5001/group/requestgroup", {  // 그룹 정보 받아오는 부분
@@ -56,6 +62,10 @@ export default function ScrollBox(props) {
       .catch(err => {
         console.log("ERR_PLAN : ", err);
       })
+
+      const data = {email: _email}
+      socket.emit('login', data);
+
     }, []);
   
     useEffect(() => {   // 공공 데이터 받아오기
@@ -100,33 +110,31 @@ export default function ScrollBox(props) {
       ])
     }, [sido]);
   
-    useEffect(() => {   // 웹소켓 동작부
-      const _source = "drop1";
-      const _dest = "drop2";
-      const sIndex = 0;
-      const dIndex = 1;
-      const testItem = {addr1: "주소", contentId: "123123", image: "이미지", index: dIndex, mapx: "127.028", mapy: "37.5", title:"테스트"};
-      const move = {item: testItem, sourceColumnId:_source, sourceIndex:sIndex, destinationColumnId:_dest, destinationIndex:dIndex};
-      console.log("이동", move);
+    useEffect(() => {   // 웹소켓 송신
+      console.log("========== socket_data ===========\n", move);
+      if(active === true)   // 처음엔 동작 X
+        socket.emit('dragAndDrop', move);
+      setActive(true);
+    }, [move]);
+
+    socket.on('dragAndDrop', (data) => {     // 웹소켓 수신 
+      console.log("수신은 했음, socketCount : ", socketCount);
+      if(data.email !== _email) {
+        console.log("======= data received! =======\n", data);
+        const sourceColumnItems = getDataByColumnId(data.sourceColumnId);
+        const destinationColumnItems = getDataByColumnId(data.destinationColumnId);
   
-      if(active !== false) {
-        const sourceColumnItems = getDataByColumnId(move.sourceColumnId);
-        const destinationColumnItems = getDataByColumnId(move.destinationColumnId);
+        if(data.sourceColumnId !== 'drop1')     // column1 일때는 잘라내지 않아도 됨
+          sourceColumnItems.splice(data.sourceIndex, 1);   // 잘라내기
+        destinationColumnItems.splice(data.destinationIndex, 0, data.item);   // 끼워넣기
+        console.log("item added");
   
-        sourceColumnItems.splice(move.sourceIndex, 1);   // 잘라내기
-        destinationColumnItems.splice(move.destinationIndex, 0, move.item);   // 끼워넣기
-  
-        setDataByColumnId(move.sourceColumnId, sourceColumnItems);
-        setDataByColumnId(move.destinationColumnId, destinationColumnItems);
-        console.log(getDataByColumnId("drop2"));
-  
-        console.log("수행");
-        setDraggingItem(0);
+        setDataByColumnId(data.sourceColumnId, sourceColumnItems);
+        setDataByColumnId(data.destinationColumnId, destinationColumnItems);
+        setDraggingItem(draggingItem => draggingItem+1);
         setDraggingColumn("");
       }
-  
-      setActive(true);
-    }, [test]);
+    })
   
     const handleDragEnd = (result) => {   // data 이동 완료
       if (!result.destination) {
@@ -146,6 +154,14 @@ export default function ScrollBox(props) {
         const [removed] = items.splice(result.source.index, 1);
         items.splice(result.destination.index, 0, removed);
         setDataByColumnId(columnId, items);
+        setMove({
+            item: removed, 
+            sourceColumnId: columnId, 
+            sourceIndex: result.source.index, 
+            destinationColumnId: columnId, 
+            destinationIndex: result.destination.index,
+            email: _email
+        })
       } 
       else {    // 다른 column 간의 이동
         const sourceColumnItems = getDataByColumnId(sourceColumnId);
@@ -156,6 +172,15 @@ export default function ScrollBox(props) {
     
         setDataByColumnId(sourceColumnId, sourceColumnItems); // 잘라낸 sourceData update
         setDataByColumnId(destinationColumnId, destinationColumnItems);   // 끼워넣은 destinationData update
+
+        setMove({
+          item: removed, 
+          sourceColumnId: sourceColumnId, 
+          sourceIndex: result.source.index, 
+          destinationColumnId: destinationColumnId, 
+          destinationIndex: result.destination.index,
+          email: _email
+        })
       }
   
       setDraggingItem(0);

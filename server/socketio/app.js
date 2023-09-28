@@ -22,40 +22,52 @@ io.on('connection', function(socket) {
 
   // 접속한 클라이언트의 정보가 수신되면
   socket.on('login', function(data) {
-    console.log('Client logged-in:\n name:' + data.name + '\n userid: ' + data.userid);
+    console.log('Client logged-in:\n email:' + data.email);
 
     // socket에 클라이언트 정보를 저장한다
-    socket.name = data.name;
+    socket.email = data.email;
     socket.userid = data.userid;
 
     // 접속된 모든 클라이언트에게 메시지를 전송한다
-    io.emit('login', data.name );
+    // io.emit('login', data.name );
   });
 
-  // 클라이언트로부터의 메시지가 수신되면
-  socket.on('chat', function(data) {
-    console.log('Message from %s: %s', socket.name, data.msg);
+  socket.on('dragAndDrop', (data) => {
+    console.log("수신", data);
+    // const _data = {
+    //   email: data.email,
+    //   item: data.item,
+    //   sourceColumnId: data.sourceColumnId,
+    //   sourceIndex: data.sourceIndex,
+    //   destinationColumnId: data.destinationColumnId,
+    //   destinationIndex: data.destinationIndex,
+    // }
+    console.log("송신");
+    io.emit('dragAndDrop', data);
+  })
 
-    var msg = {
-      from: {
-        name: socket.name,
-        userid: socket.userid
-      },
-      msg: data.msg
-    };
+  // // 클라이언트로부터의 메시지가 수신되면
+  // socket.on('ctos', function(data) {
+  //   console.log('Message from %s: %s', data.email, data.msg);
 
-    // 메시지를 전송한 클라이언트를 제외한 모든 클라이언트에게 메시지를 전송한다
-    socket.broadcast.emit('chat', msg);
+  //   var msg = {
+  //     from: {
+  //       email: data.email,
+  //     },
+  //     msg: data.msg
+  //   };
+
+  //   // 메시지를 전송한 클라이언트를 제외한 모든 클라이언트에게 메시지를 전송한다
+  //   socket.broadcast.emit('stoc', msg);
 
     // 메시지를 전송한 클라이언트에게만 메시지를 전송한다
-    // socket.emit('s2c chat', msg);
+    // socket.emit('chat', msg);
 
     // 접속된 모든 클라이언트에게 메시지를 전송한다
     // io.emit('s2c chat', msg);
 
     // 특정 클라이언트에게만 메시지를 전송한다
     // io.to(id).emit('s2c chat', data);
-  });
 
   // force client disconnect from server
   socket.on('forceDisconnect', function() {
