@@ -29,6 +29,7 @@ export default function ScrollBox(props) {
     const [draggingItem, setDraggingItem] = useState("");
     const [draggingColumn, setDraggingColumn] = useState("");
     const [move, setMove] = useState({});
+    const [socketOn, setSocketOn] = useState(0);
   
     const setX = props.setX;
     const setY = props.setY;
@@ -115,26 +116,28 @@ export default function ScrollBox(props) {
       if(active === true)   // 처음엔 동작 X
         socket.emit('dragAndDrop', move);
       setActive(true);
-    }, [move]);
+    }, [socketOn]);
 
-    socket.on('dragAndDrop', (data) => {     // 웹소켓 수신 
-      console.log("수신은 했음, socketCount : ", socketCount);
-      if(data.email !== _email) {
-        console.log("======= data received! =======\n", data);
-        const sourceColumnItems = getDataByColumnId(data.sourceColumnId);
-        const destinationColumnItems = getDataByColumnId(data.destinationColumnId);
-  
-        if(data.sourceColumnId !== 'drop1')     // column1 일때는 잘라내지 않아도 됨
-          sourceColumnItems.splice(data.sourceIndex, 1);   // 잘라내기
-        destinationColumnItems.splice(data.destinationIndex, 0, data.item);   // 끼워넣기
-        console.log("item added");
-  
-        setDataByColumnId(data.sourceColumnId, sourceColumnItems);
-        setDataByColumnId(data.destinationColumnId, destinationColumnItems);
-        setDraggingItem(draggingItem => draggingItem+1);
-        setDraggingColumn("");
-      }
-    })
+    useEffect(() => {
+      socket.on('dragAndDrop', (data) => {     // 웹소켓 수신 
+        console.log("수신은 했음");
+        if(data.email !== _email) {
+          console.log("======= data received! =======\n", data);
+          const sourceColumnItems = getDataByColumnId(data.sourceColumnId);
+          const destinationColumnItems = getDataByColumnId(data.destinationColumnId);
+    
+          if(data.sourceColumnId !== 'drop1')     // column1 일때는 잘라내지 않아도 됨
+            sourceColumnItems.splice(data.sourceIndex, 1);   // 잘라내기
+          destinationColumnItems.splice(data.destinationIndex, 0, data.item);   // 끼워넣기
+          console.log("item added");
+    
+          setDataByColumnId(data.sourceColumnId, sourceColumnItems);
+          setDataByColumnId(data.destinationColumnId, destinationColumnItems);
+          setDraggingItem(draggingItem => draggingItem+1);
+          setDraggingColumn("");
+        }
+      })
+    }, [])
   
     const handleDragEnd = (result) => {   // data 이동 완료
       if (!result.destination) {
@@ -185,6 +188,7 @@ export default function ScrollBox(props) {
   
       setDraggingItem(0);
       setDraggingColumn("");
+      setSocketOn(socketOn => socketOn+1);
     };
   
     const handleDragStart = (start, provided) => {    // 어떤 column에서 어떤 data가 이동 중인가
