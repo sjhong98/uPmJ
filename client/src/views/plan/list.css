@@ -1,0 +1,82 @@
+.list-page {
+    height: 200vh;
+    background-color: #E3AF27;
+}
+
+.list-body {
+    margin-top: 30px;
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+}
+
+.list-header {
+    height: 15vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.list-logo {
+    width: 500px;
+}
+
+.list-member {
+    width: 10vw;
+    height: 10vh;
+}
+
+.content-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.list-content-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-family: 'naver_light';
+}
+
+.list-box-container {
+    background-color: #fff;
+    width: 400px;
+    height: 970px;
+    margin-top: 5px;
+    padding: 0px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.download-box {
+    text-align: center;
+    margin-top: 100px;
+}
+
+.list-p1 {
+    z-index: 100;
+    font-family: 'google1';
+    font-size: 100px;
+    color: #fff;
+    position: relative;
+}
+
+.list-p2 {
+    z-index: 100;
+    font-family: 'google1';
+    font-size: 100px;
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+    top: -80px;
+}
+
+.plan-loading {
+    background-color: #DE5E59;
+    width: 100vw;
+    height: 200vh;
+    position: absolute;
+    z-index: 10;
+  }
+
+
+
