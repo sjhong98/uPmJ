@@ -2,13 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 export default function MapBox(props) {
-  const x = props.x;
-  const y = props.y;
+  const x = useSelector(state => state.x);
+  const y = useSelector(state => state.y);
 
   const data2 = useSelector((state) => state.data2);
   const data3 = useSelector((state) => state.data3);
   const data4 = useSelector((state) => state.data4);
   const data5 = useSelector((state) => state.data5);
+
+  useEffect(() => {
+    console.log(x, y);
+  }, [x, y])
 
 
     useEffect(() => {
@@ -26,7 +30,6 @@ export default function MapBox(props) {
       
       marker.setMap(map);
 
-      console.log("=====data2=====:", data2);
       const positions2 =  data2 && data2.map(item => ({
         title: item.title,
         latlng: new window.kakao.maps.LatLng(item.mapy, item.mapx)

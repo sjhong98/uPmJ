@@ -31,8 +31,8 @@ export default function ScrollBox(props) {
     const [move, setMove] = useState({});
     const [socketOn, setSocketOn] = useState(0);
   
-    const setX = props.setX;
-    const setY = props.setY;
+    const x = useSelector((state) => state.x);
+    const y = useSelector((state) => state.y);
     const data2 = useSelector((state) => state.data2);
     const data3 = useSelector((state) => state.data3);
     const data4 = useSelector((state) => state.data4);
@@ -339,7 +339,7 @@ export default function ScrollBox(props) {
                           {...provided.dragHandleProps}
                           >
                           <CardBox
-                             draggingItem={draggingItem} droppableId="drop1" setXData={setXData} index={index} column={"drop1"} setX={setX} setY={setY} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
+                             draggingItem={draggingItem} droppableId="drop1" setXData={setXData} index={index} column={"drop1"} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
                           />
                           </div>
                       )}
@@ -371,7 +371,7 @@ export default function ScrollBox(props) {
                           {...provided.dragHandleProps}
                           >
                               <CardBox
-                              style={{}} droppableId="drop2" setXData={setXData} index={index} column={"drop2"} setX={setX} setY={setY} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
+                              style={{}} droppableId="drop2" setXData={setXData} index={index} column={"drop2"} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
                           />
   
                           </div>
@@ -404,7 +404,7 @@ export default function ScrollBox(props) {
                           {...provided.dragHandleProps}
                           >
                               <CardBox
-                              index={index} droppableId="drop3" setXData={setXData} column={"drop3"} setX={setX} setY={setY} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
+                              index={index} droppableId="drop3" setXData={setXData} column={"drop3"} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
                           />
                               
                           </div>
@@ -437,7 +437,7 @@ export default function ScrollBox(props) {
                           {...provided.dragHandleProps}
                           >
                               <CardBox
-                              index={index} droppableId="drop4" column={"drop4"} setXData={setXData} setX={setX} setY={setY} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
+                              index={index} droppableId="drop4" column={"drop4"} setXData={setXData} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
                           />
                               
                           </div>
@@ -470,7 +470,19 @@ export default function ScrollBox(props) {
                         {...provided.dragHandleProps}
                         >
                             <CardBox
-                            index={index} droppableId="drop5" column={"drop5"} setXData={setXData} setX={setX} setY={setY} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
+                              index={index} 
+                              droppableId="drop5" 
+                              column={"drop5"} 
+                              setXData={setXData} 
+                              contentId={item.contentId} 
+                              setKeyword={props.setKeyword} 
+                              title={item.title} 
+                              addr1={item.addr1} 
+                              image={item.image} 
+                              mapx={item.mapx} 
+                              mapy={item.mapy} 
+                              setDelCol={setDelCol} 
+                              setDelId={setDelId}
                         />
                             
                         </div>

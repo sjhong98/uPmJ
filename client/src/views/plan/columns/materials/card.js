@@ -8,16 +8,21 @@ import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import './card.css';
+import { setX, setY } from '../../../../redux/actions';
+import { useDispatch } from 'react-redux';
+
 
 
 export default function CardBox(props) {
+  const dispatch = useDispatch();
 
   const handleClickCard = () => {
     props.setKeyword(props.title);
       if(props.contentId !== 1 && props.contentId !== 2) {
         if(props.contentId !== 3 && props.contentId !== 3) {
-          props.setX(props.mapx);
-          props.setY(props.mapy);
+          dispatch(setX(props.mapx));
+          dispatch(setY(props.mapy));
+          console.log("x,y dispatched");
         }
       }
       props.setXData(props.droppableId);
