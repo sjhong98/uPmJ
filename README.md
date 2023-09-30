@@ -44,7 +44,7 @@ UPMJ는 여행을 갈 때마다 계획을 세우는 것이 너무 어렵다는 �
 
 ### Environment
 <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
-<img src="https://img.shields.io/badge/visualstudiocode-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white">
+<img src="https://img.shields.io/badge/visual studio code-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white">
 
 
 
