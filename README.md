@@ -17,9 +17,14 @@
 ## 1. 프로젝트 개요
 <img width="562" alt="logo" src="https://github.com/sjhong98/uPmJ/assets/90092013/64915d0e-18fd-4da8-a000-28be5c2776c1">
 
+<br/><br/>
 
+'넌 P해 난 J해'(이하 UPMJ)는 MBTI가 J인 계획형 인간들이 여행 계획을 쉽고 편하게 세울 수 있도록 만들어진 서비스입니다. <br/>
 
-<a name='아이디어소개' /><br/>
+<br/>
+
+<a name='아이디어소개' />
+
 ## 2. 아이디어 소개
 
 
