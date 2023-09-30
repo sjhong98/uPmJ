@@ -6,9 +6,9 @@
 1. [프로젝트 개요](#프로젝트개요)<br/>
 2. [아이디어 소개](#아이디어소개)<br/>
 3. [기술 스택](#기술스택)<br/>
-4. [주요 기능](#4.-주요-기능)<br/>
-5. [화면 구성](#5.-화면-구성)<br/>
-6. [프론트엔드 구현](#6.-프론트엔드-구현)<br/>
+4. [주요 기능](#주요기능)<br/>
+5. [화면 구성](#화면구성)<br/>
+6. [프론트엔드 구현](#프론트엔드구현)<br/>
 
 <br/>
 
@@ -39,7 +39,8 @@ UPMJ는 여행을 갈 때마다 계획을 세우는 것이 너무 어렵다는 �
 
 그래서 저희는 여행 계획을 세우는데에 필요한 기능들을 한데 모은 서비스를 개발하게 되었습니다.<br/>
 
-<a name='기술스택' /><br/>
+<a name='기술스택' />
+
 ## 3. 기술 스택
 
 ### Environment
@@ -53,6 +54,27 @@ UPMJ는 여행을 갈 때마다 계획을 세우는 것이 너무 어렵다는 �
 
 ### Communication
 <img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&logoColor=white"> <img src="https://img.shields.io/badge/discord-5865F2?style=for-the-badge&logo=discord&logoColor=white"> 
+
+<a name='주요기능' />
+
+## 4. 주요 기능
+
+### 1) 카카오 소셜로그인
+![화면 기록 2023-09-30 오후 4 02 28](https://github.com/sjhong98/uPmJ/assets/90092013/3315cea7-8a54-4130-bf8f-e867f161f0b7)
+
+
+### 2) 여행 그룹 추가 및 참여
+
+
+
+
+
+
+
+
+
+
+
 
 
 
