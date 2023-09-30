@@ -66,7 +66,7 @@ UPMJ는 여행을 갈 때마다 계획을 세우는 것이 너무 어렵다는 �
 ### 2) 여행 그룹 추가 및 참여
 ![화면 기록 2023-09-30 오후 4 07 31](https://github.com/sjhong98/uPmJ/assets/90092013/5c8e9fb1-ce2a-4845-96c8-45a6f5d190d8)
 <br/>
-![화면 기록 2023-09-30 오후 4 07 31](https://github.com/sjhong98/uPmJ/assets/90092013/10bb71a2-8dad-4a19-bcf6-71989714bca5)
+https://github.com/sjhong98/uPmJ/assets/90092013/10bb71a2-8dad-4a19-bcf6-71989714bca5
 
 
 새로운 여행을 추가하여 그룹을 생성하거나, 생성된 그룹에 코드를 통해 참여 가능
