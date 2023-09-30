@@ -59,9 +59,10 @@ UPMJ는 여행을 갈 때마다 계획을 세우는 것이 너무 어렵다는 �
 
 ## 4. 주요 기능
 <br/>
+
 ### 1) 카카오 소셜로그인
-https://github.com/sjhong98/uPmJ/assets/90092013/ae9e7a53-377e-4d71-8e5e-f75b4fe6e358
-<br/>
+<video src='https://github.com/sjhong98/uPmJ/assets/90092013/ae9e7a53-377e-4d71-8e5e-f75b4fe6e358' autoplay />
+
 <br/><br/><br/>
 
 ### 2) 여행 그룹 추가 및 참여
