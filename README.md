@@ -73,13 +73,25 @@ UPMJ는 여행을 갈 때마다 계획을 세우는 것이 너무 어렵다는 �
 <br/><br/><br/>
 
 ### 3) 여행 계획 세우기
+![ezgif com-video-to-gif (2)](https://github.com/sjhong98/uPmJ/assets/90092013/2b76b266-ca24-4a8e-8043-9bb04266daba)
 
-
-<br/>
-공공데이터 API를 활용하여 지역별 여행지 정보를 카드 형식으로 가져옴. 여행지 카드는 최대 4개까지 추가 가능한 day별 칼럼 상에서 드래그앤드롭 가능. 이를 통해 여행 계획을 원하는대로 세울 수 있음
+<br/>.
+공공데이터 API를 활용하여 지역별 여행지 정보를 카드 형식으로 가져옴. 여행지 카드는 최대 4개까지 추가 가능한 day별 칼럼 상에서 드래그앤드롭 가능. (react-beautiful-dnd library 사용) 이를 통해 여행 계획을 자신이 원하는대로 블록 맞추듯 만들 수 있음.
 <br/><br/><br/>
 
 ### 4) 지도에서 여행 동선 확인
+![ezgif com-video-to-gif (3)](https://github.com/sjhong98/uPmJ/assets/90092013/dd191d8e-7fdc-4385-8443-e16ea48ca927)
+
+<br/>
+카카오맵 API를 활용하여, 여행지 카드 클릭 시 mapBox에서 여행지의 위치 정보를 표시함. 또한 지도 상에서 day별로 여행지들을 각기 다른 색의 선으로 순서대로 연결하여, 여행 동선을 확인할 수 있도록 함.
+<br/><br/><br/>
+
+
+### 5) 여행지 정보 검색
+![ezgif com-video-to-gif (4)](https://github.com/sjhong98/uPmJ/assets/90092013/c4b06ff4-c37c-4abb-8491-4f92cebcd2d2)
+
+<br/>
+카카오맵 검색 API를 활용하여, 여행지 카드 클릭 시 해당 여행지의 정보를 searchBox에서 띄워줌.
 
 
 
