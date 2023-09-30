@@ -58,23 +58,23 @@ UPMJ는 여행을 갈 때마다 계획을 세우는 것이 너무 어렵다는 �
 <a name='주요기능' />
 
 ## 4. 주요 기능
-
+<br/>
 ### 1) 카카오 소셜로그인
-![화면 기록 2023-09-30 오후 4 02 28](https://github.com/sjhong98/uPmJ/assets/90092013/3315cea7-8a54-4130-bf8f-e867f161f0b7 | width=100)
-
+https://github.com/sjhong98/uPmJ/assets/90092013/ae9e7a53-377e-4d71-8e5e-f75b4fe6e358
+<br/><br/>
 
 ### 2) 여행 그룹 추가 및 참여
-![화면 기록 2023-09-30 오후 4 07 31](https://github.com/sjhong98/uPmJ/assets/90092013/5c8e9fb1-ce2a-4845-96c8-45a6f5d190d8)
+https://github.com/sjhong98/uPmJ/assets/90092013/73686140-214e-4015-80de-aef77aace9dc
 <br/>
-https://github.com/sjhong98/uPmJ/assets/90092013/10bb71a2-8dad-4a19-bcf6-71989714bca5
-
-
 새로운 여행을 추가하여 그룹을 생성하거나, 생성된 그룹에 코드를 통해 참여 가능
-
+<br/><br/>
 
 ### 3) 여행 계획 세우기
-![화면 기록 2023-09-30 오후 4 11 46](https://github.com/sjhong98/uPmJ/assets/90092013/04303f73-4967-457f-a9a5-33f3f2e480af)
+https://github.com/sjhong98/uPmJ/assets/90092013/ef5f6ebd-0559-427d-a30c-f147bf3b101f
 <br/>
+공공데이터를 활용하여 지역별 여행지 정보를 카드 형식으로 가져옴. 여행지 카드는 최대 5개까지 추가 가능한 day별 칼럼 상에서 드래그앤드롭 가능. 이를 통해 여행 계획을 원하는대로 세울 수 있음
+<br/><br/>
+
 
 
 
