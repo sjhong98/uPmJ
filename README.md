@@ -61,19 +61,24 @@ UPMJ는 여행을 갈 때마다 계획을 세우는 것이 너무 어렵다는 �
 <br/>
 ### 1) 카카오 소셜로그인
 https://github.com/sjhong98/uPmJ/assets/90092013/ae9e7a53-377e-4d71-8e5e-f75b4fe6e358
-<br/><br/>
+
+<br/><br/><br/>
 
 ### 2) 여행 그룹 추가 및 참여
 https://github.com/sjhong98/uPmJ/assets/90092013/73686140-214e-4015-80de-aef77aace9dc
+
 <br/>
 새로운 여행을 추가하여 그룹을 생성하거나, 생성된 그룹에 코드를 통해 참여 가능
-<br/><br/>
+<br/><br/><br/>
 
 ### 3) 여행 계획 세우기
 https://github.com/sjhong98/uPmJ/assets/90092013/ef5f6ebd-0559-427d-a30c-f147bf3b101f
+
 <br/>
 공공데이터를 활용하여 지역별 여행지 정보를 카드 형식으로 가져옴. 여행지 카드는 최대 5개까지 추가 가능한 day별 칼럼 상에서 드래그앤드롭 가능. 이를 통해 여행 계획을 원하는대로 세울 수 있음
-<br/><br/>
+<br/><br/><br/>
+
+### 4) 지도에서 여행 동선 확인
 
 
 
