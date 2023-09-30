@@ -92,6 +92,25 @@ UPMJ는 여행을 갈 때마다 계획을 세우는 것이 너무 어렵다는 �
 
 <br/>
 카카오맵 검색 API를 활용하여, 여행지 카드 클릭 시 해당 여행지의 정보를 searchBox에서 띄워줌.
+<br/><br/><br/>
+
+
+### 6) 새로운 여행지 검색 및 추가
+![ezgif com-video-to-gif (5)](https://github.com/sjhong98/uPmJ/assets/90092013/aaf0647a-26ef-4d8d-84cf-f168557bbc30)
+
+<br/>
+공공데이터 API로 제공되지 않는 장소도 검색을 통해 찾을 수 있으며, 여행지 카드로 만들 수도 있음.
+<br/><br/><br/>
+
+
+
+
+
+
+
+
+
+
 
 
 
