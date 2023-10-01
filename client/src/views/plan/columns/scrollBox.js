@@ -22,7 +22,7 @@ export default function ScrollBox(props) {
     const [delId, setDelId] = useState("");
     const [columnNum, setColumnNum] = useState(2);
     const [columnDisplay, setColumnDisplay] = useState([]);
-    const [sigungu, setSigungu] = useState("1");
+    const [sigungu, setSigungu] = useState(1);
     const [selectSigungu, setSelectSigungu] = useState();
     const [columnAdded, setColumnAdded] = useState(false);
     const [columnSubed, setColumnSubed] = useState(false);
