@@ -105,49 +105,49 @@ UPMJ는 여행을 갈 때마다 계획을 세우는 것이 너무 어렵다는 �
 
 ## 4. 아키텍쳐
 
-client
-  L .firebase
-  L build
-  L node_modules
-  L public
-  L src
-    L assets
-    L modules  : 공통적으로 사용되는 모듈들
-      L fields
-        L boxBar.js
-        L searchField.js
-      L redux  : 리덕스와 관련된 파일들
-        L actions.js
-        L reducers.js
-      L views  : 각 페이지들
-        L entry  : 여행 그룹 입장 페이지
-          L entry.css
-          L entry.js
-          L entryButton.js
-          L entryField.js
-          L tripList.js
-        L login  : 로그인 페이지
-          L auth.js
-          L login.css
-          L login.js
-        L main 
-          L main.js
-          L main.css
-        L plan  : 계획 세우기 페이지
-          L columns  : 칼럼과 관련된 컴포넌트들
-            L  materials 
-              L card.css
-              L card.js
-              L columnButtonSet.js
-              L locationMenu.js
-              L selectSido.js
-            L scrollBox.css  : 칼럼 컴포넌트
-            L scrollBox.js
-          L sideBox  : 툴 박스와 관련된 컴포넌트들
-            L mapBox.js
-            L searchBox.js
-          L list.css
-          L list.js  : 컴포넌트 통합 페이지
+client <br/>
+  L .firebase <br/>
+  L build <br/>
+  L node_modules <br/>
+  L public <br/>
+  L src <br/>
+    L assets <br/>
+    L modules  : 공통적으로 사용되는 모듈들 <br/>
+      L fields <br/>
+        L boxBar.js <br/>
+        L searchField.js <br/>
+      L redux  : 리덕스와 관련된 파일들 <br/>
+        L actions.js <br/>
+        L reducers.js <br/>
+      L views  : 각 페이지들 <br/>
+        L entry  : 여행 그룹 입장 페이지 <br/>
+          L entry.css <br/>
+          L entry.js <br/>
+          L entryButton.js <br/>
+          L entryField.js <br/>
+          L tripList.js <br/>
+        L login  : 로그인 페이지 <br/>
+          L auth.js <br/>
+          L login.css <br/>
+          L login.js <br/>
+        L main  <br/>
+          L main.js <br/>
+          L main.css <br/>
+        L plan  : 계획 세우기 페이지 <br/>
+          L columns  : 칼럼과 관련된 컴포넌트들 <br/>
+            L  materials  <br/>
+              L card.css <br/>
+              L card.js <br/>
+              L columnButtonSet.js <br/>
+              L locationMenu.js <br/>
+              L selectSido.js <br/>
+            L scrollBox.css  : 칼럼 컴포넌트 <br/>
+            L scrollBox.js <br/>
+          L sideBox  : 툴 박스와 관련된 컴포넌트들 <br/>
+            L mapBox.js <br/>
+            L searchBox.js <br/>
+          L list.css <br/>
+          L list.js  : 컴포넌트 통합 페이지 <br/>
 
 
 
