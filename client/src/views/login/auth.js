@@ -37,8 +37,8 @@ export default function Auth() {
                     sessionStorage.setItem('email', signInResponse.data.justCreatedData.email);       
                 }
                 else {
-                    sessionStorage.setItem('name', signInResponse.data.existedData.name);
-                    sessionStorage.setItem('email', signInResponse.data.existedData.email);
+                    sessionStorage.setItem('name', signInResponse.data.existedData.user.name);
+                    sessionStorage.setItem('email', signInResponse.data.existedData.user.email);
                 }
 
                 navigate('/entry');

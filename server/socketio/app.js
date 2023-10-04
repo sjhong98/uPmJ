@@ -1,4 +1,4 @@
-const {savePlan} = require("../controller/plan.controller")
+const {viewOrder, editPlan} = require("../controller/plan.controller")
 var app = require('express')();
 var server = require('http').createServer(app);
 // http server를 socket.io server로 upgrade한다
@@ -36,7 +36,8 @@ io.on('connection', function(socket) {
   socket.on('dragAndDrop', (data) => {
 
     // console.log("수신", data);
-    savePlan(data);
+    viewOrder(data);
+    editPlan(data)
 
     // sourceColumnId: 'drop1',
     // sourceIndex: 1,

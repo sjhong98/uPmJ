@@ -4,13 +4,10 @@ const { sequelize } = require("./sequelize/sq.instance");
 const FirstDay = sequelize.define(
   "firstDay", 
   {
-      id: {
+      code: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-        primaryKey: true,
-        autoIncrement: true,
         references: {
-          model: 'groups', 
+          model: 'groups',
           key: 'code',
         },
       },
@@ -26,19 +23,16 @@ const FirstDay = sequelize.define(
 const SecondDay = sequelize.define(
   "secondDay", 
   {
-      id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        primaryKey: true,
-        autoIncrement: true,
-        references: {
-          model: 'groups', 
-          key: 'code',
-        },
+    code: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'groups', 
+        key: 'code',
       },
-      plan: {
-        type: DataTypes.STRING,
-      },
+    },
+    plan: {
+      type: DataTypes.STRING,
+    },
   },
   {
     timestamps: false
@@ -48,19 +42,16 @@ const SecondDay = sequelize.define(
 const ThirdDay = sequelize.define(
   "thirdDay", 
   {
-      id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        primaryKey: true,
-        autoIncrement: true,
-        references: {
-          model: 'groups', 
-          key: 'code',
-        },
+    code: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'groups',
+        key: 'code',
       },
-      plan: {
-        type: DataTypes.STRING,
-      },
+    },
+    plan: {
+      type: DataTypes.STRING,
+    },
   },
   {
     timestamps: false
@@ -70,19 +61,16 @@ const ThirdDay = sequelize.define(
 const FourthDay = sequelize.define(
   "fourthDay", 
   {
-      id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        primaryKey: true,
-        autoIncrement: true,
-        references: {
-          model: 'groups', 
-          key: 'code',
-        },
+    code: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'groups', 
+        key: 'code',
       },
-      plan: {
-        type: DataTypes.STRING,
-      },
+    },
+    plan: {
+      type: DataTypes.STRING,
+    },
   },
   {
     timestamps: false

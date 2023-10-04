@@ -30,6 +30,9 @@ const Group = sequelize.define(
 const GroupMember = sequelize.define(
   "groupMember", 
   {
+      host: {
+        type: DataTypes.STRING,
+      },
       code: {
         type: DataTypes.INTEGER,
         references: {
@@ -37,11 +40,16 @@ const GroupMember = sequelize.define(
           key: 'code',
         },
       },
-      email: {
+      title: {
         type: DataTypes.STRING,
-        
       },
-      name: {
+      describe: {
+        type: DataTypes.STRING,
+      },
+      memberEmail: {
+        type: DataTypes.STRING,
+      },
+      memberName: {
         type: DataTypes.STRING,
       }
   },

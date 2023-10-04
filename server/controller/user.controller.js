@@ -15,11 +15,14 @@ const signIn = async (req, res) => {
       name:userInfo.data.properties.nickname, 
       email:userInfo.data.kakao_account.email,
     };
+    
     const existedData = await userFind(justCreatedData) 
-    if (existedData) { // 들어있다면 이미 가입된거고, 비어있다면 가입 X 이므로 새로 등록했다고 전달
-      return res.status(200).json({existedData, status: "already existed"});  
-    } else {
+    console.log(existedData)
+  
+    if (existedData === false) {
       return res.status(201).json({justCreatedData, status: "just registered"});
+    } else {
+      return res.status(200).json({existedData, status: "already existed"});  
     }
   }catch(error){
     console.log("signIn function error: ",error);
@@ -34,11 +37,14 @@ const userFind = async (userInfo) => {
       userRegister(userInfo);
       return false;
     }else{
-      const userWithGroups = await db.User.findOne({
+      const user = await db.User.findOne({
         where: { email: userInfo.email },
-        include: [{ model: db.Group }],
       });
-      return userWithGroups;
+      const groupList = await db.GroupMember.findAll({
+        where: { memberEmail: userInfo.email },
+      });
+      
+      return {user: user, groupList: groupList};
     }
   }catch(error){
     console.log("userFind function error: ",error);
