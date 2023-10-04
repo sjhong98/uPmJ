@@ -23,9 +23,6 @@ const createGroup = async (req, res) => {
 const joinGroup = async (req, res) => {
   try{
     const data = req.body.data;
-    
-    // test code -> 삭제가능
-    // const data = {code: 628718, email: "test@test.com", name: "홍길동"}
   
     if(!(await modelJoinGroup(data)))
       return res.status(201).send("already existed!");
@@ -59,6 +56,24 @@ const modelCreateGroup = async (data) => {
       describe: data.describe,
     });
 
+    await db.GroupMember.create({
+      host: data.host,
+      code: data.code,
+      title: data.title,
+      describe: data.describe,
+      memberEmail: data.host,
+      memberName: user.dataValues.name
+    });
+
+    const defaultPlan = [];
+    const models = [db.FirstDay, db.SecondDay, db.ThirdDay, db.FourthDay];
+    models.forEach((model) => {
+      model.create({
+        code: data.code,
+        plan: JSON.stringify(defaultPlan),
+      })
+    })
+
     await user.addGroup(createdGroup); // sequelize에서 제공하는 add 매소드 -> 사용방식은 .addModelName 으로 add 뒤에 모델 이름을 적어서 사용
 
     return true;
@@ -70,34 +85,37 @@ const modelCreateGroup = async (data) => {
 
 const modelJoinGroup = async (data) => {
   try{
-    const group = await db.Group.findOne({
-      where: { code: data.code },
-      include: [{ model: db.GroupMember }], 
-    });
+    const isExist = await db.GroupMember.findAll({
+      where: {
+        memberEmail: data.email,
+        code: data.code,
+      }
+    })
 
-    if(groupMemberFind(group.groupMembers, data.email)){
+    if(isExist.length){
       console.log("already existed")
       return false;
     }
+
+    const group = await db.Group.findOne({
+      where: { code: data.code }
+    });
     
-    const member = await db.GroupMember.create({
-      email: data.email,
-      name: data.name,
+    console.log("@@@@@@@@@@@", group)
+
+    await db.GroupMember.create({
+      host: group.dataValues.host,
+      code: group.dataValues.code,
+      title: group.dataValues.title,
+      describe: group.dataValues.describe,
+      memberEmail: data.email,
+      memberName: data.name,
     })
-    await group.addGroupMember(member);
+
     return true;
   }catch(error){
     console.log("modelJoinGroup function error: ", error);
   }
-}
-
-const groupMemberFind = (groupData, target) => {
-  var result = false;
-  groupData.forEach(el => {
-    if(el.dataValues.email === target)
-      result = true;
-  });
-  return result;
 }
 
 const groupInfoFind = async (req, res) => {
