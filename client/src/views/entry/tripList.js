@@ -46,8 +46,8 @@ export default function TripList(props) {
         .then(res => {
             console.log("TEST : ", res);
             if(res.data.existedData) {
-                let n = res.data.existedData.groups.length;
-                setGroupList(res.data.existedData.groups);
+                let n = res.data.existedData.groupList.length;
+                setGroupList(res.data.existedData.groupList);
             }
 
         })
