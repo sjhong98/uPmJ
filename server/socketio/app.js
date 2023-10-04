@@ -1,3 +1,4 @@
+const {savePlan} = require("../controller/plan.controller")
 var app = require('express')();
 var server = require('http').createServer(app);
 // http server를 socket.io server로 upgrade한다
@@ -33,7 +34,17 @@ io.on('connection', function(socket) {
   });
 
   socket.on('dragAndDrop', (data) => {
+
+    // console.log("수신", data);
+    savePlan(data);
+
+    // sourceColumnId: 'drop1',
+    // sourceIndex: 1,
+    // destinationColumnId: 'drop2',
+    // destinationIndex: 1,
+
     console.log("\n\n===== 수신 =====", data, '\n\n');
+
     // const _data = {
     //   email: data.email,
     //   item: data.item,
@@ -42,7 +53,7 @@ io.on('connection', function(socket) {
     //   destinationColumnId: data.destinationColumnId,
     //   destinationIndex: data.destinationIndex,
     // }
-    console.log("\n\n===== 송신 ===== \n\n");
+
     io.emit('dragAndDrop', data);
   })
 
