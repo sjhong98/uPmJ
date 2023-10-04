@@ -5,7 +5,7 @@ import axios from 'axios';
 export default function Auth() {
     const navigate = useNavigate();
     const key = 'c105c81a4b71d2b2b6eb5313272815ef';
-    const uri = 'http://localhost:9000/login/auth';
+    const uri = 'http://localhost:3000/login/auth';
 
     const code = new URL(document.location.toString()).searchParams.get("code");
 
@@ -37,8 +37,8 @@ export default function Auth() {
                     sessionStorage.setItem('email', signInResponse.data.justCreatedData.email);       
                 }
                 else {
-                    sessionStorage.setItem('name', signInResponse.data.existedData.user.name);
-                    sessionStorage.setItem('email', signInResponse.data.existedData.user.email);
+                    sessionStorage.setItem('name', signInResponse.data.existedData.name);
+                    sessionStorage.setItem('email', signInResponse.data.existedData.email);
                 }
 
                 navigate('/entry');
