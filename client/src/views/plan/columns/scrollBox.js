@@ -163,7 +163,8 @@ export default function ScrollBox(props) {
             sourceIndex: result.source.index, 
             destinationColumnId: columnId, 
             destinationIndex: result.destination.index,
-            email: _email
+            email: _email,
+            tripId: tripId,
         })
       } 
       else {    // 다른 column 간의 이동
