@@ -9,6 +9,8 @@ const initialState = {
     code: "",
     tripCardClicked: false,
     groupMember: [],
+    x: 126.97722,
+    y: 37.57861
 }
 
 const dataReducer = (state = initialState, action) => {
@@ -72,6 +74,18 @@ const dataReducer = (state = initialState, action) => {
             return {
                 ...state,
                 data5: action.payload,
+            };
+
+        case 'SET_X' :
+            return {
+                ...state,
+                x: action.payload,
+            };
+        
+        case 'SET_Y' :
+            return { 
+                ...state,
+                y: action.payload,
             };
         
         default :
