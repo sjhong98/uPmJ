@@ -9,9 +9,9 @@ var io = require('socket.io')(server, {
 });
 
 // localhost:3000으로 서버에 접속하면 클라이언트로 index.html을 전송한다
-app.get('/', function(req, res) {
-  res.sendFile(__dirname + '/index.html');
-});
+// app.get('/', function(req, res) {
+//   res.sendFile(__dirname + '/index.html');
+// });
 
 server.listen(3001, () => {
   console.log('Socket IO server listening on port 3001');
@@ -23,7 +23,7 @@ io.on('connection', function(socket) {
 
   // 접속한 클라이언트의 정보가 수신되면
   socket.on('login', function(data) {
-    console.log('Client logged-in:\n email:' + data.email);
+    console.log('\n\n===== Client logged-in =====\n email: ' + data.email, '\n\n');
 
     // socket에 클라이언트 정보를 저장한다
     socket.email = data.email;
@@ -34,6 +34,7 @@ io.on('connection', function(socket) {
   });
 
   socket.on('dragAndDrop', (data) => {
+
     // console.log("수신", data);
     savePlan(data);
 
@@ -41,6 +42,8 @@ io.on('connection', function(socket) {
     // sourceIndex: 1,
     // destinationColumnId: 'drop2',
     // destinationIndex: 1,
+
+    console.log("\n\n===== 수신 =====", data, '\n\n');
 
     // const _data = {
     //   email: data.email,
@@ -50,7 +53,7 @@ io.on('connection', function(socket) {
     //   destinationColumnId: data.destinationColumnId,
     //   destinationIndex: data.destinationIndex,
     // }
-    // console.log("송신");
+
     io.emit('dragAndDrop', data);
   })
 
@@ -83,7 +86,7 @@ io.on('connection', function(socket) {
   })
 
   socket.on('disconnect', function() {
-    console.log('user disconnected: ' + socket.name);
+    console.log('\n\n===== user disconnected =====\n' + socket.name, '\n\n');
   });
 });
 

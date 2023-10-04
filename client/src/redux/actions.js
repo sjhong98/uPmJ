@@ -67,3 +67,17 @@ export const setGroupMember = (item) => {
         payload: item,
     }
 }
+
+export const setX = (item) => {
+    return {
+        type: 'SET_X',
+        payload: item,
+    }
+}
+
+export const setY = (item) => {
+    return {
+        type: 'SET_Y',
+        payload: item,
+    }
+}

@@ -19,8 +19,6 @@ import './list.css';
 export default function List() {      // 리팩토링 : css 빼기
   const [keyword, setKeyword] = useState("");
   const [boxBar, setBoxBar] = useState(true);
-  const [x, setX] = useState(126.97722);
-  const [y, setY] = useState(37.57861);
   const [pushed, setPushed] = useState(false);
   const [xData, setXData] = useState("");
   const [searchData, setSearchData] = useState([]);
@@ -175,10 +173,7 @@ export default function List() {      // 리팩토링 : css 빼기
                 setKeyword={setKeyword} 
                 setXData={setXData} 
                 setPushed={setPushed} 
-                keyword={keyword} 
-                x={x} y={y} 
-                setX={setX} 
-                setY={setY} />
+                keyword={keyword} />
               <div className='list-box-container' >
                 <div>
                   <BoxBar setBoxBar={setBoxBar} />
@@ -188,8 +183,7 @@ export default function List() {      // 리팩토링 : css 빼기
                   boxBar={boxBar} 
                   setPushed={setPushed} 
                   pushed={pushed} 
-                  xData={xData} 
-                  x={x} y={y}/> : 
+                  xData={xData} /> : 
                 <SearchBox 
                   setSearchData={setSearchData} 
                   setKeyword={setKeyword} 
