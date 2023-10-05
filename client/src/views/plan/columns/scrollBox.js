@@ -112,7 +112,7 @@ export default function ScrollBox(props) {
     }, [sido]);
   
     useEffect(() => {   // 웹소켓 송신
-      console.log("========== socket_data ===========\n", move);
+      console.log("====== socket_data ======\n", move);
       if(active === true)   // 처음엔 동작 X
         socket.emit('dragAndDrop', move);
       setActive(true);
@@ -183,7 +183,8 @@ export default function ScrollBox(props) {
           sourceIndex: result.source.index, 
           destinationColumnId: destinationColumnId, 
           destinationIndex: result.destination.index,
-          email: _email
+          email: _email,
+          tripId: tripId,
         })
       }
   
