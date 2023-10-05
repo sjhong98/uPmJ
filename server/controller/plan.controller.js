@@ -10,7 +10,7 @@ const viewOrder = async (data) => {
 const editPlan = async (data) => {
 
   const models = {drop1:'menu', drop2:'FirstDay', drop3:'SecondDay', drop4:'ThirdDay', drop5:'FourthDay'};
-  const code = 123456 // 임시로 지정
+  const code = data.tripId; // 임시로 지정
   const item = data.item.contentId;
   const order = [
     [models[data.sourceColumnId], data.sourceIndex, "from"],        // from
