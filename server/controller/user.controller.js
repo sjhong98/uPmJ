@@ -17,7 +17,6 @@ const signIn = async (req, res) => {
     };
     
     const existedData = await userFind(justCreatedData) 
-    console.log(existedData)
   
     if (existedData === false) {
       return res.status(201).json({justCreatedData, status: "just registered"});
