@@ -40,7 +40,7 @@ export default function TripList(props) {
     const token = {access: access_token, refresh: refresh_token};
 
     useEffect(() => {
-        axios.post("http://localhost:5001/user/signin", {
+        axios.post("http://localhost:5001/users/signin", {
             token: token
         })
         .then(res => {

@@ -26,7 +26,7 @@ export function Create() {
             groupDesc: groupDesc,
           };
           console.log(groupInfo);
-          axios.post("http://localhost:5001/group/creategroup", {
+          axios.post("http://localhost:5001/groups", {
               groupInfo: groupInfo
             })
             .then(res => {
@@ -57,7 +57,7 @@ export function Join() {
         sx={{width:'17vw'}}
         onClick={() => {
           dispatch(setCode(_code));
-          axios.post("http://localhost:5001/group/joingroup", {
+          axios.post("http://localhost:5001/groups/participants", {
             msg: "groupjoin",
             data: {
               code: _code,
