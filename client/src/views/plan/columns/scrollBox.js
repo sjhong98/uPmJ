@@ -591,9 +591,6 @@ export default function ScrollBox(props) {
   
     return (
       <div>
-        <button onClick={() => {setTest(test => test+1)}}>
-          test
-        </button>
         <div className='scroll-box-upper-tools'>
           <div className='scroll-box-tools-container'>
             <SelectSido 

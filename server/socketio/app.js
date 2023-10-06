@@ -28,19 +28,18 @@ io.on('connection', function(socket) {
     // socket에 클라이언트 정보를 저장한다
     socket.email = data.email;
     socket.userid = data.userid;
-    socket.tripId = data.tripId;
+    socket.tripId = data.tripId;    // socket 블록 내에서만 유효
 
     socket.join(socket.tripId, console.log(" * ", socket.email, " -> room", socket.tripId, " 입장 \n\n"));
 
-    // 접속된 모든 클라이언트에게 메시지를 전송한다
-    // io.emit('login', data.name );
   });
 
   socket.on('dragAndDrop', (data) => {
     viewOrder(data);
     editPlan(data)
     console.log("\n\n===== 수신 =====", data, '\n\n');
-    io.to(socket.tripId).emit('dragAndDrop', data);
+    console.log("\n\nroom", socket.tripId, "에 전송\n\n")
+    socket.to(data.tripId).emit('dragAndDrop', data);   // room으로만 데이터 전송
   })
 
   socket.on('forceDisconnect', function() {
@@ -49,7 +48,7 @@ io.on('connection', function(socket) {
   })
 
   socket.on('disconnect', function() {
-    console.log('\n\n===== user disconnected =====\n' + socket.name, '\n\n');
+    console.log('\n\n===== user disconnected =====\n' + socket.email, '\n\n');
     socket.leave(socket.tripId);
   });
 });

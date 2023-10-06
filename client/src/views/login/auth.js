@@ -6,6 +6,7 @@ export default function Auth() {
     const navigate = useNavigate();
     const key = 'c105c81a4b71d2b2b6eb5313272815ef';
     const uri = 'http://localhost:3000/login/auth';
+    // const uri = 'https://partyone-a5fab.web.app/login/auth';
 
     const code = new URL(document.location.toString()).searchParams.get("code");
 
