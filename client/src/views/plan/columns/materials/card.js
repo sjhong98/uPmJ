@@ -31,6 +31,7 @@ export default function CardBox(props) {
   const handleClickDeleteBtn = () => {
     props.setDelCol(props.column);
     props.setDelId(props.contentId);
+    props.setDelIndex(props.index);
   }
 
   return (

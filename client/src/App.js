@@ -8,8 +8,36 @@ import Entry from './views/entry/entry.js';
 import Auth from './views/login/auth.js';
 import SocketTest from './socketTest.js';
 
+function Mobile() {
+  return (
+    <Routes>
+      <Route path="/" element={<Main />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/plan" element={<List />} />
+      <Route path="/login/auth" element={<Auth />} />
+      <Route path="/entry" element={<Entry />} />
+      <Route path="/socket_test" element={<SocketTest />} />
+    </Routes>
+  )
+}
+
+function Web() {
+  return (
+    <Routes>
+      <Route path="/" element={<Main />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/plan" element={<List />} />
+      <Route path="/login/auth" element={<Auth />} />
+      <Route path="/entry" element={<Entry />} />
+      <Route path="/socket_test" element={<SocketTest />} />
+    </Routes>
+  )
+}
+
 
 function App() {
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
   return (
     <BrowserRouter>
       <Routes>
