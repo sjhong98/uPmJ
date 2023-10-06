@@ -1,4 +1,5 @@
 const db = require("../model/index");
+const {getPlans} = require("./plan.controller")
 const express = require("express");
 const axios = require("axios");
 const app = express();
@@ -22,9 +23,7 @@ const createGroup = async (req, res) => {
 
 const joinGroup = async (req, res) => {
   try{
-    const data = req.body.data;
-  
-    if(!(await modelJoinGroup(data)))
+    if(!(await modelJoinGroup(req.body.data)))
       return res.status(201).send("already existed!");
     
     return res.status(200).send("just joined!");
@@ -100,8 +99,6 @@ const modelJoinGroup = async (data) => {
     const group = await db.Group.findOne({
       where: { code: data.code }
     });
-    
-    console.log("@@@@@@@@@@@", group)
 
     await db.GroupMember.create({
       host: group.dataValues.host,
@@ -134,9 +131,27 @@ const groupInfoFind = async (req, res) => {
   }
 }
 
+const getGroupPlans = async (req, res) => {
+  try{
+    console.log(req.body);
+    const code = req.body.code;
+    const tempPlans = await getPlans(code);
+    const plans = tempPlans.map((el, idx) => {
+      let obj = {};
+      obj[idx+1] = el["dataValues"]["plan"];
+      return obj;
+    })
+    console.log(plans);
+    res.status(200).send(plans);
+  }catch(error){
+    console.log("getGroupPlans function error: ", error)
+    res.status(400).send(error);
+  }
+}
 
 module.exports = {
   createGroup,
   joinGroup,
   groupInfoFind,
+  getGroupPlans
 };
