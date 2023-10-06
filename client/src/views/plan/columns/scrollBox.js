@@ -31,6 +31,7 @@ export default function ScrollBox(props) {
     const [draggingColumn, setDraggingColumn] = useState("");
     const [move, setMove] = useState({});
     const [socketOn, setSocketOn] = useState(0);
+    const [cursorIndex, setCursorIndex] = useState(0);
   
     const x = useSelector((state) => state.x);
     const y = useSelector((state) => state.y);
@@ -43,6 +44,8 @@ export default function ScrollBox(props) {
     const searchData = props.searchData;
     const [test, setTest] = useState(0);
     const [socketActive, setSocketActive] = useState(false);
+    const setCursorPosition = props.setCursorPosition;
+    const cursorPosition = props.cursorPosition;
   
     const dispatch = useDispatch();
     const urlParams = new URLSearchParams(window.location.search);
@@ -114,6 +117,18 @@ export default function ScrollBox(props) {
             location={sido} />
       ])
     }, [sido]);
+
+    document.addEventListener('mousemove', (event) => {   // 커서 정보 전송
+      const position = {
+        x: event.clientX,
+        y: event.clientY,
+        tripId: tripId,
+        email: _email,
+        name: sessionStorage.getItem('name'),
+      };
+    
+      socket.emit('cursorMove', position);
+    });
   
     useEffect(() => {   // 웹소켓 송신
       console.log("====== socket sent ======\n", move);
@@ -140,6 +155,24 @@ export default function ScrollBox(props) {
             setDataByColumnId(data.destinationColumnId, destinationColumnItems);
           setDraggingItem(draggingItem => draggingItem+1);
           setDraggingColumn("");
+        }
+      })
+
+      socket.on('cursorMove', (data) => {
+        let cursorTemp, res;
+        if(data.email !== _email && cursorPosition) {
+          cursorTemp = [...cursorPosition];
+          res = cursorTemp.findIndex((item) => item.user === data.email);
+          if(cursorIndex === -1) {    // cursor object에 해당 user 정보 없을 경우
+            if(cursorIndex === 3)
+              setCursorIndex(0);
+            else
+              setCursorIndex(cursorIndex => cursorIndex+1);
+          }
+          else  
+            setCursorIndex(res);
+          cursorTemp[cursorIndex] = { user: data.email, name: data.name, x: data.x, y: data.y };
+          setCursorPosition(cursorTemp);
         }
       })
     }, [])

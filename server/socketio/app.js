@@ -1,6 +1,7 @@
 const {viewOrder, editPlan} = require("../controller/plan.controller")
 var app = require('express')();
 var server = require('http').createServer(app);
+var tripId = "";
 // http server를 socket.io server로 upgrade한다
 var io = require('socket.io')(server, {
   cors: {
@@ -27,12 +28,16 @@ io.on('connection', function(socket) {
 
     // socket에 클라이언트 정보를 저장한다
     socket.email = data.email;
-    socket.userid = data.userid;
-    socket.tripId = data.tripId;    // socket 블록 내에서만 유효
+    socket.userid = data.userid;    // socket 블록 내에서만 유효
+    socket.tripId = data.tripId;    
 
     socket.join(socket.tripId, console.log(" * ", socket.email, " -> room", socket.tripId, " 입장 \n\n"));
 
   });
+
+  socket.on('cursorMove', (data) => {
+    socket.to(data.tripId).emit('cursorMove', data);
+  })
 
   socket.on('dragAndDrop', (data) => {
     viewOrder(data);
@@ -51,4 +56,5 @@ io.on('connection', function(socket) {
     console.log('\n\n===== user disconnected =====\n' + socket.email, '\n\n');
     socket.leave(socket.tripId);
   });
+
 });

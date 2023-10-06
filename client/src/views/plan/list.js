@@ -13,7 +13,44 @@ import '../../views/entry/entry.css';
 import Chip from '@mui/material/Chip';
 import io from 'socket.io-client';  // webSocket
 import ScrollBox from './columns/scrollBox';
+import NorthWestIcon from '@mui/icons-material/NorthWest';
 import './list.css';
+
+function Cursor(props) {
+  const cp = props.cursorPosition;
+  const [pst, setPst] = useState(cp);
+
+  useEffect(() => {
+    setPst(cp);
+    console.log("pst : ", pst);
+  }, [cp])
+
+  return(
+    <div>
+      {pst.map(item => {
+        return (
+          item.x === 0 && item.y === 0 
+          ?
+          <></>
+          :  
+          <div className='list-cursor' >
+            <div 
+              className='cursor-container' 
+              style={{
+                left: `${item.x}px`,
+                top: `${item.y}px`
+              }}>
+              <NorthWestIcon 
+                sx={{color: 'red'}}
+                />
+              <p>{item.name}</p>
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
 
 
 export default function List() {      // 리팩토링 : css 빼기
@@ -22,6 +59,11 @@ export default function List() {      // 리팩토링 : css 빼기
   const [pushed, setPushed] = useState(false);
   const [xData, setXData] = useState("");
   const [searchData, setSearchData] = useState([]);
+  const [cursorPosition, setCursorPosition] = useState([
+      {user: '', name: '', x: 0, y: 0}, 
+      {user: '', name: '', x: 0, y: 0}, 
+      {user: '', name: '', x: 0, y: 0}, 
+      {user: '', name: '', x: 0, y: 0}]);
   const groupMember = useSelector((state) => state.groupMember);
   // const groupMemberChip = groupMember.map((item) => (   // member 정보가져와 chip으로 나열
   //     <Chip label={item.name} />
@@ -153,6 +195,13 @@ export default function List() {      // 리팩토링 : css 빼기
       <div className='plan-loading' ref={loadingRef} />
 
       <div className='list-body'>
+        { cursorPosition.x !== 0 && cursorPosition.y !== 0
+          ? 
+            <Cursor cursorPosition={cursorPosition} /> 
+          :
+            <></>
+        }
+        
         <div className="root">
           <div className='list-header'>
             <div>
@@ -173,7 +222,9 @@ export default function List() {      // 리팩토링 : css 빼기
                 setKeyword={setKeyword} 
                 setXData={setXData} 
                 setPushed={setPushed} 
-                keyword={keyword} />
+                keyword={keyword} 
+                setCursorPosition={setCursorPosition}
+                cursorPosition={cursorPosition} />
               <div className='list-box-container' >
                 <div>
                   <BoxBar setBoxBar={setBoxBar} />
