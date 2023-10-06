@@ -12,7 +12,7 @@ const FirstDay = sequelize.define(
         },
       },
       plan: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
       },
   },
   {
@@ -31,7 +31,7 @@ const SecondDay = sequelize.define(
       },
     },
     plan: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
     },
   },
   {
@@ -50,7 +50,7 @@ const ThirdDay = sequelize.define(
       },
     },
     plan: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
     },
   },
   {
@@ -69,7 +69,7 @@ const FourthDay = sequelize.define(
       },
     },
     plan: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
     },
   },
   {

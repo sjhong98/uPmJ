@@ -9,9 +9,16 @@ const viewOrder = async (data) => {
 
 const editPlan = async (data) => {
 
-  const models = {drop1:'menu', drop2:'FirstDay', drop3:'SecondDay', drop4:'ThirdDay', drop5:'FourthDay'};
+  const models = {
+    drop1:'menu',
+    drop2:'FirstDay', 
+    drop3:'SecondDay', 
+    drop4:'ThirdDay',
+    drop5:'FourthDay'
+  };
+
   const code = data.tripId; // 임시로 지정
-  const item = data.item.contentId;
+  const item = data.item;
   const order = [
     [models[data.sourceColumnId], data.sourceIndex, "from"],        // from
     [models[data.destinationColumnId], data.destinationIndex, "to"] // to
@@ -40,7 +47,20 @@ const editPlan = async (data) => {
   }
 }
 
+const getPlans = async (code) => {
+  const plans = [];
+  const models = ['FirstDay', 'SecondDay', 'ThirdDay', 'FourthDay'];
+  for(let model of models) {
+    const plan = await db[model].findOne({
+      where: { code: code },
+    })
+    plans.push(plan)
+  }
+  return plans;
+}
+
 module.exports = {
   viewOrder,
-  editPlan
+  editPlan,
+  getPlans
 };
