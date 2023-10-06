@@ -14,12 +14,13 @@ import io from 'socket.io-client';
 
 
 export default function ScrollBox(props) {
-    const [data, setData] = useState([{contentId:1, title:'day 1', index:0}]);
+    const [data, setData] = useState([]);
     const [doAxios, setDoAxios] = useState(false);
     const [sido, setSido] = useState("시도");
     const [sidoCode, setSidoCode] = useState("1");
     const [delCol, setDelCol] = useState("");
     const [delId, setDelId] = useState("");
+    const [delIndex, setDelIndex] = useState("");
     const [columnNum, setColumnNum] = useState(2);
     const [columnDisplay, setColumnDisplay] = useState([]);
     const [sigungu, setSigungu] = useState(1);
@@ -41,7 +42,7 @@ export default function ScrollBox(props) {
     const setXData = props.setXData;
     const searchData = props.searchData;
     const [test, setTest] = useState(0);
-    const [active, setActive] = useState(false);
+    const [socketActive, setSocketActive] = useState(false);
   
     const dispatch = useDispatch();
     const urlParams = new URLSearchParams(window.location.search);
@@ -49,7 +50,7 @@ export default function ScrollBox(props) {
     const socket = io.connect('http://localhost:3001', {
         cors: { origin: '*' }
     });
-    const _email = sessionStorage.getItem("email");
+    const _email = sessionStorage.getItem("email") !== null ? sessionStorage.getItem("email") : "test@test.com";
   
     useEffect(() => {   // 초기 세팅
       axios.post("http://localhost:5001/group/requestgroup", {  // 그룹 정보 받아오는 부분
@@ -67,13 +68,15 @@ export default function ScrollBox(props) {
       const data = {email: _email}
       socket.emit('login', data);
 
+      console.log("이메일 : ", _email);
+
     }, []);
   
     useEffect(() => {   // 공공 데이터 받아오기
       let count = 0;
       if (doAxios) {
         const fetchData = async () => {
-            console.log(sidoCode);
+          console.log("==== 공공데이터 수신 ====");
           const response = await axios.get(`https://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=${process.env.REACT_APP_PUBLIC_DATA_KEY}&areaCode=${sidoCode}&sigunguCode=${sigungu}&contentTypeId=12&numOfRows=100&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json`);
           // setTotalCount(response.data.response.body.totalCount);
   
@@ -99,6 +102,10 @@ export default function ScrollBox(props) {
   
         fetchData();
       }
+      else {
+        setData([]);
+        console.log("==== 데이터 초기값 ====");
+      }
     }, [sidoCode, sigungu]);
   
     useEffect(() => {   // 시도 메뉴창
@@ -112,27 +119,28 @@ export default function ScrollBox(props) {
     }, [sido]);
   
     useEffect(() => {   // 웹소켓 송신
-      console.log("====== socket_data ======\n", move);
-      if(active === true)   // 처음엔 동작 X
+      console.log("====== socket sent ======\n", move);
+      if(socketActive === true)   // 처음엔 동작 X
         socket.emit('dragAndDrop', move);
-      setActive(true);
+      setSocketActive(true);
     }, [socketOn]);
 
     useEffect(() => {
       socket.on('dragAndDrop', (data) => {     // 웹소켓 수신 
-        console.log("수신은 했음");
-        if(data.email !== _email) {
+        console.log("==== socket received ====");
+        if(data.email !== _email) {           // 전송자 이외의 사용자에게만 적용
           console.log("======= data received! =======\n", data);
           const sourceColumnItems = getDataByColumnId(data.sourceColumnId);
           const destinationColumnItems = getDataByColumnId(data.destinationColumnId);
     
-          if(data.sourceColumnId !== 'drop1')     // column1 일때는 잘라내지 않아도 됨
-            sourceColumnItems.splice(data.sourceIndex, 1);   // 잘라내기
+          sourceColumnItems.splice(data.sourceIndex, 1);   // 잘라내기
           destinationColumnItems.splice(data.destinationIndex, 0, data.item);   // 끼워넣기
           console.log("item added");
     
-          setDataByColumnId(data.sourceColumnId, sourceColumnItems);
-          setDataByColumnId(data.destinationColumnId, destinationColumnItems);
+          if(data.sourceColumnId !== 'drop1')     // drop1은 그냥 냅둠
+            setDataByColumnId(data.sourceColumnId, sourceColumnItems);
+          if(data.destinationColumnId !== 'drop1')
+            setDataByColumnId(data.destinationColumnId, destinationColumnItems);
           setDraggingItem(draggingItem => draggingItem+1);
           setDraggingColumn("");
         }
@@ -165,6 +173,7 @@ export default function ScrollBox(props) {
             destinationIndex: result.destination.index,
             email: _email,
             tripId: tripId,
+            delete: false
         })
       } 
       else {    // 다른 column 간의 이동
@@ -185,6 +194,7 @@ export default function ScrollBox(props) {
           destinationIndex: result.destination.index,
           email: _email,
           tripId: tripId,
+          delete: false
         })
       }
   
@@ -240,9 +250,22 @@ export default function ScrollBox(props) {
     };
   
     useEffect(() => {  // 카드 삭제
-      const items = getDataByColumnId(delCol);
-      const updatedItems = items.filter(obj => obj.contentId !== delId);
-      setDataByColumnId(delCol, updatedItems);
+      if(socketActive === true)
+      {
+        const items = getDataByColumnId(delCol);
+        const updatedItems = items.filter(obj => obj.contentId !== delId);
+        setDataByColumnId(delCol, updatedItems);
+        setMove({
+          item: {contentId: '0'}, 
+          sourceColumnId: delCol, 
+          sourceIndex: delIndex, 
+          destinationColumnId: 'drop1', 
+          destinationIndex: 0,
+          email: _email,
+          tripId: tripId,
+        })
+        setSocketOn(socketOn => socketOn+1);
+      }
     }, [delId, delCol]);
     
   
@@ -308,23 +331,25 @@ export default function ScrollBox(props) {
     }, [columnNum, data, data2, data3, data4, data5, draggingItem, draggingColumn]); // data2 -> 처음에 day1 카드들어갈 때 업데이트 / data -> axios할 때 업데이트 / data3-5 -> 제거시 리랜더링
   
     useEffect(() => {  // make card 검색 시 result 가져와 card로 만들기
-      const result = [{     // result를 배열 형태로 가져오기
-        index: 0,
-        contentId: searchData.id,
-        title: searchData.place_name,
-        addr1: searchData.road_address_name,
-        mapx: searchData.x,
-        mapy: searchData.y
-      }];
-  
-      setData(result);  // data에 집어넣음 -> column1에서 출력
+      if(doAxios) {
+        const result = [{     // result를 배열 형태로 가져오기
+          index: 0,
+          contentId: searchData.id,
+          title: searchData.place_name,
+          addr1: searchData.road_address_name,
+          mapx: searchData.x,
+          mapy: searchData.y
+        }];
+    
+        setData(result);  // data에 집어넣음 -> column1에서 출력
+      }
   
     }, [searchData]);  // 검색 시에 동작
   
     
   
     const column = (
-      <div style={{display:'flex', flexDirection: 'column', marginTop:'-15px'}}>
+      <div style={{display:'flex', flexDirection: 'column', marginTop:'-15px', minWidth: '250px'}}>
           <div style={{display:'flex', flexDirection: 'row', justifyContent:'center', marginBottom:'-10px'}}>
             <p style={{color:"#fff"}}>P l a c e</p>
           </div>
@@ -341,7 +366,21 @@ export default function ScrollBox(props) {
                           {...provided.dragHandleProps}
                           >
                           <CardBox
-                             draggingItem={draggingItem} droppableId="drop1" setXData={setXData} index={index} column={"drop1"} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
+                             draggingItem={draggingItem} 
+                             droppableId="drop1" 
+                             setXData={setXData} 
+                             index={index} 
+                             column={"drop1"} 
+                             contentId={item.contentId} 
+                             setKeyword={props.setKeyword} 
+                             title={item.title} 
+                             addr1={item.addr1} 
+                             image={item.image} 
+                             mapx={item.mapx} 
+                             mapy={item.mapy} 
+                             setDelCol={setDelCol} 
+                             setDelId={setDelId}
+                             setDelIndex={setDelIndex}
                           />
                           </div>
                       )}
@@ -373,7 +412,20 @@ export default function ScrollBox(props) {
                           {...provided.dragHandleProps}
                           >
                               <CardBox
-                              style={{}} droppableId="drop2" setXData={setXData} index={index} column={"drop2"} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
+                                droppableId="drop2" 
+                                setXData={setXData} 
+                                index={index} 
+                                column={"drop2"} 
+                                contentId={item.contentId} 
+                                setKeyword={props.setKeyword} 
+                                title={item.title} 
+                                addr1={item.addr1} 
+                                image={item.image} 
+                                mapx={item.mapx} 
+                                mapy={item.mapy} 
+                                setDelCol={setDelCol} 
+                                setDelId={setDelId}
+                                setDelIndex={setDelIndex}
                           />
   
                           </div>
@@ -406,7 +458,19 @@ export default function ScrollBox(props) {
                           {...provided.dragHandleProps}
                           >
                               <CardBox
-                              index={index} droppableId="drop3" setXData={setXData} column={"drop3"} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
+                              index={index} 
+                              droppableId="drop3" 
+                              setXData={setXData} 
+                              column={"drop3"} 
+                              contentId={item.contentId} 
+                              setKeyword={props.setKeyword} 
+                              title={item.title} 
+                              addr1={item.addr1} 
+                              image={item.image} 
+                              mapx={item.mapx} mapy={item.mapy} 
+                              setDelCol={setDelCol} 
+                              setDelId={setDelId}
+                              setDelIndex={setDelIndex}
                           />
                               
                           </div>
@@ -439,7 +503,20 @@ export default function ScrollBox(props) {
                           {...provided.dragHandleProps}
                           >
                               <CardBox
-                              index={index} droppableId="drop4" column={"drop4"} setXData={setXData} contentId={item.contentId} setKeyword={props.setKeyword} title={item.title} addr1={item.addr1} image={item.image} mapx={item.mapx} mapy={item.mapy} setDelCol={setDelCol} setDelId={setDelId}
+                                index={index} 
+                                droppableId="drop4" 
+                                column={"drop4"} 
+                                setXData={setXData} 
+                                contentId={item.contentId} 
+                                setKeyword={props.setKeyword} 
+                                title={item.title} 
+                                addr1={item.addr1} 
+                                image={item.image} 
+                                mapx={item.mapx} 
+                                mapy={item.mapy} 
+                                setDelCol={setDelCol} 
+                                setDelId={setDelId}
+                                setDelIndex={setDelIndex}
                           />
                               
                           </div>
@@ -455,11 +532,25 @@ export default function ScrollBox(props) {
     );
   
     const column5 = (
-      <div className={columnAdded ? "add" : columnSubed ? columnNum===4 ? "sub" : "" : ""} style={{marginTop:'-15px'}}>
-        <div style={{display:'flex', flexDirection: 'row', justifyContent:'center', marginBottom:'-10px'}}>
+      <div 
+        className={columnAdded ? "add" : columnSubed ? columnNum===4 ? "sub" : "" : ""} 
+        style={{marginTop:'-15px'}}>
+        <div style={{
+            display:'flex', 
+            flexDirection: 'row', 
+            justifyContent:'center', 
+            marginBottom:'-10px'}}>
             <p style={{color:"#fff"}}>D a y  4</p>
           </div>
-        <Box display="flex" sx={{backgroundColor: "transparent", border:'solid', borderWidth:'10px', borderLeftWidth:'0px', borderColor:'#fff', height:'900px', overflow:'auto', width:'210'}}>
+        <Box display="flex" sx={{
+                            backgroundColor: "transparent", 
+                            border:'solid', 
+                            borderWidth:'10px', 
+                            borderLeftWidth:'0px', 
+                            borderColor:'#fff', 
+                            height:'900px', 
+                            overflow:'auto', 
+                            width:'210'}}>
             <Droppable droppableId="drop5">
             {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
@@ -485,6 +576,7 @@ export default function ScrollBox(props) {
                               mapy={item.mapy} 
                               setDelCol={setDelCol} 
                               setDelId={setDelId}
+                              setDelIndex={setDelIndex}
                         />
                             
                         </div>
