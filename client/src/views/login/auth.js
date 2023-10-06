@@ -26,7 +26,7 @@ export default function Auth() {
                 sessionStorage.setItem("access_token", token.access);   // entry 재진입 시에 token으로 axios 요청할 수 있도록.
                 sessionStorage.setItem("refresh_token", token.refresh);
     
-                const signInResponse = await axios.post("http://localhost:5001/user/signin", {
+                const signInResponse = await axios.post("http://localhost:5001/users/signin", {
                     token: token
                 });
     
