@@ -23,9 +23,9 @@ export default function List() {      // 리팩토링 : css 빼기
   const [xData, setXData] = useState("");
   const [searchData, setSearchData] = useState([]);
   const groupMember = useSelector((state) => state.groupMember);
-  const groupMemberChip = groupMember.map((item) => (   // member 정보가져와 chip으로 나열
-      <Chip label={item.name} />
-  ))
+  // const groupMemberChip = groupMember.map((item) => (   // member 정보가져와 chip으로 나열
+  //     <Chip label={item.name} />
+  // ))
 
   const titleRef = useRef();
   const bodyRef = useRef();
@@ -158,9 +158,9 @@ export default function List() {      // 리팩토링 : css 빼기
             <div>
               <img className='list-logo' src={Logo} />
             </div>
-            <div className='list-member' >
+            {/* <div className='list-member' >
               {groupMemberChip}
-            </div>
+            </div> */}
             {/* <button type='button' onClick={sendMessage}>Chat</button> */}
           </div>
           

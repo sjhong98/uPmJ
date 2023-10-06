@@ -18,6 +18,7 @@ module.exports = {
     port: 9000,
     historyApiFallback: true
   },
+  devtool: 'inline-source-map',
   mode: "development",
   plugins: [
     new webpack.DefinePlugin({

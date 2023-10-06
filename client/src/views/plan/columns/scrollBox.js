@@ -52,7 +52,7 @@ export default function ScrollBox(props) {
     });
     const _email = sessionStorage.getItem("email") !== null ? sessionStorage.getItem("email") : "test@test.com";
   
-    useEffect(() => {   // 초기 세팅
+    useEffect( () => {   // 초기 세팅
       axios.post("http://localhost:5001/groups/info", {  // 그룹 정보 받아오는 부분
         data: {
           code: tripId,
@@ -65,10 +65,11 @@ export default function ScrollBox(props) {
         console.log("ERR_PLAN : ", err);
       })
 
-      const data = {email: _email}
+      const data = {
+          email: _email, 
+          tripId: tripId
+        }
       socket.emit('login', data);
-
-      console.log("이메일 : ", _email);
 
     }, []);
   
@@ -101,10 +102,6 @@ export default function ScrollBox(props) {
         };
   
         fetchData();
-      }
-      else {
-        setData([]);
-        console.log("==== 데이터 초기값 ====");
       }
     }, [sidoCode, sigungu]);
   
@@ -173,7 +170,6 @@ export default function ScrollBox(props) {
             destinationIndex: result.destination.index,
             email: _email,
             tripId: tripId,
-            delete: false
         })
       } 
       else {    // 다른 column 간의 이동
@@ -194,7 +190,6 @@ export default function ScrollBox(props) {
           destinationIndex: result.destination.index,
           email: _email,
           tripId: tripId,
-          delete: false
         })
       }
   
