@@ -52,7 +52,7 @@ export default function ScrollBox(props) {
     const _email = sessionStorage.getItem("email");
   
     useEffect(() => {   // 초기 세팅
-      axios.post("http://localhost:5001/group/requestgroup", {  // 그룹 정보 받아오는 부분
+      axios.post("http://localhost:5001/groups/info", {  // 그룹 정보 받아오는 부분
         data: {
           code: tripId,
         },
