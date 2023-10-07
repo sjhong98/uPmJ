@@ -7,6 +7,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import MapIcon from '@mui/icons-material/Map';
 import SearchIcon from '@mui/icons-material/Search';
+import ForumIcon from '@mui/icons-material/Forum';
 
 export default function BoxBar(props) {
   const [value, setValue] = React.useState(0);
@@ -21,10 +22,13 @@ export default function BoxBar(props) {
         }}
       >
         <BottomNavigationAction label="Map" icon={<MapIcon />} onClick={()=> {
-            props.setBoxBar(true);
+            props.setBoxBar("map");
         }}/>
         <BottomNavigationAction label="Search" icon={<SearchIcon />} onClick={()=> {
-            props.setBoxBar (false);
+            props.setBoxBar ("search");
+        }} />
+        <BottomNavigationAction label="chat" icon={<ForumIcon />} onClick={()=> {
+            props.setBoxBar ("chat");
         }} />
       </BottomNavigation>
     </Box>

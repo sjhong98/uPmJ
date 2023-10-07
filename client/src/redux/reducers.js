@@ -10,11 +10,26 @@ const initialState = {
     tripCardClicked: false,
     groupMember: [],
     x: 126.97722,
-    y: 37.57861
+    y: 37.57861,
+    keyword: "",
+    socket: null,
+    chatMsg: {},
 }
 
 const dataReducer = (state = initialState, action) => {
     switch(action.type) {
+
+        case 'SET_CHAT_MSG' : 
+            return {
+                ...state,
+                chatMsg: action.payload,
+            } 
+
+        case 'SET_SOCKET' : 
+            return {
+                ...state,
+                socket: action.payload,
+            }
 
         case 'SET_GROUP_MEMBER' :
             return {
@@ -86,6 +101,12 @@ const dataReducer = (state = initialState, action) => {
             return { 
                 ...state,
                 y: action.payload,
+            };
+
+        case 'SET_KEYWORD' : 
+            return {
+                ...state,
+                keyword: action.payload,
             };
         
         default :

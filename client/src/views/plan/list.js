@@ -11,10 +11,41 @@ import Logo from "../../assets/images/logo.png";
 import h2c from 'html2canvas';
 import '../../views/entry/entry.css';
 import Chip from '@mui/material/Chip';
-import io from 'socket.io-client';  // webSocket
 import ScrollBox from './columns/scrollBox';
 import NorthWestIcon from '@mui/icons-material/NorthWest';
 import './list.css';
+import ChatBox from './sideBox/chatBox';
+
+function SideBox(props) {
+  const boxBar = props.boxBar;
+
+  return (
+    <div>
+      {
+        boxBar === 'map' && (
+          <MapBox
+            boxBar={boxBar}
+            setPushed={props.setPushed}
+            pushed={props.pushed}
+            xData={props.xData}
+          />
+        )
+      }
+      {
+        boxBar === 'search' && (
+          <SearchBox
+            setSearchData={props.setSearchData}
+          />
+        )
+      }
+      {
+        boxBar === 'chat' && (
+          <ChatBox />
+        )
+      }
+    </div>
+  )
+}
 
 function Cursor(props) {
   const cp = props.cursorPosition;
@@ -22,7 +53,6 @@ function Cursor(props) {
 
   useEffect(() => {
     setPst(cp);
-    console.log("pst : ", pst);
   }, [cp])
 
   return(
@@ -41,9 +71,11 @@ function Cursor(props) {
                 top: `${item.y}px`
               }}>
               <NorthWestIcon 
-                sx={{color: 'red'}}
+                sx={{color: `${item.color}`}}
                 />
-              <p>{item.name}</p>
+              <p style={{color: `${item.color}`}}>
+                {item.name}
+              </p>
             </div>
           </div>
         )
@@ -54,16 +86,15 @@ function Cursor(props) {
 
 
 export default function List() {      // 리팩토링 : css 빼기
-  const [keyword, setKeyword] = useState("");
-  const [boxBar, setBoxBar] = useState(true);
+  const [boxBar, setBoxBar] = useState("map");
   const [pushed, setPushed] = useState(false);
   const [xData, setXData] = useState("");
   const [searchData, setSearchData] = useState([]);
   const [cursorPosition, setCursorPosition] = useState([
-      {user: '', name: '', x: 0, y: 0}, 
-      {user: '', name: '', x: 0, y: 0}, 
-      {user: '', name: '', x: 0, y: 0}, 
-      {user: '', name: '', x: 0, y: 0}]);
+      {user: '', name: '', color: 'blue', x: 0, y: 0}, 
+      {user: '', name: '', color: 'red', x: 0, y: 0}, 
+      {user: '', name: '', color: 'green', x: 0, y: 0}, 
+      {user: '', name: '', color: 'purple', x: 0, y: 0}]);
   const groupMember = useSelector((state) => state.groupMember);
   // const groupMemberChip = groupMember.map((item) => (   // member 정보가져와 chip으로 나열
   //     <Chip label={item.name} />
@@ -76,12 +107,6 @@ export default function List() {      // 리팩토링 : css 빼기
   const p2Ref = useRef();
   const captureRef = useRef();
   const loadingRef = useRef();
-
-  // const socket = io.connect('http://localhost:3001');
-
-  // const sendMessage = () => {
-  //   socket.emit("send_message", { message: 'Hello' });
-  // };
 
 
   useEffect(() => {
@@ -219,26 +244,21 @@ export default function List() {      // 리팩토링 : css 빼기
                 setBoxBar={setBoxBar} 
                 captureRef={captureRef} 
                 searchData={searchData} 
-                setKeyword={setKeyword} 
                 setXData={setXData} 
                 setPushed={setPushed} 
-                keyword={keyword} 
                 setCursorPosition={setCursorPosition}
                 cursorPosition={cursorPosition} />
               <div className='list-box-container' >
                 <div>
                   <BoxBar setBoxBar={setBoxBar} />
                 </div>
-                {boxBar ? 
-                <MapBox 
-                  boxBar={boxBar} 
-                  setPushed={setPushed} 
-                  pushed={pushed} 
-                  xData={xData} /> : 
-                <SearchBox 
-                  setSearchData={setSearchData} 
-                  setKeyword={setKeyword} 
-                  keyword={keyword} /> }
+                  <SideBox 
+                    boxBar={boxBar} 
+                    setPushed={setPushed}
+                    pushed={pushed}
+                    xData={xData}
+                    setSearchData={setSearchData}
+                  />
               </div>
             </div>
 

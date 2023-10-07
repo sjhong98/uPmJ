@@ -91,9 +91,9 @@
     height: 25px;
     display: flex;
     flex-direction: row;
+    z-index: 9999;
 }
 
 .cursor-container p {
-    color: red;
     font-size: 15px;
 }

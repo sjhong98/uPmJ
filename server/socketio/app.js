@@ -9,11 +9,6 @@ var io = require('socket.io')(server, {
   }
 });
 
-// localhost:3000으로 서버에 접속하면 클라이언트로 index.html을 전송한다
-// app.get('/', function(req, res) {
-//   res.sendFile(__dirname + '/index.html');
-// });
-
 server.listen(3001, () => {
   console.log('Socket IO server listening on port 3001');
 });
@@ -34,6 +29,11 @@ io.on('connection', function(socket) {
     socket.join(socket.tripId, console.log(" * ", socket.email, " -> room", socket.tripId, " 입장 \n\n"));
 
   });
+
+  socket.on('chat', (data) => {
+    console.log(data);
+    socket.to(data.tripId).emit('chat', data);
+  })
 
   socket.on('cursorMove', (data) => {
     socket.to(data.tripId).emit('cursorMove', data);

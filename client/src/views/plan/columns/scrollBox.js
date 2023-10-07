@@ -11,6 +11,7 @@ import SearchField from '../../../modules/field/searchField.js';
 import LocationMenu from './materials/locationMenu.js';
 import './scrollBox.css';
 import io from 'socket.io-client';
+import { setSocket, setChatMsg } from '../../../redux/actions';
 
 
 export default function ScrollBox(props) {
@@ -32,9 +33,6 @@ export default function ScrollBox(props) {
     const [move, setMove] = useState({});
     const [socketOn, setSocketOn] = useState(0);
     const [cursorIndex, setCursorIndex] = useState(0);
-  
-    const x = useSelector((state) => state.x);
-    const y = useSelector((state) => state.y);
     const data2 = useSelector((state) => state.data2);
     const data3 = useSelector((state) => state.data3);
     const data4 = useSelector((state) => state.data4);
@@ -42,7 +40,6 @@ export default function ScrollBox(props) {
     const setPushed = props.setPushed;
     const setXData = props.setXData;
     const searchData = props.searchData;
-    const [test, setTest] = useState(0);
     const [socketActive, setSocketActive] = useState(false);
     const setCursorPosition = props.setCursorPosition;
     const cursorPosition = props.cursorPosition;
@@ -53,6 +50,7 @@ export default function ScrollBox(props) {
     const socket = io.connect('http://localhost:3001', {
         cors: { origin: '*' }
     });
+    dispatch(setSocket(socket));
     const _email = sessionStorage.getItem("email") !== null ? sessionStorage.getItem("email") : "test@test.com";
   
     useEffect( () => {   // 초기 세팅
@@ -159,7 +157,7 @@ export default function ScrollBox(props) {
       })
 
       socket.on('cursorMove', (data) => {
-        let cursorTemp, res;
+        let cursorTemp, res, color;
         if(data.email !== _email && cursorPosition) {
           cursorTemp = [...cursorPosition];
           res = cursorTemp.findIndex((item) => item.user === data.email);
@@ -171,9 +169,20 @@ export default function ScrollBox(props) {
           }
           else  
             setCursorIndex(res);
-          cursorTemp[cursorIndex] = { user: data.email, name: data.name, x: data.x, y: data.y };
+          color = cursorTemp[cursorIndex].color;
+          cursorTemp[cursorIndex] = { 
+              user: data.email, 
+              name: data.name, 
+              x: data.x, 
+              y: data.y, 
+              color: color 
+            };
           setCursorPosition(cursorTemp);
         }
+      })
+
+      socket.on('chat', (data) => {
+        dispatch(setChatMsg(data));
       })
     }, [])
   
@@ -400,7 +409,6 @@ export default function ScrollBox(props) {
                              index={index} 
                              column={"drop1"} 
                              contentId={item.contentId} 
-                             setKeyword={props.setKeyword} 
                              title={item.title} 
                              addr1={item.addr1} 
                              image={item.image} 
@@ -445,7 +453,6 @@ export default function ScrollBox(props) {
                                 index={index} 
                                 column={"drop2"} 
                                 contentId={item.contentId} 
-                                setKeyword={props.setKeyword} 
                                 title={item.title} 
                                 addr1={item.addr1} 
                                 image={item.image} 
@@ -491,7 +498,6 @@ export default function ScrollBox(props) {
                               setXData={setXData} 
                               column={"drop3"} 
                               contentId={item.contentId} 
-                              setKeyword={props.setKeyword} 
                               title={item.title} 
                               addr1={item.addr1} 
                               image={item.image} 
@@ -536,7 +542,6 @@ export default function ScrollBox(props) {
                                 column={"drop4"} 
                                 setXData={setXData} 
                                 contentId={item.contentId} 
-                                setKeyword={props.setKeyword} 
                                 title={item.title} 
                                 addr1={item.addr1} 
                                 image={item.image} 
@@ -596,7 +601,6 @@ export default function ScrollBox(props) {
                               column={"drop5"} 
                               setXData={setXData} 
                               contentId={item.contentId} 
-                              setKeyword={props.setKeyword} 
                               title={item.title} 
                               addr1={item.addr1} 
                               image={item.image} 
@@ -633,7 +637,6 @@ export default function ScrollBox(props) {
               setSidoCode={setSidoCode} />
             {selectSigungu}
             <SearchField 
-              setKeyword={props.setKeyword} 
               setBoxBar={props.setBoxBar} />
             <div className='scroll-box-tools-container-right' >
             <ColumnButtonSet 

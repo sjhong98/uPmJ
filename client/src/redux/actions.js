@@ -81,3 +81,24 @@ export const setY = (item) => {
         payload: item,
     }
 }
+
+export const setKeyword = (item) => {
+    return {
+        type: 'SET_KEYWORD',
+        payload: item,
+    }
+}
+
+export const setSocket = (item) => {
+    return {
+        type: 'SET_SOCKET',
+        payload: item,
+    }
+}
+
+export const setChatMsg = (item) => {
+    return {
+        type: 'SET_CHAT_MSG',
+        payload: item,
+    }
+}

@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import './card.css';
 import { setX, setY } from '../../../../redux/actions';
 import { useDispatch } from 'react-redux';
+import { setKeyword } from '../../../../redux/actions';
 
 
 
@@ -17,7 +18,7 @@ export default function CardBox(props) {
   const dispatch = useDispatch();
 
   const handleClickCard = () => {
-    props.setKeyword(props.title);
+    dispatch(setKeyword(props.title));
       if(props.contentId !== 1 && props.contentId !== 2) {
         if(props.contentId !== 3 && props.contentId !== 3) {
           dispatch(setX(props.mapx));

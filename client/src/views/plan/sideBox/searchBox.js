@@ -6,10 +6,12 @@ import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import PlaceOutlinedIcon from '@mui/icons-material/PlaceOutlined';
 import LinkIcon from '@mui/icons-material/Link';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function SearchBox(props) {
   const [result, setResult] = useState([]);
-
+  const keyword = useSelector(state => state.keyword);
+  const dispatch = useDispatch();
 
     const places = new window.kakao.maps.services.Places();
 
@@ -20,9 +22,9 @@ export default function SearchBox(props) {
     };
 
   useEffect(()=> { 
-    places.keywordSearch(`${props.keyword}`, callback); 
+    places.keywordSearch(`${keyword}`, callback); 
     console.log("searching...");
-  }, [props.keyword]);
+  }, [keyword]);
 
   
   
