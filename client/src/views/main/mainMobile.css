@@ -1,0 +1,39 @@
+.main-mobile {
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    background-color: #E3AF27;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-mobile-logo {
+    width: 90vw;
+    height: 10vh;
+    margin-top: 4vh;
+}
+
+.main-mobile-login-container {
+    width: 80vw;
+    height: 40vh;
+    border-radius: 3%;
+    box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.3);
+    margin-top: 20vh;
+    background-color: #EEE;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-mobile-login-container p{
+    font-size: 6vw;
+    color: #555;
+    font-family: 'baemin';
+}
+
+.main-mobile-login-btn {
+    width: 60vw;
+}
