@@ -1,8 +1,8 @@
-import React, {useContext, useState, useEffect, useRef} from 'react';
-import {Link, Navigate, useLocation, useNavigate} from 'react-router-dom';
 import axios from 'axios';
-import { useSelector, useDispatch } from 'react-redux';
-import { setTripCardClicked } from '../../redux/actions.js';
+import React, { useState, useEffect, useRef} from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setTripCardClicked } from '@redux/actions.js';
 
 function TripCard(props) {
     const navigate = useNavigate();
@@ -28,12 +28,11 @@ function TripCard(props) {
 
 function DummyCard(props) {
     return (
-        <div className='dummy_card'>
-        </div>
+        <div className='dummy_card' />
     )
 }
 
-export default function TripList(props) {
+export default function TripList() {
     const [groupList, setGroupList] = useState([]);
     const access_token = sessionStorage.getItem("access_token");
     const refresh_token = sessionStorage.getItem("refresh_token");
@@ -44,12 +43,9 @@ export default function TripList(props) {
             token: token
         })
         .then(res => {
-            console.log("TEST : ", res);
             if(res.data.existedData) {
-                let n = res.data.existedData.groupList.length;
                 setGroupList(res.data.existedData.groupList);
             }
-
         })
         .catch(err => {
             console.log("err : ", err);
@@ -58,7 +54,11 @@ export default function TripList(props) {
     }, []);
 
     const list = groupList.map((item, index) => (
-        <TripCard key={index} name={item.title} code={item.code} host={item.host}/>
+        <TripCard 
+            key={index} 
+            name={item.title} 
+            code={item.code} 
+            host={item.host}/>
     ));
 
     console.log("list : ", list);

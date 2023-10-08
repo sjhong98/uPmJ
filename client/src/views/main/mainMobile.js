@@ -1,7 +1,7 @@
 import logo2 from '../../assets/images/logo.png';
 import React, { useState, useEffect } from 'react';
 import kakaoLogin from '../../assets/images/kakaoLogin.png';
-import './mainMobile.css';
+import '@styles/main/mainMobile.css';
 import { useNavigate } from 'react-router-dom';
 
 export default function MainMobile() {

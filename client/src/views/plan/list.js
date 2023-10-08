@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import '../../index.css';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import BoxBar from '../../modules/field/boxbar.js';
 import SearchBox from './sideBox/searchBox.js';
 import MapBox from './sideBox/mapBox.js'
@@ -8,12 +8,13 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import BackgroundImg from "../../assets/images/travel5.jpeg";
 import Logo from "../../assets/images/logo.png";
-import h2c from 'html2canvas';
-import '../../views/entry/entry.css';
 import Chip from '@mui/material/Chip';
 import ScrollBox from './columns/scrollBox';
 import NorthWestIcon from '@mui/icons-material/NorthWest';
-import './list.css';
+import '@styles/index.css';
+import '@styles/entry/entry.css';
+import '@styles/plan/list.css';
+
 import ChatBox from './sideBox/chatBox';
 
 function SideBox(props) {
@@ -99,12 +100,10 @@ export default function List() {      // 리팩토링 : css 빼기
   // const groupMemberChip = groupMember.map((item) => (   // member 정보가져와 chip으로 나열
   //     <Chip label={item.name} />
   // ))
-
+  const navigate = useNavigate();
   const titleRef = useRef();
   const bodyRef = useRef();
   const imgRef = useRef();
-  const p1Ref = useRef();
-  const p2Ref = useRef();
   const captureRef = useRef();
   const loadingRef = useRef();
 
@@ -153,61 +152,6 @@ export default function List() {      // 리팩토링 : css 빼기
       img.onload = null; // 이벤트 핸들러 제거
     };
   }, []);
-
-  const capture = () => {
-    h2c(captureRef.current).then(canvas => {
-      const dataURL = canvas.toDataURL();
-
-      const a = document.createElement('a');
-      a.href = dataURL;
-      a.download = '너는P해_나는J할게.png';
-  
-      a.click();
-    });
-  };
-
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-  
-      ScrollTrigger.create({
-        markers: false,
-        trigger: '.list-p1',
-        start: 'top bottom',  // when the "X" of the startTrigger hits "Y" of the scroller
-        end: 'bottom 850px',     // when the "X" of the endTrigger hits "Y" of the scroller
-        scrub: 1,
-        onUpdate: (self) => {
-          gsap.to(p1Ref.current, {
-            y: (self.progress * -200),
-            overwrite: true,
-          });
-        },
-      });
-
-      ScrollTrigger.update();   // updata로 실행
-
-    }, []);
-
-  useEffect(() => {
-      gsap.registerPlugin(ScrollTrigger);
-    
-        ScrollTrigger.create({
-          markers: false,
-          trigger: '.list-p2',
-          start: 'top bottom',  // when the "X" of the startTrigger hits "Y" of the scroller
-          end: 'bottom 850px',     // when the "X" of the endTrigger hits "Y" of the scroller
-          scrub: 1,
-          onUpdate: (self) => {
-            gsap.to(p2Ref.current, {
-              y: (self.progress * -200),
-              overwrite: true,
-            });
-          },
-          
-        });
-  
-        ScrollTrigger.update();
-  
-    }, []);
   
   useEffect(() => {  
     setTimeout(() => {
@@ -230,7 +174,13 @@ export default function List() {      // 리팩토링 : css 빼기
         <div className="root">
           <div className='list-header'>
             <div>
-              <img className='list-logo' src={Logo} />
+              <img 
+                className='list-logo' 
+                src={Logo} 
+                onClick={() => {
+                  navigate('/entry');
+                }}
+              />
             </div>
             {/* <div className='list-member' >
               {groupMemberChip}
@@ -261,18 +211,6 @@ export default function List() {      // 리팩토링 : css 빼기
                   />
               </div>
             </div>
-
-          <div className='download-box'>
-            <p className='list-p1' 
-              ref={p1Ref} >
-                Are You Finished?
-            </p>
-            <p className='list-p2' 
-              ref={p2Ref} 
-              onClick={capture} >
-                Download!
-            </p>
-          </div>
           </div>
         </div>
       </div>

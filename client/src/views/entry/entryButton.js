@@ -1,16 +1,14 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import {Link, useLocation, useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { createdGroup, setCode, setTripCardClicked } from '../../redux/actions';
 
 export function Create() {
-  const _name = sessionStorage.getItem('name');
   const _email = sessionStorage.getItem('email');
   const groupName = useSelector((state) => state.groupName);
   const groupDesc = useSelector((state) => state.groupDesc);
-  // const randomNumber = useSelector((state) => state.randomNumber);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const code = useSelector((state) => state.code);
@@ -25,13 +23,10 @@ export function Create() {
             groupName: groupName,
             groupDesc: groupDesc,
           };
-          console.log(groupInfo);
           axios.post("http://localhost:5001/groups", {
               groupInfo: groupInfo
             })
             .then(res => {
-              console.log("===== HOST =====", res);  // 난수 받아서 randomNumber에 저장
-              console.log(res.data);
               dispatch(setCode(res.data));
               dispatch(createdGroup(true));
             })

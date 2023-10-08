@@ -5,7 +5,7 @@ import logo2 from '../../assets/images/logo2.png';
 import logo from '../../assets/images/logo.png';
 import Login from '../login/login.js';
 import Button from '@mui/material/Button';
-import './main.css';
+import '@styles/main/main.css';
 
 function AfterLogin() {
   const navigate = useNavigate();

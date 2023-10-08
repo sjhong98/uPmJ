@@ -65,7 +65,7 @@ export function TripDesc() {
     );
   }
 
-export function RandomNumber() {
+export function ShowGroupCode() {    // group code 보여주는 field
   const code = useSelector((state) => state.code);
   const [copied, setCopied] = useState(false);
 

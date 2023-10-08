@@ -1,4 +1,4 @@
-import './listMobile.css';
+import '@styles/plan/listMobile.css';
 
 export default function listMobile() {
     return (

@@ -1,0 +1,28 @@
+.search-box {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.search-box-title {
+    font-size: 25px;
+}
+
+.search-box-infos {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+}
+
+.search-box-infos p {
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+.search-box-infos a {
+    margin-top: 5px;
+    margin-left: 10px;
+    font-size: 13px;
+}
