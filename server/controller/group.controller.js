@@ -134,7 +134,7 @@ const groupInfoFind = async (req, res) => {
 const getGroupPlans = async (req, res) => {
   try{
     console.log(req.body);
-    const code = req.body.code;
+    const code = req.body.data.code;
     const tempPlans = await getPlans(code);
     const plans = tempPlans.map((el, idx) => {
       let obj = {};
