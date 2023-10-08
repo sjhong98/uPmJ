@@ -13,11 +13,20 @@ const initialState = {
     y: 37.57861,
     keyword: "",
     socket: null,
-    chatMsg: {},
+    chatMsg: null,
+    chatHistory: [],
 }
 
 const dataReducer = (state = initialState, action) => {
     switch(action.type) {
+
+        case 'SET_CHAT_HISTORY' :
+            let temp = [...state.chatHistory];
+            temp.push(action.payload);
+            return {
+                ...state,
+                chatHistory: temp
+            }
 
         case 'SET_CHAT_MSG' : 
             return {

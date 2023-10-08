@@ -1,20 +1,21 @@
 .chat-container {
     display: flex;
     flex-direction: column;
-    margin-left: 2vw;
+    margin-left: 15px;
     justify-self: center;
     align-self: center;
     justify-content: center;
     align-items: center;
     width: 20vw;
     height: 80vh;
+    /* background-color: blue; */
 }
 
 .chat-history {
-    /* overflow-y: auto; */
     width: 18vw;
     height: 70vh;
     overflow-y: auto;
+    /* background-color: aqua; */
 }
 
 .chat-input {
@@ -39,7 +40,7 @@
     width: 8vw;
     padding: 1vw;
     height: auto;
-    background-color: green;
+    background-color: #A6D13F;
     padding: 20px;
     border-radius: 4%;
 }
@@ -48,7 +49,7 @@
     width: 8vw;
     padding: 1vw;
     height: auto;
-    background-color: yellow;
+    background-color: #D2B000;
     border-radius: 4%;
     position: relative;
     left: 8vw;

@@ -11,24 +11,24 @@ import SearchField from '../../../modules/field/searchField.js';
 import LocationMenu from './materials/locationMenu.js';
 import './scrollBox.css';
 import io from 'socket.io-client';
-import { setSocket, setChatMsg } from '../../../redux/actions';
+import { setSocket, setChatHistory } from '../../../redux/actions';
 
 
 export default function ScrollBox(props) {
     const [data, setData] = useState([]);
     const [doAxios, setDoAxios] = useState(false);
-    const [sido, setSido] = useState("시도");
+    const [sido, setSido] = useState("시도"); 
     const [sidoCode, setSidoCode] = useState("1");
-    const [delCol, setDelCol] = useState("");
+    const [delCol, setDelCol] = useState(""); 
     const [delId, setDelId] = useState("");
     const [delIndex, setDelIndex] = useState("");
     const [columnNum, setColumnNum] = useState(2);
     const [columnDisplay, setColumnDisplay] = useState([]);
     const [sigungu, setSigungu] = useState(1);
     const [selectSigungu, setSelectSigungu] = useState();
-    const [columnAdded, setColumnAdded] = useState(false);
+    const [columnAdded, setColumnAdded] = useState(false); 
     const [columnSubed, setColumnSubed] = useState(false);
-    const [draggingItem, setDraggingItem] = useState("");
+    const [draggingItem, setDraggingItem] = useState(""); 
     const [draggingColumn, setDraggingColumn] = useState("");
     const [move, setMove] = useState({});
     const [socketOn, setSocketOn] = useState(0);
@@ -43,12 +43,17 @@ export default function ScrollBox(props) {
     const [socketActive, setSocketActive] = useState(false);
     const setCursorPosition = props.setCursorPosition;
     const cursorPosition = props.cursorPosition;
+    const chatHistory = useSelector((state) => state.chatHistory);
+    const [tempChatHistory, setTempChatHistory] = useState([]);
   
     const dispatch = useDispatch();
     const urlParams = new URLSearchParams(window.location.search);
     const tripId = urlParams.get('trip_id');
     const socket = io.connect('http://localhost:3001', {
-        cors: { origin: '*' }
+      cors: { origin: '*' },
+      reconnection: true, // 자동 재연결 활성화
+      reconnectionAttempts: 10, // 최대 재연결 시도 횟수
+      reconnectionDelay: 500, // 재연결 시도 간격
     });
     dispatch(setSocket(socket));
     const _email = sessionStorage.getItem("email") !== null ? sessionStorage.getItem("email") : "test@test.com";
@@ -61,10 +66,23 @@ export default function ScrollBox(props) {
       })
       .then(res => {
         dispatch(setGroupMember(res.data.groupMembers));
+        console.log("group member : ", res);
       })
       .catch(err => {
         console.log("ERR_PLAN : ", err);
       })
+
+      axios.post("http://localhost:5001/groups/plans", {
+        data: {
+          code: tripId,
+        }
+      })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      }) 
 
       const data = {
           email: _email, 
@@ -135,56 +153,55 @@ export default function ScrollBox(props) {
       setSocketActive(true);
     }, [socketOn]);
 
-    useEffect(() => {
-      socket.on('dragAndDrop', (data) => {     // 웹소켓 수신 
-        console.log("==== socket received ====");
-        if(data.email !== _email) {           // 전송자 이외의 사용자에게만 적용
-          console.log("======= data received! =======\n", data);
-          const sourceColumnItems = getDataByColumnId(data.sourceColumnId);
-          const destinationColumnItems = getDataByColumnId(data.destinationColumnId);
-    
-          sourceColumnItems.splice(data.sourceIndex, 1);   // 잘라내기
-          destinationColumnItems.splice(data.destinationIndex, 0, data.item);   // 끼워넣기
-          console.log("item added");
-    
-          if(data.sourceColumnId !== 'drop1')     // drop1은 그냥 냅둠
-            setDataByColumnId(data.sourceColumnId, sourceColumnItems);
-          if(data.destinationColumnId !== 'drop1')
-            setDataByColumnId(data.destinationColumnId, destinationColumnItems);
-          setDraggingItem(draggingItem => draggingItem+1);
-          setDraggingColumn("");
-        }
-      })
 
-      socket.on('cursorMove', (data) => {
-        let cursorTemp, res, color;
-        if(data.email !== _email && cursorPosition) {
-          cursorTemp = [...cursorPosition];
-          res = cursorTemp.findIndex((item) => item.user === data.email);
-          if(cursorIndex === -1) {    // cursor object에 해당 user 정보 없을 경우
-            if(cursorIndex === 3)
-              setCursorIndex(0);
-            else
-              setCursorIndex(cursorIndex => cursorIndex+1);
-          }
-          else  
-            setCursorIndex(res);
-          color = cursorTemp[cursorIndex].color;
-          cursorTemp[cursorIndex] = { 
-              user: data.email, 
-              name: data.name, 
-              x: data.x, 
-              y: data.y, 
-              color: color 
-            };
-          setCursorPosition(cursorTemp);
-        }
-      })
+    socket.on('dragAndDrop', (data) => {     // 웹소켓 수신 
+      console.log("==== socket received ====");
+      if(data.email !== _email) {           // 전송자 이외의 사용자에게만 적용
+        console.log("======= data received! =======\n", data);
+        const sourceColumnItems = getDataByColumnId(data.sourceColumnId);
+        const destinationColumnItems = getDataByColumnId(data.destinationColumnId);
+  
+        sourceColumnItems.splice(data.sourceIndex, 1);   // 잘라내기
+        destinationColumnItems.splice(data.destinationIndex, 0, data.item);   // 끼워넣기
+        console.log("item added");
+  
+        if(data.sourceColumnId !== 'drop1')     // drop1은 그냥 냅둠
+          setDataByColumnId(data.sourceColumnId, sourceColumnItems);
+        if(data.destinationColumnId !== 'drop1')
+          setDataByColumnId(data.destinationColumnId, destinationColumnItems);
+        setDraggingItem(draggingItem => draggingItem+1);
+        setDraggingColumn("");
+      }
+    })
 
-      socket.on('chat', (data) => {
-        dispatch(setChatMsg(data));
-      })
-    }, [])
+    socket.on('cursorMove', (data) => {
+      let cursorTemp, res, color;
+      if(data.email !== _email && cursorPosition) {
+        cursorTemp = [...cursorPosition];
+        res = cursorTemp.findIndex((item) => item.user === data.email);
+        if(cursorIndex === -1) {    // cursor object에 해당 user 정보 없을 경우
+          if(cursorIndex === 3)
+            setCursorIndex(0);
+          else
+            setCursorIndex(cursorIndex => cursorIndex+1);
+        }
+        else  
+          setCursorIndex(res);
+        color = cursorTemp[cursorIndex].color;
+        cursorTemp[cursorIndex] = { 
+            user: data.email, 
+            name: data.name, 
+            x: data.x, 
+            y: data.y, 
+            color: color 
+          };
+        setCursorPosition(cursorTemp);
+      }
+    })
+
+    socket.on('chat', (data) => {
+      dispatch(setChatHistory(data));
+    })
   
     const handleDragEnd = (result) => {   // data 이동 완료
       if (!result.destination) {

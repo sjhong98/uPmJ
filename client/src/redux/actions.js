@@ -102,3 +102,10 @@ export const setChatMsg = (item) => {
         payload: item,
     }
 }
+
+export const setChatHistory = (item) => {
+    return {
+        type: 'SET_CHAT_HISTORY',
+        payload: item
+    }
+}

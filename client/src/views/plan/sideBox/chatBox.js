@@ -1,51 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import io from 'socket.io-client';
 import './chatBox.css';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { setChatHistory } from '../../../redux/actions';
 
 export default function ChatBox() {
     const _email = sessionStorage.getItem("email") !== null ? sessionStorage.getItem("email") : "test@test.com";
     const urlParams = new URLSearchParams(window.location.search);
     const _tripId = urlParams.get('trip_id');
-    const _name = sessionStorage.getItem('name') !== null ? sessionStorage.getItem("name") : "Test";
-    const [chatHistory, setChatHistory] = useState([]);
+    const chatHistory = useSelector(state => state.chatHistory);
     const [msg, setMsg] = useState("");
     const socket = useSelector((state) => state.socket);
-    const chatMsg = useSelector((state) => state.chatMsg);
-    const [active, setActive] = useState(false);
-
-    useEffect(() => {
-        if(active){
-            console.log(chatMsg);
-            let temp = [...chatHistory];
-            temp.push({
-                name: chatMsg.name, 
-                email: chatMsg.email, 
-                tripId: chatMsg.tripId, 
-                msg: chatMsg.msg
-            });
-            setChatHistory(temp);
-        }
-        setActive(true);
-    }, [chatMsg]);
+    const dispatch = useDispatch();
+    const name = sessionStorage.getItem('name') !== null ? sessionStorage.getItem("name") : "test";
 
     const handleSendChat = () => {
+        console.log("chat send");
         const _data = {
             msg: msg,
             email: _email,
-            name: _name,
+            name: name,
             tripId: _tripId
         }
 
         socket.emit('chat', _data);
+        
         setMsg("");
     }
-
-    // useEffect(() => {
-    //     console.log(chatHistory);
-    // }, [chatHistory]);
 
     return (
         <div className='chat-container'>
