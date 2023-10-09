@@ -63,7 +63,6 @@ export default function ScrollBox(props) {
     })
     .then(res => {
       dispatch(setGroupMember(res.data.groupMembers));
-      console.log("group member : ", res);
     })
     .catch(err => {
       console.log("ERR_PLAN : ", err);
@@ -75,11 +74,18 @@ export default function ScrollBox(props) {
       }
     })
     .then(res => {
-      console.log(JSON.parse(res.data[0][1]));
-      dispatch(updateData2(JSON.parse(res.data[0][1])));
-      // dispatch(updateData2(JSON.parse(res.data[1])));
-      // dispatch(updateData2(JSON.parse(res.data[2])));
-      // dispatch(updateData2(JSON.parse(res.data[3])));
+      let day2 = JSON.parse(res.data[0][1]);
+      let day3 = JSON.parse(res.data[1][2]);
+      let day4 = JSON.parse(res.data[2][3]);
+      let day5 = JSON.parse(res.data[3][4]);
+      day2.unshift({contentId:1, title:'day 1', index:0});
+      day3.unshift({contentId:2, title:'day 2', index:0});
+      day4.unshift({contentId:3, title:'day 3', index:0});
+      day5.unshift({contentId:4, title:'day 4', index:0});
+      dispatch(updateData2(day2));
+      dispatch(updateData3(day3));
+      dispatch(updateData4(day4));
+      dispatch(updateData5(day5));
     })
     .catch(err => {
       console.log(err);
