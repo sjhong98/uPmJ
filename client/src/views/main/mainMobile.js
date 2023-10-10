@@ -1,4 +1,4 @@
-import logo2 from '../../assets/images/logo.png';
+import logo2 from '@assets/images/logo.png';
 import React, { useState, useEffect } from 'react';
 import kakaoLogin from '../../assets/images/kakaoLogin.png';
 import '@styles/main/mainMobile.css';
