@@ -55,7 +55,7 @@ export default function ChatBox() {
                     label="" 
                     variant="outlined"
                     value={msg}
-                    sx={{width: '15vw'}}
+                    sx={{width: '20'}}
                     onChange={(e) => {
                         setMsg(e.target.value);
                     }}

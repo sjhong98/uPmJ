@@ -147,7 +147,7 @@ export default function ScrollBox(props) {
       y: event.clientY,
       tripId: tripId,
       email: _email,
-      name: sessionStorage.getItem('name'),
+      name: sessionStorage.getItem('name') ? sessionStorage.getItem('name') : '시연',
     };
   
     socket.emit('cursorMove', position);
