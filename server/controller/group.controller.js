@@ -1,24 +1,24 @@
-const express = require("express");
-const axios = require("axios");
-const app = express();
 const db = require("../model/index");
 const { getPlans } = require("./plan.controller")
 const { HTTP_STATUS } = require("../utils/http_status")
 
 const createGroup = async (req, res) => {
   try{
+    const { host, groupName: title, groupDesc: describe } = req.body.groupInfo;
     const code = createCode();
+
     const data = {
-      host: req.body.groupInfo.host, 
-      code: code, 
-      title: req.body.groupInfo.groupName, 
-      describe: req.body.groupInfo.groupDesc,
-    }
+      host,
+      code,
+      title,
+      describe
+    };
+
     modelCreateGroup(data)
     return res.status(HTTP_STATUS.CREATED).send(code);
   }catch(error){
-    console.log("createGroup function error: ", error);
-    return res.status(HTTP_STATUS.BAD_REQUEST).send(error);
+    console.error(error);
+    return res.status(HTTP_STATUS.BAD_REQUEST).send(error.message);
   } 
 }
 
@@ -29,12 +29,12 @@ const joinGroup = async (req, res) => {
     
     return res.status(HTTP_STATUS.CREATED).send("just joined!");
   }catch(error){
-    console.log("joinGroup function error: ", error);
-    return res.status(HTTP_STATUS.BAD_REQUEST).send(error);
+    console.error(error);
+    return res.status(HTTP_STATUS.BAD_REQUEST).send(error.message);
   }
 }
 
-const createCode = (req, res) => {
+const createCode = () => {
   let randNum = '';
   for (let i = 0; i < 6; i++) {
     randNum += Math.floor((Math.random() * 8) + 1);
@@ -44,33 +44,35 @@ const createCode = (req, res) => {
 
 const modelCreateGroup = async (data) => {
   try {
-      const user = await db.User.findOne({
-        where: { email: data.host },
-        include: [{ model: db.Group }],
-      });
+    const { host, code, title, describe } = data;
+
+    const user = await db.User.findOne({
+      where: { email: host },
+      include: [{ model: db.Group }],
+    });
 
     const createdGroup = await db.Group.create({
-      host: data.host,
-      code: data.code,
-      title: data.title,
-      describe: data.describe,
+      host: host,
+      code: code,
+      title: title,
+      describe: describe,
     });
 
     await db.GroupMember.create({
-      host: data.host,
-      code: data.code,
-      title: data.title,
-      describe: data.describe,
-      memberEmail: data.host,
+      host: host,
+      code: code,
+      title: title,
+      describe: describe,
+      memberEmail: host,
       memberName: user.dataValues.name
     });
 
-    const defaultPlan = [];
+    const defaultPlan = JSON.stringify([])
     const models = [db.FirstDay, db.SecondDay, db.ThirdDay, db.FourthDay];
     models.forEach((model) => {
       model.create({
-        code: data.code,
-        plan: JSON.stringify(defaultPlan),
+        code: code,
+        plan: defaultPlan,
       })
     })
 
@@ -78,27 +80,29 @@ const modelCreateGroup = async (data) => {
 
     return true;
   } catch (error) {
-    console.error('modelCreateGroup function error: ', error);
+    console.error(error);
     return false;
   }
 };
 
 const modelJoinGroup = async (data) => {
   try{
+    const { email: memberEmail, name: memberName, code } = data;
+
     const isExist = await db.GroupMember.findAll({
       where: {
-        memberEmail: data.email,
-        code: data.code,
+        memberEmail: memberEmail,
+        code: code,
       }
     })
 
     if(isExist.length){
-      console.log("already existed")
+      console.error("already existed")
       return false;
     }
 
     const group = await db.Group.findOne({
-      where: { code: data.code }
+      where: { code: code }
     });
 
     await db.GroupMember.create({
@@ -106,13 +110,13 @@ const modelJoinGroup = async (data) => {
       code: group.dataValues.code,
       title: group.dataValues.title,
       describe: group.dataValues.describe,
-      memberEmail: data.email,
-      memberName: data.name,
+      memberEmail: memberEmail,
+      memberName: memberName,
     })
 
     return true;
   }catch(error){
-    console.log("modelJoinGroup function error: ", error);
+    console.error(error);
   }
 }
 
@@ -127,14 +131,13 @@ const groupInfoFind = async (req, res) => {
 
     res.status(HTTP_STATUS.OK).send(group);
   }catch(error){
-    console.log("groupInfoFind function error: ", error);
+    console.error(error);
     res.status(HTTP_STATUS.BAD_REQUEST).send(error);
   }
 }
 
 const getGroupPlans = async (req, res) => {
   try{
-    console.log(req.body);
     const code = req.body.data.code;
     const tempPlans = await getPlans(code);
     const plans = tempPlans.map((el, idx) => {
@@ -142,10 +145,10 @@ const getGroupPlans = async (req, res) => {
       obj[idx+1] = el["dataValues"]["plan"];
       return obj;
     })
-    console.log(plans);
+    console.log(plans)
     res.status(HTTP_STATUS.OK).send(plans);
   }catch(error){
-    console.log("getGroupPlans function error: ", error)
+    console.error(error)
     res.status(HTTP_STATUS.BAD_REQUEST).send(error);
   }
 }

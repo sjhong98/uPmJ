@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("./sequelize/sq.instance");
 
-const modelsName = {
+const PLAN_MODELS = {
   FirstDay: 'firstDay', SecondDay: 'secondDay', ThirdDay: 'thirdDay', FourthDay: 'fourthDay'
 };
 
@@ -26,9 +26,9 @@ const defineTemplate = (day) => {
   );
 }
 
-const FirstDay = defineTemplate(modelsName.FirstDay)
-const SecondDay = defineTemplate(modelsName.SecondDay)
-const ThirdDay = defineTemplate(modelsName.ThirdDay)
-const FourthDay = defineTemplate(modelsName.FourthDay)
+const FirstDay = defineTemplate(PLAN_MODELS.FirstDay)
+const SecondDay = defineTemplate(PLAN_MODELS.SecondDay)
+const ThirdDay = defineTemplate(PLAN_MODELS.ThirdDay)
+const FourthDay = defineTemplate(PLAN_MODELS.FourthDay)
 
 module.exports = { FirstDay, SecondDay, ThirdDay, FourthDay };

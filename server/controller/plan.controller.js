@@ -1,63 +1,55 @@
 const db = require("../model/index");
-const express = require("express");
-const axios = require("axios");
-const app = express();
+
+const MODELS_MAP = {
+  drop1: 'menu',
+  drop2: 'FirstDay',
+  drop3: 'SecondDay',
+  drop4: 'ThirdDay',
+  drop5: 'FourthDay'
+};
+
+const PLAN_MODELS = ['FirstDay', 'SecondDay', 'ThirdDay', 'FourthDay'];
 
 const viewOrder = async (data) => {
-  console.log("view order: ", data)
-} 
+  console.log("view order: ", data);
+};
+
+const modifyPlan = async (model, code, item, index, action) => {
+  if (model !== 'menu') {
+    let planList = await db[model].findOne({ where: { code } });
+    planList = JSON.parse(planList.dataValues['plan']);
+  
+    if (action === "from") {
+      planList.splice(index - 1, 1);
+    } else if (action === "to") {
+      planList.splice(index - 1, 0, item);
+    }
+  
+    await db[model].update({ plan: JSON.stringify(planList) }, { where: { code } });
+  }
+};
 
 const editPlan = async (data) => {
+  const { tripId: code, item, sourceColumnId, sourceIndex, destinationColumnId, destinationIndex } = data;
 
-  const models = {
-    drop1:'menu',
-    drop2:'FirstDay', 
-    drop3:'SecondDay', 
-    drop4:'ThirdDay',
-    drop5:'FourthDay'
-  };
-
-  const code = data.tripId;
-  const item = data.item;
   const order = [
-    [models[data.sourceColumnId], data.sourceIndex, "from"],        // from
-    [models[data.destinationColumnId], data.destinationIndex, "to"] // to
+    [MODELS_MAP[sourceColumnId], sourceIndex, "from"],       
+    [MODELS_MAP[destinationColumnId], destinationIndex, "to"]
   ];
 
   for (const [targetModel, targetIndex, direction] of order) {
-    console.log(targetModel, targetIndex, direction);
-
-    if(targetModel !== 'menu'){
-      var lastPlanList = await db[targetModel].findAll({
-        where: { code: code },
-      })
-
-      lastPlanList = JSON.parse(lastPlanList[0].dataValues['plan']);
-
-      if(direction === "from"){
-        lastPlanList.splice(targetIndex-1, 1)
-        console.log("lastPlanList 2 from: ", lastPlanList);
-      }else if(direction === "to"){
-        lastPlanList.splice(targetIndex-1, 0, item)
-        console.log("lastPlanList 2 to: ", lastPlanList);
-      }
-
-      await db[targetModel].update({plan: JSON.stringify(lastPlanList)},{ where: { code: code }})
-    }
+    await modifyPlan(targetModel, code, item, targetIndex, direction);
   }
-}
+};
 
 const getPlans = async (code) => {
   const plans = [];
-  const models = ['FirstDay', 'SecondDay', 'ThirdDay', 'FourthDay'];
-  for(let model of models) {
-    const plan = await db[model].findOne({
-      where: { code: code },
-    })
-    plans.push(plan)
+  for (let model of PLAN_MODELS) {
+    const plan = await db[model].findOne({ where: { code } });
+    plans.push(plan);
   }
   return plans;
-}
+};
 
 module.exports = {
   viewOrder,

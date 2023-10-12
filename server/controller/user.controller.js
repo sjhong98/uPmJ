@@ -1,6 +1,4 @@
-const express = require("express");
 const axios = require("axios");
-const app = express();
 const db = require("../model/index");
 const { HTTP_STATUS } = require("../utils/http_status")
 
@@ -25,8 +23,8 @@ const signIn = async (req, res) => {
       return res.status(HTTP_STATUS.OK).json({existedData, status: "already existed"});  
     }
   }catch(error){
-    console.log("signIn function error: ",error);
-    return res.status(HTTP_STATUS.BAD_REQUEST).send(error);
+    console.error("signIn function error: ",error);
+    return res.status(HTTP_STATUS.BAD_REQUEST).send(error.message);
   }
 }
 
@@ -47,15 +45,13 @@ const userFind = async (userInfo) => {
       return {user: user, groupList: groupList};
     }
   }catch(error){
-    console.log("userFind function error: ",error);
+    console.error("userFind function error: ", error);
   }
 }
 
 const userRegister = async (userInfo) => {
-  db.User.create({
-    name: `${userInfo.name}`,
-    email: `${userInfo.email}`,
-  });
+  const {name, email} = userInfo;
+  db.User.create({ name, email });
 }
 
 module.exports = {
