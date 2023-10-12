@@ -2,6 +2,7 @@ const db = require("../model/index");
 const express = require("express");
 const axios = require("axios");
 const app = express();
+const {HTTP_STATUS} = require("../utils/http_status")
 
 const signIn = async (req, res) => {
   try{
@@ -19,13 +20,13 @@ const signIn = async (req, res) => {
     const existedData = await userFind(justCreatedData) 
   
     if (existedData === false) {
-      return res.status(201).json({justCreatedData, status: "just registered"});
+      return res.status(HTTP_STATUS.CREATED).json({justCreatedData, status: "just registered"});
     } else {
-      return res.status(200).json({existedData, status: "already existed"});  
+      return res.status(HTTP_STATUS.OK).json({existedData, status: "already existed"});  
     }
   }catch(error){
     console.log("signIn function error: ",error);
-    return res.status(400).send(error);
+    return res.status(HTTP_STATUS.BAD_REQUEST).send(error);
   }
 }
 

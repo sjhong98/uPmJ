@@ -1,4 +1,5 @@
 const db = require("../model/index");
+const {HTTP_STATUS} = require("../utils/http_status")
 const {getPlans} = require("./plan.controller")
 const express = require("express");
 const axios = require("axios");
@@ -14,27 +15,27 @@ const createGroup = async (req, res) => {
       describe: req.body.groupInfo.groupDesc,
     }
     modelCreateGroup(data)
-    return res.status(200).send(code);
+    return res.status(HTTP_STATUS.CREATED).send(code);
   }catch(error){
     console.log("createGroup function error: ", error);
-    return res.status(400).send(error);
+    return res.status(HTTP_STATUS.BAD_REQUEST).send(error);
   } 
 }
 
 const joinGroup = async (req, res) => {
   try{
     if(!(await modelJoinGroup(req.body.data)))
-      return res.status(201).send("already existed!");
+      return res.status(HTTP_STATUS.OK).send("already existed!");
     
-    return res.status(200).send("just joined!");
+    return res.status(HTTP_STATUS.CREATED).send("just joined!");
   }catch(error){
     console.log("joinGroup function error: ", error);
-    return res.status(400).send(error);
+    return res.status(HTTP_STATUS.BAD_REQUEST).send(error);
   }
 }
 
 const createCode = (req, res) => {
-  let randNum = ''
+  let randNum = '';
   for (let i = 0; i < 6; i++) {
     randNum += Math.floor((Math.random() * 8) + 1);
   }
@@ -124,10 +125,10 @@ const groupInfoFind = async (req, res) => {
       include: [{ model: db.GroupMember }], 
     });
 
-    res.status(200).send(group);
+    res.status(HTTP_STATUS.OK).send(group);
   }catch(error){
     console.log("groupInfoFind function error: ", error);
-    res.status(400).send(error);
+    res.status(HTTP_STATUS.BAD_REQUEST).send(error);
   }
 }
 
@@ -142,10 +143,10 @@ const getGroupPlans = async (req, res) => {
       return obj;
     })
     console.log(plans);
-    res.status(200).send(plans);
+    res.status(HTTP_STATUS.OK).send(plans);
   }catch(error){
     console.log("getGroupPlans function error: ", error)
-    res.status(400).send(error);
+    res.status(HTTP_STATUS.BAD_REQUEST).send(error);
   }
 }
 
