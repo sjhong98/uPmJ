@@ -1,8 +1,8 @@
-const db = require("../model/index");
 const express = require("express");
 const axios = require("axios");
 const app = express();
-const {HTTP_STATUS} = require("../utils/http_status")
+const db = require("../model/index");
+const { HTTP_STATUS } = require("../utils/http_status")
 
 const signIn = async (req, res) => {
   try{

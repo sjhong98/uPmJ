@@ -2,12 +2,12 @@ const { DataTypes } = require("sequelize");
 const { sequelize } = require("./sequelize/sq.instance");
 
 const Group = sequelize.define(
-  'group', // 테이블명을 변경하여 정의
+  'group', 
   {
     host: {
       type: DataTypes.STRING,
       references: {
-        model: 'users', // User 모델과의 관계를 설정
+        model: 'users', 
         key: 'email',
       },
     },
@@ -27,38 +27,7 @@ const Group = sequelize.define(
   }
 );
 
-const GroupMember = sequelize.define(
-  "groupMember", 
-  {
-      host: {
-        type: DataTypes.STRING,
-      },
-      code: {
-        type: DataTypes.INTEGER,
-        references: {
-          model: 'groups', 
-          key: 'code',
-        },
-      },
-      title: {
-        type: DataTypes.STRING,
-      },
-      describe: {
-        type: DataTypes.STRING,
-      },
-      memberEmail: {
-        type: DataTypes.STRING,
-      },
-      memberName: {
-        type: DataTypes.STRING,
-      }
-  },
-  {
-    timestamps: false
-  }
-);
-
-module.exports = { Group, GroupMember };
+module.exports = { Group };
 
 
 

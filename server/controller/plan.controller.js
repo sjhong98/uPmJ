@@ -17,7 +17,7 @@ const editPlan = async (data) => {
     drop5:'FourthDay'
   };
 
-  const code = data.tripId; // 임시로 지정
+  const code = data.tripId;
   const item = data.item;
   const order = [
     [models[data.sourceColumnId], data.sourceIndex, "from"],        // from

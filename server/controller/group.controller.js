@@ -1,9 +1,9 @@
-const db = require("../model/index");
-const {HTTP_STATUS} = require("../utils/http_status")
-const {getPlans} = require("./plan.controller")
 const express = require("express");
 const axios = require("axios");
 const app = express();
+const db = require("../model/index");
+const { getPlans } = require("./plan.controller")
+const { HTTP_STATUS } = require("../utils/http_status")
 
 const createGroup = async (req, res) => {
   try{

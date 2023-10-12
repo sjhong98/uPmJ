@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 const { sequelize } = require("./sequelize/sq.instance");
 
 const User = sequelize.define(
-  'users', // 테이블명을 변경하여 정의
+  'users', 
   {
     group_id: {
       type: DataTypes.INTEGER,
@@ -15,7 +15,7 @@ const User = sequelize.define(
     },
     email: {
       type: DataTypes.STRING,
-      unique: true, // 유니크 제약 조건 추가
+      unique: true, 
     },
   },
   {
