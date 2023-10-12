@@ -1,5 +1,6 @@
 .list-page {
     height: 200vh;
+    width: 300vw;
     background-color: #E3AF27;
 }
 
@@ -19,6 +20,7 @@
 
 .list-logo {
     width: 500px;
+    cursor: pointer;
 }
 
 .list-member {

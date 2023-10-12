@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import './chatBox.css';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { setChatHistory } from '../../../redux/actions';
+import '@styles/plan/sideBox/chatBox.css';
 
 export default function ChatBox() {
     const _email = sessionStorage.getItem("email") !== null ? sessionStorage.getItem("email") : "test@test.com";
@@ -56,7 +55,7 @@ export default function ChatBox() {
                     label="" 
                     variant="outlined"
                     value={msg}
-                    sx={{width: '15vw'}}
+                    sx={{width: '20'}}
                     onChange={(e) => {
                         setMsg(e.target.value);
                     }}

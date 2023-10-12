@@ -74,8 +74,10 @@ module.exports = {
   resolve: {
     alias: {
       "@": path.resolve(__dirname, '/src'),
-      "@/styles": path.resolve(__dirname, '/src/styles'),
-      "@/views": path.resolve(__dirname, '/src/views'),
+      "@styles": path.resolve(__dirname, '/src/styles'),
+      "@views": path.resolve(__dirname, '/src/views'),
+      "@redux" : path.resolve(__dirname, '/src/redux'),
+      "@assets" : path.resolve(__dirname, '/src/assets'),
     }
   },
   target: "web",

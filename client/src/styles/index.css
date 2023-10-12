@@ -15,27 +15,27 @@ code {
 
 @font-face {
 	font-family: "baemin";
-	src: url(./assets/fonts/font1.ttf);
+	src: url(@assets/fonts/font1.ttf);
 }
 
 @font-face {
 	font-family: "naver_bold";
-	src: url(./assets/fonts/naver_bold.ttf);
+	src: url(@assets/fonts/naver_bold.ttf);
 }
 
 @font-face {
 	font-family: "naver_light";
-	src: url(./assets/fonts/naver_light.ttf);
+	src: url(@assets/fonts/naver_light.ttf);
 }
 
 @font-face {
   font-family: "google1";
-  src: url(./assets/fonts/google1.ttf);
+  src: url(@assets/fonts/google1.ttf);
 }
 
 @font-face {
   font-family: "tmon";
-  src: url(./assets/fonts/tmon.ttf);
+  src: url(@assets/fonts/tmon.ttf);
 }
 
 

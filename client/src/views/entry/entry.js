@@ -1,16 +1,14 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {useNavigate} from 'react-router-dom';
-import './entry.css';
 import logo from '../../assets/images/logo.png';
 import entry4Img from '../../assets/images/entry4.png';
 import entry5Img from '../../assets/images/entry5.png'; 
-import { TripName, TripDesc, TripCode, RandomNumber } from './entryField.js';
-import { Create, Join, Create2, Join2 } from './entryButton.js';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { createdGroup, randomNumber, setTripCardClicked } from '../../redux/actions.js';
-import { useSelector, useDispatch } from 'react-redux';
 import TripList from './tripList.js';
-import axios from 'axios';
+import { TripName, TripDesc, TripCode, ShowGroupCode } from './entryField.js';
+import { Create, Join, Create2 } from './entryButton.js';
+import { setTripCardClicked } from '../../redux/actions.js';
+import { useSelector, useDispatch } from 'react-redux';
+
+import '@styles/entry/entry.css';
 
 function CreateGroupInput() {
     return (
@@ -25,11 +23,10 @@ function CreateGroupInput() {
 }
 
 function CreateGroupRandomNumber() {
-    const randomNumber = useSelector((state) => state.randomNumber);
 
     return (
         <div>
-            <RandomNumber />
+            <ShowGroupCode />
             <Create2 />
         </div>
     )
@@ -39,8 +36,6 @@ function CreateGroupRandomNumber() {
 function Entry() {
     const [entryCreate, setEntryCreate] = useState(false);
     const [entryJoin, setEntryJoin] = useState(false);
-    
-    const navigate = useNavigate();
     const dispatch = useDispatch();
     const entry4Ref = useRef(null);
     const entry5Ref = useRef(null);
@@ -49,7 +44,6 @@ function Entry() {
     const entry5_1Ref = useRef(null);
     const entry4_3Ref = useRef(null);
     const entry5_3Ref = useRef(null);
-    const entryFilterRef = useRef(null);
     const entry4_4Ref = useRef(null);
     const entry5_4Ref = useRef(null);
     const entryLoadingRef = useRef(null);
@@ -57,7 +51,7 @@ function Entry() {
     const name = sessionStorage.getItem("name");
     const tripCardClicked = useSelector((state) => state.tripCardClicked);
 
-    function handleClick() {
+    function handleClick() {       // '새로운 여행 떠나기' 에니메이션
         entry4Ref.current.classList.add('entry-lr');
         entry5Ref.current.classList.add('entry-rl');
         entry2Ref.current.classList.add('entry-tb');
@@ -65,21 +59,21 @@ function Entry() {
         entry5_1Ref.current.classList.add('entry-rl2');
     }
 
-    function handleClickCreate() {
+    function handleClickCreate() { // '여행 호스트 되기' 에니메이션
         entry4_3Ref.current.classList.add('entry-create');
         setTimeout(() => {
             setEntryCreate(true);
         }, 1000)
     }
 
-    function handleClickJoin() {
+    function handleClickJoin() {   // '초대 코드로 참여' 에니메이션
         entry5_3Ref.current.classList.add('entry-join');
         setTimeout(() => {
             setEntryJoin(true);
         }, 1000)
     }
 
-    useEffect(() => {
+    useEffect(() => {              // 여행 선택 시
         if(tripCardClicked === true)
             entryLoadingRef.current.classList.add('entry-loading-animation');
             dispatch(setTripCardClicked(false));
@@ -129,7 +123,6 @@ function Entry() {
 
                     <div className='entry5-3' ref={entry5_3Ref} />
                     {entryJoin && <div className='entry5-4' ref={entry5_4Ref}>
-                        {/* <ArrowBackIcon style={{marginTop:'10vh', width:'100px', cursor:'pointer'}} onClick={{}} /> */}
 
                         <div className='entry5-5'>
                             <p style={{fontSize:'5vh'}}>여행 참여하기</p>

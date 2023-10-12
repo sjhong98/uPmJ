@@ -1,7 +1,5 @@
-import React, {useContext, useState, useEffect} from 'react';
-import {Link, useLocation, useNavigate} from 'react-router-dom';
 import kakaoLogin from '../../assets/images/kakaoLogin.png';
-import './login.css';
+import '@styles/login/login.css';
 
 function Login() 
 {

@@ -15,6 +15,7 @@ export default function Auth() {
     useEffect(() => {
         const fetchData = async () => {
             try {
+                // 카카오 로그인
                 const tokenResponse = await axios.post(`https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${key}&redirect_ur=${uri}&code=${code}`);
                 
                 const token = {
@@ -22,16 +23,13 @@ export default function Auth() {
                     refresh: tokenResponse.data.refresh_token
                 };
     
-                console.log("TEST : ", token.access, token.refresh);   
-    
                 sessionStorage.setItem("access_token", token.access);   // entry 재진입 시에 token으로 axios 요청할 수 있도록.
                 sessionStorage.setItem("refresh_token", token.refresh);
     
+                // UPMJ 서버 로그인
                 const signInResponse = await axios.post("http://localhost:5001/users/signin", {
                     token: token
                 });
-    
-                console.log("RESULT : ", signInResponse);
     
                 if(signInResponse.data.justCreatedData) {
                     sessionStorage.setItem('name', signInResponse.data.justCreatedData.name);
