@@ -26,8 +26,7 @@ io.on('connection', function(socket) {
     socket.userid = data.userid;    // socket 블록 내에서만 유효
     socket.tripId = data.tripId;    
 
-    socket.join(socket.tripId, console.log(" * ", socket.email, " -> room", socket.tripId, " 입장 \n\n"));
-
+    socket.join(socket.tripId, console.log(" * ", socket.email, " -> room", socket.tripId, " 입장 \n\n"));a
   });
 
   socket.on('chat', (data) => {
