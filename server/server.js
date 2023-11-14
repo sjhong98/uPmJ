@@ -3,7 +3,6 @@ const app = express();
 const cors = require("cors");
 const port = 5001;
 
-// const users = User.findAll();
 app.use(
   cors({ origin: true, credentials: true }),
   express.json(),

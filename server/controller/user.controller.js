@@ -1,7 +1,6 @@
-const db = require("../model/index");
-const express = require("express");
 const axios = require("axios");
-const app = express();
+const db = require("../model/index");
+const { HTTP_STATUS } = require("../utils/http_status")
 
 const signIn = async (req, res) => {
   try{
@@ -19,13 +18,13 @@ const signIn = async (req, res) => {
     const existedData = await userFind(justCreatedData) 
   
     if (existedData === false) {
-      return res.status(201).json({justCreatedData, status: "just registered"});
+      return res.status(HTTP_STATUS.CREATED).json({justCreatedData, status: "just registered"});
     } else {
-      return res.status(200).json({existedData, status: "already existed"});  
+      return res.status(HTTP_STATUS.OK).json({existedData, status: "already existed"});  
     }
   }catch(error){
-    console.log("signIn function error: ",error);
-    return res.status(400).send(error);
+    console.error("signIn function error: ",error);
+    return res.status(HTTP_STATUS.BAD_REQUEST).send(error.message);
   }
 }
 
@@ -46,15 +45,13 @@ const userFind = async (userInfo) => {
       return {user: user, groupList: groupList};
     }
   }catch(error){
-    console.log("userFind function error: ",error);
+    console.error("userFind function error: ", error);
   }
 }
 
 const userRegister = async (userInfo) => {
-  db.User.create({
-    name: `${userInfo.name}`,
-    email: `${userInfo.email}`,
-  });
+  const {name, email} = userInfo;
+  db.User.create({ name, email });
 }
 
 module.exports = {
